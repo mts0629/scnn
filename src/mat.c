@@ -28,3 +28,14 @@ float *mat_mul(const float *a, const float *b, float *c, const int m, const int 
 
     return c;
 }
+
+float *mat_mul_scalar(const float *a, float *b, const int m, const int n, const float k)
+{
+    const int size = m * n;
+    for (int i = 0; i < size; i++)
+    {
+        b[i] = k * a[i];
+    }
+
+    return b;
+}

@@ -5,4 +5,6 @@ TEST_GROUP_RUNNER(mat)
     RUN_TEST_CASE(mat, test_mat_add);
 
     RUN_TEST_CASE(mat, test_mat_mul);
+
+    RUN_TEST_CASE(mat, test_mat_mul_scalar);
 }
