@@ -36,3 +36,29 @@ TEST(mat, test_mat_add)
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, c, (3 * 2));
 }
+
+TEST(mat, test_mat_mul)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[2 * 4] = {
+        -2, -1, 0, 1,
+        0, 1, 2, 3,
+    };
+
+    float c[3 * 2];
+
+    float y[3 * 4] = {
+        0, 1, 2, 3,
+        -4, 1, 6, 11,
+        -8, 1, 10, 19
+    };
+
+    mat_mul(a, b, c, 3, 2, 4);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, c, (3 * 4));
+}

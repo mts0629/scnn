@@ -10,3 +10,21 @@ float *mat_add(const float *a, const float *b, float *c, const int m, const int 
 
     return c;
 }
+
+float *mat_mul(const float *a, const float *b, float *c, const int m, const int n, const int p)
+{
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < p; j++)
+        {
+            float y = 0;
+            for (int k = 0; k < n; k++)
+            {
+                y += a[i * n + k] * b[k * p + j];
+            }
+            c[i * p + j] = y;
+        }
+    }
+
+    return c;
+}
