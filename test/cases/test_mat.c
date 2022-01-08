@@ -50,7 +50,7 @@ TEST(mat, test_mat_mul)
         0, 1, 2, 3,
     };
 
-    float c[3 * 2];
+    float c[3 * 4];
 
     float y[3 * 4] = {
         0, 1, 2, 3,
@@ -84,4 +84,84 @@ TEST(mat, test_mat_mul_scalar)
     mat_mul_scalar(a, b, 3, 2, k);
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, b, (3 * 2));
+}
+
+TEST(mat, test_mat_mul_trans_a)
+{
+    float a[2 * 3] = {
+        0, 2, 4,
+        1, 3, 5
+    };
+
+    float b[2 * 4] = {
+        -2, -1, 0, 1,
+        0, 1, 2, 3,
+    };
+
+    float c[3 * 4];
+
+    float y[3 * 4] = {
+        0, 1, 2, 3,
+        -4, 1, 6, 11,
+        -8, 1, 10, 19
+    };
+
+    mat_mul_trans_a(a, b, c, 2, 3, 4);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, c, (3 * 4));
+}
+
+TEST(mat, test_mat_mul_trans_b)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[4 * 2] = {
+        -2, 0,
+        -1, 1,
+        0, 2,
+        1, 3
+    };
+
+    float c[3 * 4];
+
+    float y[3 * 4] = {
+        0, 1, 2, 3,
+        -4, 1, 6, 11,
+        -8, 1, 10, 19
+    };
+
+    mat_mul_trans_b(a, b, c, 3, 2, 4);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, c, (3 * 4));
+}
+
+TEST(mat, test_mat_mul_trans_ab)
+{
+    float a[2 * 3] = {
+        0, 2, 4,
+        1, 3, 5
+    };
+
+    float b[4 * 2] = {
+        -2, 0,
+        -1, 1,
+        0, 2,
+        1, 3
+    };
+
+    float c[3 * 4];
+
+    float y[3 * 4] = {
+        0, 1, 2, 3,
+        -4, 1, 6, 11,
+        -8, 1, 10, 19
+    };
+
+    mat_mul_trans_ab(a, b, c, 2, 3, 4);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, c, (3 * 4));
 }
