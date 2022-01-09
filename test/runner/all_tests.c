@@ -8,6 +8,8 @@
 static void RunAllTests(void)
 {
     RUN_TEST_GROUP(mat);
+
+    RUN_TEST_GROUP(layer);
 }
 
 int main(int argc, const char *argv[])
