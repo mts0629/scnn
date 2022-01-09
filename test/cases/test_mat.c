@@ -1,3 +1,8 @@
+/**
+ * @file test_mat.c
+ * @brief unit tests of mat.c
+ * 
+ */
 #include "mat.h"
 
 #include "unity_fixture.h"

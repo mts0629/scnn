@@ -1,3 +1,8 @@
+/**
+ * @file all_tests.c
+ * @brief main module of test runner
+ * 
+ */
 #include "unity_fixture.h"
 
 static void RunAllTests(void)
