@@ -15,6 +15,40 @@ TEST_SETUP(mat)
 TEST_TEAR_DOWN(mat)
 {}
 
+TEST(mat, test_mat_alloc_and_free)
+{
+    float *a = mat_alloc(2, 3);
+
+    TEST_ASSERT_NOT_NULL(a);
+
+    mat_free(&a);
+
+    TEST_ASSERT_NULL(a);
+}
+
+TEST(mat, test_mat_alloc_invalid_rows)
+{
+    float *a = mat_alloc(0, 3);
+
+    TEST_ASSERT_NULL(a);
+}
+
+TEST(mat, test_mat_alloc_invalid_columns)
+{
+    float *a = mat_alloc(2, 0);
+
+    TEST_ASSERT_NULL(a);
+}
+
+TEST(mat, test_mat_free_null)
+{
+    float *a = mat_alloc(0, 0);
+
+    mat_free(&a);
+
+    TEST_ASSERT_NULL(a);
+}
+
 TEST(mat, test_mat_add)
 {
     float a[3 * 2] = {

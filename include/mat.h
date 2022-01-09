@@ -6,7 +6,21 @@
 #ifndef MAT_H
 #define MAT_H
 
+#include <stdlib.h>
 #include <stdbool.h>
+
+/**
+ * @brief allocate MxN matrix
+ * 
+ * @return float* pointer to matrix
+ */
+float *mat_alloc(const int, const int);
+
+/**
+ * @brief deallocate matrix
+ * 
+ */
+void mat_free(float** mat);
 
 /**
  * @brief add MxN matrix A and B: C=A+B

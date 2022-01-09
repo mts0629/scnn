@@ -5,6 +5,42 @@
  */
 #include "mat.h"
 
+#include <stdlib.h>
+
+/**
+ * @brief allocate MxN matrix
+ * 
+ * @param[in] m num of rows
+ * @param[in] n  num of columns
+ * @return float* pointer to matrix
+ */
+float *mat_alloc(const int m, const int n)
+{
+    if ((m <= 0) || (n <= 0))
+    {
+        return NULL;
+    }
+
+    float *mat = malloc(sizeof(float) * m * n);
+    if (mat == NULL)
+    {
+        return NULL;
+    }
+
+    return mat;
+}
+
+/**
+ * @brief deallocate matrix
+ * 
+ * @param[out] mat address of pointer to matrix
+ */
+void mat_free(float **mat)
+{
+    free(*mat);
+    *mat = NULL;
+}
+
 /**
  * @brief add MxN matrix A and B: C=A+B
  * 
