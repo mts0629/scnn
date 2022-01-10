@@ -17,7 +17,7 @@
  * @param[in] name layer name
  * @return Layer* pointer to layer
  */
-Layer *layer_alloc(const char *name)
+Layer *layer_alloc(const LayerParameter layer_param)
 {
     Layer *layer = malloc(sizeof(Layer));
     if (layer == NULL)
@@ -25,13 +25,19 @@ Layer *layer_alloc(const char *name)
         return NULL;
     }
 
-    // initialize members
-    strncpy(layer->name, name, LAYER_NAME_MAX_LENGTH);
+    // initialize basic members
+    strncpy(layer->name, layer_param.name, LAYER_NAME_MAX_LENGTH);
 
     layer->x = NULL;
+    layer->in = layer_param.in;
+    layer->in_h = layer_param.in_h;
+    layer->in_w = layer_aram.in_w;
+
     layer->y = NULL;
+    layer->out = layer_param.out;
 
     layer->prev = NULL;
+
     layer-> next = NULL;
 
     layer->forward = NULL;

@@ -17,15 +17,20 @@ TEST_TEAR_DOWN(layer)
 
 TEST(layer, layer_alloc_and_free)
 {
-    char layer_name[] = "layer";
-    Layer *layer = layer_alloc(layer_name);
+    LayerParameter param = { .name = "layer", .in = 1, .in_h = 1, .in_w = 1, .out = 2 };
+    Layer *layer = layer_alloc(param);
 
     TEST_ASSERT_NOT_NULL(layer);
 
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(layer_name, layer->name, sizeof(layer_name));
+    TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, layer->name, sizeof(param.name));
 
     TEST_ASSERT_NULL(layer->x);
+    TEST_ASSERT_EQUAL_INT32(param.in, layer->in);
+    TEST_ASSERT_EQUAL_INT32(param.in_h, layer->in_h);
+    TEST_ASSERT_EQUAL_INT32(param.in_w, layer->in_w);
+
     TEST_ASSERT_NULL(layer->y);
+    TEST_ASSERT_EQUAL_INT32(param.out, layer->out);
 
     TEST_ASSERT_NULL(layer->prev);
     TEST_ASSERT_NULL(layer->next);
