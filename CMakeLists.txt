@@ -12,6 +12,5 @@ set(TARGET_GROUP test)
 
 if(TARGET_GROUP STREQUAL release)
 elseif(TARGET_GROUP STREQUAL test)
-    include(CTest)
     add_subdirectory(test)
 endif()
