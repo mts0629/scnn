@@ -53,12 +53,12 @@ typedef struct
  * 
  * @return Layer* 
  */
-Layer *layer_alloc(const LayerParameter);
+Layer *layer_alloc(const LayerParameter layer_param);
 
 /**
  * @brief deallocate layer
  * 
  */
-void layer_free(Layer**);
+void layer_free(Layer **layer);
 
 #endif // LAYER_H
