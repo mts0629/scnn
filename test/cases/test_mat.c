@@ -49,6 +49,19 @@ TEST(mat, test_mat_free_null)
     TEST_ASSERT_NULL(a);
 }
 
+TEST(mat, test_mat_copy)
+{
+    float *a = mat_alloc(2, 3);
+
+    float b[2 * 3] = { 0, 1, 2, 3, 4, 5 };
+
+    mat_copy(b, 2, 3, a);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(a, b, (2 * 3));
+
+    mat_free(&a);
+}
+
 TEST(mat, test_mat_add)
 {
     float a[3 * 2] = {

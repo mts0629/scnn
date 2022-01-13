@@ -23,6 +23,13 @@ float *mat_alloc(const int, const int);
 void mat_free(float** mat);
 
 /**
+ * @brief copy matrix data
+ * 
+ * @return float* pointer to dest matrix
+ */
+float *mat_copy(const float*, const int, const int, float*);
+
+/**
  * @brief add MxN matrix A and B: C=A+B
  * 
  * @return float* pointer to matrix C

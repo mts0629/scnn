@@ -6,6 +6,7 @@
 #include "mat.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief allocate MxN matrix
@@ -39,6 +40,27 @@ void mat_free(float **mat)
 {
     free(*mat);
     *mat = NULL;
+}
+
+/**
+ * @brief copy matrix data
+ * 
+ * @param src src MxN matrix
+ * @param m matrix rows
+ * @param n matrix columns
+ * @param dst dest MxN matrix
+ * @return float* pointer to dest matrix
+ */
+float *mat_copy(const float *src, const int m, const int n, float *dest)
+{
+    if ((src == NULL) || (dest == NULL))
+    {
+        return NULL;
+    }
+
+    memcpy(dest, src, (sizeof(float) * m * n));
+
+    return dest;
 }
 
 /**
