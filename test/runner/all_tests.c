@@ -10,6 +10,8 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(mat);
 
     RUN_TEST_GROUP(layer);
+
+    RUN_TEST_GROUP(fc);
 }
 
 int main(int argc, const char *argv[])
