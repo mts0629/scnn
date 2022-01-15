@@ -27,6 +27,10 @@ typedef struct Layer_tag
     int out_h;  //!< output height
     int out_w;  //!< output width
 
+    float *w;   //!< layer weight
+
+    float *b;   //!< layer bias
+
     struct Layer_tag *prev; //!< pointer to previous layer
     struct Layer_tag *next; //!< pointer to next layer
 
@@ -51,7 +55,7 @@ typedef struct
 /**
  * @brief allocate layer
  * 
- * @return Layer* 
+ * @return Layer* pointer to layer
  */
 Layer *layer_alloc(const LayerParameter layer_param);
 

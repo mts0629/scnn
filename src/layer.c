@@ -29,11 +29,12 @@ Layer *layer_alloc(const LayerParameter layer_param)
     strncpy(layer->name, layer_param.name, LAYER_NAME_MAX_LENGTH);
 
     layer->x = NULL;
-    layer->in = layer_param.in;
-    layer->in_h = layer_param.in_h;
-    layer->in_w = layer_param.in_w;
 
     layer->y = NULL;
+
+    layer->w = NULL;
+
+    layer->b = NULL;
 
     layer->prev = NULL;
 
@@ -53,6 +54,9 @@ void layer_free(Layer **layer)
 {
     mat_free(&(*layer)->x);
     mat_free(&(*layer)->y);
+
+    mat_free(&(*layer)->w);
+    mat_free(&(*layer)->b);
 
     (*layer)->prev = NULL;
     (*layer)-> next = NULL;

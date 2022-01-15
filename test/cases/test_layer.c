@@ -1,6 +1,6 @@
 /**
  * @file test_layer.c
- * @brief 
+ * @brief unit tests of layer.c
  * 
  */
 #include "layer.h"
@@ -27,6 +27,10 @@ TEST(layer, layer_alloc_and_free)
     TEST_ASSERT_NULL(layer->x);
 
     TEST_ASSERT_NULL(layer->y);
+
+    TEST_ASSERT_NULL(layer->w);
+
+    TEST_ASSERT_NULL(layer->b);
 
     TEST_ASSERT_NULL(layer->prev);
     TEST_ASSERT_NULL(layer->next);
