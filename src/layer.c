@@ -31,10 +31,9 @@ Layer *layer_alloc(const LayerParameter layer_param)
     layer->x = NULL;
     layer->in = layer_param.in;
     layer->in_h = layer_param.in_h;
-    layer->in_w = layer_aram.in_w;
+    layer->in_w = layer_param.in_w;
 
     layer->y = NULL;
-    layer->out = layer_param.out;
 
     layer->prev = NULL;
 
