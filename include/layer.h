@@ -34,7 +34,7 @@ typedef struct Layer_tag
     struct Layer_tag *prev; //!< pointer to previous layer
     struct Layer_tag *next; //!< pointer to next layer
 
-    void (*forward)(struct Layer_tag*); //!< forward propagation
+    void (*forward)(struct Layer_tag*, const float *x); //!< forward propagation
 } Layer;
 
 /**

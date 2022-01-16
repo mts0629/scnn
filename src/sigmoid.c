@@ -13,13 +13,14 @@
  * @brief forward propagation of Sigmoid layer
  * 
  * @param sigmoid forwarding layer
+ * @param x layer input
  */
-static void sigmoid_forward(Layer *sigmoid)
+static void sigmoid_forward(Layer *sigmoid, const float *x)
 {
     const int size = sigmoid->out;
     for (int i = 0; i < size; i++)
     {
-        sigmoid->y[i] = 1.0f / (1 + exp(-sigmoid->x[i]));
+        sigmoid->y[i] = 1.0f / (1 + exp(-x[i]));
     }
 }
 
@@ -43,11 +44,6 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
     }
 
     layer->in = layer_param.in;
-    layer->x = mat_alloc(1, layer->in);
-    if (layer->x == NULL)
-    {
-        goto FREE_X;
-    }
 
     layer->out = layer_param.in;
     layer->y = mat_alloc(1, layer->out);
@@ -62,8 +58,6 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
 
 FREE_Y:
     mat_free(&layer->y);
-FREE_X:
-    mat_free(&layer->x);
 
     return NULL;
 }

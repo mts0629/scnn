@@ -13,20 +13,21 @@
  * @brief forward propagation of Softmax layer
  * 
  * @param sigmoid forwarding layer
+ * @param x layer input
  */
-static void softmax_forward(Layer *softmax)
+static void softmax_forward(Layer *softmax, const float *x)
 {
     const int size = softmax->out;
 
     float sum = 0;
     for (int i = 0; i < size; i++)
     {
-        sum += exp(softmax->x[i]);
+        sum += exp(x[i]);
     }
 
     for (int i = 0; i < size; i++)
     {
-        softmax->y[i] = exp(softmax->x[i]) / sum;
+        softmax->y[i] = exp(x[i]) / sum;
     }
 }
 
@@ -50,11 +51,6 @@ Layer *softmax_alloc(const LayerParameter layer_param)
     }
 
     layer->in = layer_param.in;
-    layer->x = mat_alloc(1, layer->in);
-    if (layer->x == NULL)
-    {
-        goto FREE_X;
-    }
 
     layer->out = layer_param.in;
     layer->y = mat_alloc(1, layer->out);
@@ -69,8 +65,6 @@ Layer *softmax_alloc(const LayerParameter layer_param)
 
 FREE_Y:
     mat_free(&layer->y);
-FREE_X:
-    mat_free(&layer->x);
 
     return NULL;
 }

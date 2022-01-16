@@ -27,7 +27,6 @@ TEST(fc, fc_alloc_and_free)
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, fc->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, fc->in);
-    TEST_ASSERT_NOT_NULL(fc->x);
 
     TEST_ASSERT_EQUAL_INT(param.out, fc->out);
     TEST_ASSERT_NOT_NULL(fc->y);
@@ -82,11 +81,10 @@ TEST(fc, fc_forward)
         4, 6, 8
     };
 
-    mat_copy(x, 1, 2, fc->x);
     mat_copy(w, 2, 3, fc->w);
     mat_copy(b, 1, 3, fc->b);
 
-    fc->forward(fc);
+    fc->forward(fc, x);
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, fc->y, (1 * 3));
 

@@ -27,7 +27,6 @@ TEST(softmax, softmax_alloc_and_free)
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, softmax->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, softmax->in);
-    TEST_ASSERT_NOT_NULL(softmax->x);
 
     TEST_ASSERT_EQUAL_INT(param.in, softmax->out);
     TEST_ASSERT_NOT_NULL(softmax->y);
@@ -68,9 +67,7 @@ TEST(softmax, softmax_forward)
         0.0021657, 0.00588697, 0.11824302, 0.87370431
     };
 
-    mat_copy(x, 1, 4, softmax->x);
-
-    softmax->forward(softmax);
+    softmax->forward(softmax, x);
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, softmax->y, (1 * 4));
 

@@ -11,10 +11,11 @@
  * @brief forward propagation of Fully connected layer
  * 
  * @param fc forwarding layer
+ * @param x layer input
  */
-static void fc_forward(Layer *fc)
+static void fc_forward(Layer *fc, const float *x)
 {
-    mat_mul(fc->x, fc->w, fc->y, 1, fc->in, fc->out);
+    mat_mul(x, fc->w, fc->y, 1, fc->in, fc->out);
     mat_add(fc->y, fc->b, fc->y, 1, fc->out);
 }
 
@@ -38,11 +39,6 @@ Layer *fc_alloc(const LayerParameter layer_param)
     }
 
     layer->in = layer_param.in;
-    layer->x = mat_alloc(1, layer->in);
-    if (layer->x == NULL)
-    {
-        goto FREE_X;
-    }
 
     layer->out = layer_param.out;
     layer->y = mat_alloc(1, layer->out);
@@ -73,8 +69,6 @@ FREE_W:
     mat_free(&layer->w);
 FREE_Y:
     mat_free(&layer->y);
-FREE_X:
-    mat_free(&layer->x);
 
     return NULL;
 }

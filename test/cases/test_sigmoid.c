@@ -27,7 +27,6 @@ TEST(sigmoid, sigmoid_alloc_and_free)
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, sigmoid->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, sigmoid->in);
-    TEST_ASSERT_NOT_NULL(sigmoid->x);
 
     TEST_ASSERT_EQUAL_INT(param.in, sigmoid->out);
     TEST_ASSERT_NOT_NULL(sigmoid->y);
@@ -67,9 +66,7 @@ TEST(sigmoid, sigmoid_forward)
         0.00669285, 0.0179862, 0.0474259, 0.119203, 0.268941, 0.5, 0.731059, 0.880797, 0.952574, 0.982014, 0.993307
     };
 
-    mat_copy(x, 1, 11, sigmoid->x);
-
-    sigmoid->forward(sigmoid);
+    sigmoid->forward(sigmoid, x);
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, sigmoid->y, (1 * 11));
 
