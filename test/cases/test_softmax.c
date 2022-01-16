@@ -46,6 +46,15 @@ TEST(softmax, softmax_alloc_and_free)
     TEST_ASSERT_NULL(softmax);
 }
 
+TEST(softmax, softmax_alloc_invalid_param)
+{
+    LayerParameter param = { .name = "softmax", .in = 0 };
+    Layer *softmax = softmax_alloc(param);
+
+    TEST_ASSERT_NULL(softmax);
+}
+
+
 TEST(softmax, softmax_forward)
 {
     LayerParameter param = { .name = "softmax", .in = 4 };

@@ -31,6 +31,11 @@ static void sigmoid_forward(Layer *sigmoid)
  */
 Layer *sigmoid_alloc(const LayerParameter layer_param)
 {
+    if (layer_param.in < 1)
+    {
+        return NULL;
+    }
+
     Layer *layer = layer_alloc(layer_param);
     if (layer == NULL)
     {

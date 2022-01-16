@@ -9,5 +9,7 @@ TEST_GROUP_RUNNER(softmax)
 {
     RUN_TEST_CASE(softmax, softmax_alloc_and_free);
 
+    RUN_TEST_CASE(softmax, softmax_alloc_invalid_param);
+
     RUN_TEST_CASE(softmax, softmax_forward);
 }

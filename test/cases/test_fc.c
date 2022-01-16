@@ -46,6 +46,20 @@ TEST(fc, fc_alloc_and_free)
     TEST_ASSERT_NULL(fc);
 }
 
+TEST(fc, fc_alloc_invalid_param)
+{
+    LayerParameter param = { .name = "fc", .in = 0, .out = 10 };
+    Layer *fc = fc_alloc(param);
+
+    TEST_ASSERT_NULL(fc);
+
+    param.in = 2;
+    param.out = 0;
+    fc = fc_alloc(param);
+
+    TEST_ASSERT_NULL(fc);
+}
+
 TEST(fc, fc_forward)
 {
     LayerParameter param = { .name = "fc", .in = 2, .out = 3 };

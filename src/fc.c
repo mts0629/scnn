@@ -26,6 +26,11 @@ static void fc_forward(Layer *fc)
  */
 Layer *fc_alloc(const LayerParameter layer_param)
 {
+    if ((layer_param.in < 1) || (layer_param.out < 1))
+    {
+        return NULL;
+    }
+
     Layer *layer = layer_alloc(layer_param);
     if (layer == NULL)
     {

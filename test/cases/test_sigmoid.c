@@ -46,6 +46,14 @@ TEST(sigmoid, sigmoid_alloc_and_free)
     TEST_ASSERT_NULL(sigmoid);
 }
 
+TEST(sigmoid, sigmoid_alloc_invalid_param)
+{
+    LayerParameter param = { .name = "sigmoid", .in = 0 };
+    Layer *sigmoid = sigmoid_alloc(param);
+
+    TEST_ASSERT_NULL(sigmoid);
+}
+
 TEST(sigmoid, sigmoid_forward)
 {
     LayerParameter param = { .name = "sigmoid", .in = 11 };

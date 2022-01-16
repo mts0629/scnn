@@ -38,6 +38,11 @@ static void softmax_forward(Layer *softmax)
  */
 Layer *softmax_alloc(const LayerParameter layer_param)
 {
+    if (layer_param.in < 1)
+    {
+        return NULL;
+    }
+
     Layer *layer = layer_alloc(layer_param);
     if (layer == NULL)
     {
