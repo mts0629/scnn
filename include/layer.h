@@ -15,7 +15,7 @@
  */
 typedef struct Layer_tag
 {
-    char name[LAYER_NAME_MAX_LENGTH];   //!< layer name
+    char name[LAYER_NAME_MAX_LENGTH + 1];   //!< layer name
 
     float *x;   //!< layer input matrix
     int in;     //!< num of layer input

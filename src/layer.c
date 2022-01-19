@@ -52,7 +52,7 @@ Layer *layer_alloc(const LayerParameter layer_param)
  */
 void layer_free(Layer **layer)
 {
-    mat_free(&(*layer)->x);
+    //mat_free(&(*layer)->x);
     mat_free(&(*layer)->y);
 
     mat_free(&(*layer)->w);
