@@ -16,6 +16,8 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(sigmoid);
 
     RUN_TEST_GROUP(softmax);
+
+    RUN_TEST_GROUP(net);
 }
 
 int main(int argc, const char *argv[])
