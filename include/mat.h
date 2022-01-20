@@ -37,6 +37,13 @@ float *mat_copy(const float *src, const int m, const int n, float* dest);
 float *mat_fill(float *mat, const int m, const int n, const float value);
 
 /**
+ * @brief allocate MxN matrix filled with 0
+ * 
+ * @return float* pointer to matrix
+ */
+float *mat_zeros(const int m, const int n);
+
+/**
  * @brief add MxN matrix A and B: C=A+B
  * 
  * @return float* pointer to matrix C

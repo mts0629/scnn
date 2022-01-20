@@ -17,6 +17,8 @@ TEST_GROUP_RUNNER(mat)
 
     RUN_TEST_CASE(mat, test_mat_fill);
 
+    RUN_TEST_CASE(mat, test_mat_zeros);
+
     RUN_TEST_CASE(mat, test_mat_add);
     RUN_TEST_CASE(mat, test_mat_add_accumulate);
     RUN_TEST_CASE(mat, test_mat_add_accumulate_inplace);

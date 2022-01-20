@@ -112,6 +112,17 @@ TEST(mat, test_mat_fill)
     mat_free(&mat);
 }
 
+TEST(mat, test_mat_zeros)
+{
+    float *mat = mat_zeros(2, 3);
+
+    TEST_ASSERT_NOT_NULL(mat);
+
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, mat, (2 * 3));
+
+    mat_free(&mat);
+}
+
 TEST(mat, test_mat_add)
 {
     float a[3 * 2] = {

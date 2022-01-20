@@ -68,6 +68,24 @@ float *mat_fill(float *mat, const int m, const int n, const float value)
 }
 
 /**
+ * @brief allocate MxN matrix filled with 0
+ * 
+ * @param[in] m num of rows
+ * @param[in] n  num of columns
+ * @return float* pointer to matrix
+ */
+float *mat_zeros(const int m, const int n)
+{
+    float *mat = mat_alloc(m, n);
+    if (mat == NULL)
+    {
+        return NULL;
+    }
+
+    return mat_fill(mat, m, n, 0);
+}
+
+/**
  * @brief copy matrix data
  * 
  * @param src src MxN matrix
