@@ -33,6 +33,14 @@ typedef struct
 Net *net_create(const char *name, const int length, Layer **layers);
 
 /**
+ * @brief forward propagation of network
+ * 
+ * @param net forwarding network
+ * @param x network input
+ */
+void net_forward(Net *net, float *x);
+
+/**
  * @brief deallocate network
  * 
  * @param net network to deallocate

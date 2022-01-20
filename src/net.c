@@ -57,6 +57,25 @@ Net *net_create(const char *name, const int length, Layer **layers)
 }
 
 /**
+ * @brief forward propagation of network
+ * 
+ */
+void net_forward(Net *net, float *x)
+{
+    net->layers[0]->x = x;
+
+    for (int i = 0; ; i++)
+    {
+        net->layers[i]->forward(net->layers[i], net->layers[i]->x);
+
+        if (net->layers[i]->next == NULL)
+        {
+            break;
+        }
+    }
+}
+
+/**
  * @brief deallocate network
  * 
  */
