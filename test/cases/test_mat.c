@@ -101,6 +101,17 @@ TEST(mat, test_mat_copy_null)
     mat_free(&dst);
 }
 
+TEST(mat, test_mat_fill)
+{
+    float *mat = mat_alloc(2, 3);
+
+    TEST_ASSERT_EQUAL_PTR(mat, mat_fill(mat, 2, 3, 1));
+
+    TEST_ASSERT_EACH_EQUAL_FLOAT(1, mat, (2 * 3));
+
+    mat_free(&mat);
+}
+
 TEST(mat, test_mat_add)
 {
     float a[3 * 2] = {

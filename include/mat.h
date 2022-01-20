@@ -30,6 +30,13 @@ void mat_free(float **mat);
 float *mat_copy(const float *src, const int m, const int n, float* dest);
 
 /**
+ * @brief fill matrix with specified value
+ * 
+ * @return float* pointer to matrix
+ */
+float *mat_fill(float *mat, const int m, const int n, const float value);
+
+/**
  * @brief add MxN matrix A and B: C=A+B
  * 
  * @return float* pointer to matrix C

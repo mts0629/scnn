@@ -43,6 +43,31 @@ void mat_free(float **mat)
 }
 
 /**
+ * @brief fill matrix with specified value
+ * 
+ * @param mat target matrix
+ * @param m num of rows
+ * @param n  num of columns
+ * @param value filling value
+ * @return float* pointer to matrix
+ */
+float *mat_fill(float *mat, const int m, const int n, const float value)
+{
+    if (mat == NULL)
+    {
+        return NULL;
+    }
+
+    const int size = m * n;
+    for (int i = 0; i < size; i++)
+    {
+        mat[i] = value;
+    }
+
+    return mat;
+}
+
+/**
  * @brief copy matrix data
  * 
  * @param src src MxN matrix
