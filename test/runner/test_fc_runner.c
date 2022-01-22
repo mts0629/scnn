@@ -12,4 +12,6 @@ TEST_GROUP_RUNNER(fc)
     RUN_TEST_CASE(fc, fc_alloc_invalid_param);
 
     RUN_TEST_CASE(fc, fc_forward);
+
+    RUN_TEST_CASE(fc, fc_backward);
 }

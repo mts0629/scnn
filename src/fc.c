@@ -20,6 +20,22 @@ static void fc_forward(Layer *fc, const float *x)
 }
 
 /**
+ * @brief backward propagation of Fully connected layer
+ * 
+ * @param fc backwarding layer
+ * @param dy diff of next layer
+ */
+static void fc_backward(Layer *fc, const float *dy)
+{
+    mat_mul_trans_b(dy, fc->w, fc->dx, 1, fc->out, fc->in);
+
+    mat_mul_trans_a(fc->x, dy, fc->dw, 1, fc->in, fc->out);
+
+    mat_copy(dy, 1, fc->out, fc->db);
+}
+
+
+/**
  * @brief allocate Fully connected layer
  * 
  * @param layer_param layer parameter
@@ -59,7 +75,27 @@ Layer *fc_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
+    layer->dx = mat_alloc(1, layer->in);
+    if (layer->dx == NULL)
+    {
+        goto LAYER_FREE;
+    }
+
+    layer->dw = mat_alloc(layer->in, layer->out);
+    if (layer->dw == NULL)
+    {
+        goto LAYER_FREE;
+    }
+
+    layer->db = mat_alloc(1, layer->out);
+    if (layer->db == NULL)
+    {
+        goto LAYER_FREE;
+    }
+
     layer->forward = fc_forward;
+
+    layer->backward = fc_backward;
 
     return layer;
 

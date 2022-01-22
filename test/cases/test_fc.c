@@ -90,3 +90,52 @@ TEST(fc, fc_forward)
 
     layer_free(&fc);
 }
+
+TEST(fc, fc_backward)
+{
+    LayerParameter param = { .name = "fc", .in = 2, .out = 3 };
+    Layer *fc = fc_alloc(param);
+
+    float x[] = {
+        1, 1
+    };
+
+    float w[] = {
+        0, 1, 2,
+        3, 4, 5
+    };
+
+    float b[] = {
+        1, 1, 1
+    };
+
+    fc->x = x;
+
+    mat_copy(w, 2, 3, fc->w);
+    mat_copy(b, 1, 3, fc->b);
+
+    fc->forward(fc, x);
+
+    float dy[] = {
+        8, 12, 16
+    };
+
+    fc->backward(fc, dy);
+
+    float dx_ans[] = {
+        44, 152,
+    };
+
+    float dw_ans[] = {
+        8, 12, 16,
+        8, 12, 16
+    };
+
+    float db_ans[] = {
+        8, 12, 16
+    };
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dx_ans, fc->dx, (1 * 2));
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dw_ans, fc->dw, (2 * 3));
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(db_ans, fc->db, (1 * 3));
+}
