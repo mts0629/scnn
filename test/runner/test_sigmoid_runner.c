@@ -12,4 +12,6 @@ TEST_GROUP_RUNNER(sigmoid)
     RUN_TEST_CASE(sigmoid, sigmoid_alloc_invalid_param);
 
     RUN_TEST_CASE(sigmoid, sigmoid_forward);
+
+    RUN_TEST_CASE(sigmoid, sigmoid_backward);
 }

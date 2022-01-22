@@ -25,6 +25,21 @@ static void sigmoid_forward(Layer *sigmoid, const float *x)
 }
 
 /**
+ * @brief backward propagation of Sigmoid layer
+ * 
+ * @param sigmoid backwarding layer
+ * @param dy diff of next layer
+ */
+static void sigmoid_backward(Layer *sigmoid, const float *dy)
+{
+    const int size = sigmoid->out;
+    for (int i = 0; i < size; i++)
+    {
+        sigmoid->dx[i] = dy[i] * (1.0f - sigmoid->y[i]) * sigmoid->y[i];
+    }
+}
+
+/**
  * @brief allocate Sigmoid layer
  * 
  * @param layer_param layer parameter
@@ -52,7 +67,15 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
+    layer->dx = mat_alloc(1, layer->in);
+    if (layer->dx == NULL)
+    {
+        goto LAYER_FREE;
+    }
+
     layer->forward = sigmoid_forward;
+
+    layer->backward = sigmoid_backward;
 
     return layer;
 
