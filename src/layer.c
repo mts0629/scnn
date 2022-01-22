@@ -33,14 +33,17 @@ Layer *layer_alloc(const LayerParameter layer_param)
     layer->y = NULL;
 
     layer->w = NULL;
-
     layer->b = NULL;
 
-    layer->prev = NULL;
+    layer->dx = NULL;
+    layer->dw = NULL;
+    layer->db = NULL;
 
-    layer-> next = NULL;
+    layer->prev = NULL;
+    layer->next = NULL;
 
     layer->forward = NULL;
+    layer->backward = NULL;
 
     return layer;
 }
@@ -52,14 +55,20 @@ Layer *layer_alloc(const LayerParameter layer_param)
  */
 void layer_free(Layer **layer)
 {
-    //mat_free(&(*layer)->x);
     mat_free(&(*layer)->y);
 
     mat_free(&(*layer)->w);
     mat_free(&(*layer)->b);
 
+    mat_free(&(*layer)->dx);
+    mat_free(&(*layer)->dw);
+    mat_free(&(*layer)->db);
+
     (*layer)->prev = NULL;
-    (*layer)-> next = NULL;
+    (*layer)->next = NULL;
+
+    (*layer)->forward = NULL;
+    (*layer)->backward = NULL;
 
     free(*layer);
     *layer = NULL;

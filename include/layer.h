@@ -28,13 +28,17 @@ typedef struct Layer_tag
     int out_w;  //!< output width
 
     float *w;   //!< layer weight
-
     float *b;   //!< layer bias
+
+    float *dx;  //!< diff of layer input
+    float *dw;  //!< diff of layer weight
+    float *db;  //!< diff of layer bias
 
     struct Layer_tag *prev; //!< pointer to previous layer
     struct Layer_tag *next; //!< pointer to next layer
 
-    void (*forward)(struct Layer_tag*, const float *x); //!< forward propagation
+    void (*forward)(struct Layer_tag*, const float *x);     //!< forward propagation
+    void (*backward)(struct Layer_tag*, const float *dy);   //!< backward propagation
 } Layer;
 
 /**
