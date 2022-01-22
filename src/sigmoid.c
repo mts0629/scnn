@@ -49,15 +49,15 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
     layer->y = mat_alloc(1, layer->out);
     if (layer->y == NULL)
     {
-        goto FREE_Y;
+        goto LAYER_FREE;
     }
 
     layer->forward = sigmoid_forward;
 
     return layer;
 
-FREE_Y:
-    mat_free(&layer->y);
+LAYER_FREE:
+    layer_free(&layer);
 
     return NULL;
 }

@@ -44,31 +44,27 @@ Layer *fc_alloc(const LayerParameter layer_param)
     layer->y = mat_alloc(1, layer->out);
     if (layer->y == NULL)
     {
-        goto FREE_Y;
+        goto LAYER_FREE;
     }
 
     layer->w = mat_alloc(layer->in, layer->out);
     if (layer->w == NULL)
     {
-        goto FREE_W;
+        goto LAYER_FREE;
     }
 
     layer->b = mat_alloc(1, layer->out);
     if (layer->b == NULL)
     {
-        goto FREE_B;
+        goto LAYER_FREE;
     }
 
     layer->forward = fc_forward;
 
     return layer;
 
-FREE_B:
-    mat_free(&layer->b);
-FREE_W:
-    mat_free(&layer->w);
-FREE_Y:
-    mat_free(&layer->y);
+LAYER_FREE:
+    layer_free(&layer);
 
     return NULL;
 }
