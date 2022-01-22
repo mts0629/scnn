@@ -17,10 +17,12 @@
  */
 static void sigmoid_forward(Layer *sigmoid, const float *x)
 {
+    sigmoid->x = x;
+
     const int size = sigmoid->out;
     for (int i = 0; i < size; i++)
     {
-        sigmoid->y[i] = 1.0f / (1 + exp(-x[i]));
+        sigmoid->y[i] = 1.0f / (1 + exp(-sigmoid->x[i]));
     }
 }
 

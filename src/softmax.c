@@ -17,17 +17,19 @@
  */
 static void softmax_forward(Layer *softmax, const float *x)
 {
+    softmax->x = x;
+
     const int size = softmax->out;
 
     float sum = 0;
     for (int i = 0; i < size; i++)
     {
-        sum += exp(x[i]);
+        sum += exp(softmax->x[i]);
     }
 
     for (int i = 0; i < size; i++)
     {
-        softmax->y[i] = exp(x[i]) / sum;
+        softmax->y[i] = exp(softmax->x[i]) / sum;
     }
 }
 

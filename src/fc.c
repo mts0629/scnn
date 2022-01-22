@@ -15,7 +15,9 @@
  */
 static void fc_forward(Layer *fc, const float *x)
 {
-    mat_mul(x, fc->w, fc->y, 1, fc->in, fc->out);
+    fc->x = x;
+
+    mat_mul(fc->x, fc->w, fc->y, 1, fc->in, fc->out);
     mat_add(fc->y, fc->b, fc->y, 1, fc->out);
 }
 

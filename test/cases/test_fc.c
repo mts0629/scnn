@@ -109,8 +109,6 @@ TEST(fc, fc_backward)
         1, 1, 1
     };
 
-    fc->x = x;
-
     mat_copy(w, 2, 3, fc->w);
     mat_copy(b, 1, 3, fc->b);
 

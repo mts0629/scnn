@@ -41,7 +41,7 @@ TEST(layer, layer_alloc_and_free)
     TEST_ASSERT_NULL(layer->forward);
     TEST_ASSERT_NULL(layer->backward);
 
-    float *ptr_x = layer->x;
+    const float *ptr_x = layer->x;
 
     float *ptr_y = layer->y;
 
