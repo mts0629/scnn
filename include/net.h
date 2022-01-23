@@ -19,6 +19,7 @@ typedef struct
 {
     char name[NET_NAME_MAX_LENGTH + 1]; //!< network name
 
+    int num_layers; //!< num of layers
     Layer **layers; //!< layer list
 } Net;
 
@@ -39,6 +40,14 @@ Net *net_create(const char *name, const int length, Layer **layers);
  * @param x network input
  */
 void net_forward(Net *net, float *x);
+
+/**
+ * @brief backward propagation of network
+ * 
+ * @param net backwarding network
+ * @param t training label
+ */
+void net_backward(Net *net, float *t);
 
 /**
  * @brief deallocate network

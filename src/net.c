@@ -41,6 +41,8 @@ Net *net_create(const char *name, const int length, Layer **layers)
         return NULL;
     }
 
+    net->num_layers = length;
+
     net->layers[0] = layers[0];
 
     for (int i = 1; i < length; i++)
@@ -69,6 +71,25 @@ void net_forward(Net *net, float *x)
         net->layers[i]->forward(net->layers[i], net->layers[i]->x);
 
         if (net->layers[i]->next == NULL)
+        {
+            break;
+        }
+    }
+}
+
+/**
+ * @brief backward propagation of network
+ * 
+ */
+void net_backward(Net *net, float *t)
+{
+    net->layers[net->num_layers - 1]->backward(net->layers[net->num_layers - 1], t);
+
+    for (int i = (net->num_layers - 2); ; i--)
+    {
+        net->layers[i]->backward(net->layers[i], net->layers[i + 1]->dx);
+
+        if (net->layers[i]->prev == NULL)
         {
             break;
         }
