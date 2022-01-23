@@ -34,6 +34,21 @@ static void softmax_forward(Layer *softmax, const float *x)
 }
 
 /**
+ * @brief backward propagation of Softmax layer
+ * 
+ * @param softmax backwaoftding layer
+ * @param dy diff of output
+ */
+static void softmax_backward(Layer *softmax, const float *dy)
+{
+    // backward with cross entropy loss
+    for (int i = 0; i < softmax->out; i++)
+    {
+        softmax->dx[i] = dy[i];
+    }
+}
+
+/**
  * @brief allocate Softmax layer
  * 
  * @param layer_param layer parameter
@@ -61,7 +76,15 @@ Layer *softmax_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
+    layer->dx = mat_alloc(1, layer->in);
+    if (layer->dx == NULL)
+    {
+        goto LAYER_FREE;
+    }
+
     layer->forward = softmax_forward;
+
+    layer->backward = softmax_backward;
 
     return layer;
 
