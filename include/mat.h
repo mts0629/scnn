@@ -12,6 +12,8 @@
 /**
  * @brief allocate MxN matrix
  * 
+ * @param[in] m num of rows
+ * @param[in] n  num of columns
  * @return float* pointer to matrix
  */
 float *mat_alloc(const int m, const int n);
@@ -19,19 +21,28 @@ float *mat_alloc(const int m, const int n);
 /**
  * @brief deallocate matrix
  * 
+ * @param[out] mat address of pointer to matrix
  */
 void mat_free(float **mat);
 
 /**
- * @brief copy matrix data
+ * @brief copy MxN matrix data
  * 
+ * @param[in] src src MxN matrix
+ * @param[in] m matrix rows
+ * @param[in] n matrix columns
+ * @param[out] dst dest MxN matrix
  * @return float* pointer to dest matrix
  */
 float *mat_copy(const float *src, const int m, const int n, float* dest);
 
 /**
- * @brief fill matrix with specified value
+ * @brief fill MxN matrix with specified value
  * 
+ * @param[out] mat target matrix
+ * @param[in] m num of rows
+ * @param[in] n  num of columns
+ * @param[in] value filling value
  * @return float* pointer to matrix
  */
 float *mat_fill(float *mat, const int m, const int n, const float value);
@@ -39,6 +50,8 @@ float *mat_fill(float *mat, const int m, const int n, const float value);
 /**
  * @brief allocate MxN matrix filled with 0
  * 
+ * @param[in] m num of rows
+ * @param[in] n  num of columns
  * @return float* pointer to matrix
  */
 float *mat_zeros(const int m, const int n);
@@ -46,6 +59,11 @@ float *mat_zeros(const int m, const int n);
 /**
  * @brief add MxN matrix A and B: C=A+B
  * 
+ * @param[in] a MxN matrix A
+ * @param[in] b MxN matrix B
+ * @param[out] c MxN matrix C
+ * @param[in] m num of rows of matrix A/B
+ * @param[in] n num of columns of matrix A/B
  * @return float* pointer to matrix C
  */
 float *mat_add(const float *a, const float *b, float *c, const int m, const int n);
@@ -53,6 +71,12 @@ float *mat_add(const float *a, const float *b, float *c, const int m, const int 
 /**
  * @brief multiply MxN matrix A and NxP matrix B: C=AB
  * 
+ * @param[in] a MxN matrix A
+ * @param[in] b NxP matrix B
+ * @param[out] c MxP matrix C
+ * @param[in] m num of rows of matrix A
+ * @param[in] n num of columns of matrix A/rows of matrix B
+ * @param[in] p num of columns of matrix B
  * @return float* pointer to matrix C
  */
 float *mat_mul(const float *a, const float *b, float *c, const int m, const int n, const int p);
@@ -60,13 +84,25 @@ float *mat_mul(const float *a, const float *b, float *c, const int m, const int 
 /**
  * @brief multiply MxN matrix A and MxP matrix B: C=(A^T)B
  * 
+ * @param[in] a MxN matrix A
+ * @param[in] b MxP matrix B
+ * @param[out] c NxP matrix C
+ * @param[in] m num of rows of matrix A/rows of matrix B
+ * @param[in] n num of columns of matrix A
+ * @param[in] p num of columns of matrix B
  * @return float* pointer to matrix C
  */
 float *mat_mul_trans_a(const float *a, const float *b, float *c, const int m, const int n, const int p);
 
 /**
- * @brief multiply MxN matrix A and PxM matrix B: C=A(B^T)
+ * @brief multiply MxN matrix A and PxN matrix B: C=A(B^T)
  * 
+ * @param[in] a MxN matrix A
+ * @param[in] b PxN matrix B
+ * @param[out] c MxP matrix C
+ * @param[in] m num of rows of matrix A
+ * @param[in] n num of columns of matrix A/columns of matrix B
+ * @param[in] p num of rows of matrix B
  * @return float* pointer to matrix C
  */
 float *mat_mul_trans_b(const float *a, const float *b, float *c, const int m, const int n, const int p);
@@ -74,6 +110,12 @@ float *mat_mul_trans_b(const float *a, const float *b, float *c, const int m, co
 /**
  * @brief multiply MxN matrix A and PxN matrix B: C=(A^T)B^T
  * 
+ * @param[in] a MxN matrix A
+ * @param[in] b PxM matrix B
+ * @param[out] c NxP matrix C
+ * @param[in] m num of rows of matrix A
+ * @param[in] n num of columns of matrix A/columns of matrix B
+ * @param[in] p num of rows of matrix B
  * @return float* pointer to matrix C
  */
 float *mat_mul_trans_ab(const float *a, const float *b, float *c, const int m, const int n, const int p);
@@ -81,6 +123,11 @@ float *mat_mul_trans_ab(const float *a, const float *b, float *c, const int m, c
 /**
  * @brief mutiply MxN matrix A with scalar k: B=kA
  * 
+ * @param[in] a MxN matrix A
+ * @param[out] b MxN matrix B
+ * @param[in] m num of rows of matrix A/B
+ * @param[in] n num of columns of matrix A/B
+ * @param[in] k coeffcient k
  * @return float* pointer to matrix B
  */
 float *mat_mul_scalar(const float *a, float *b, const int m, const int n, const float k);
