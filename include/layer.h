@@ -1,6 +1,6 @@
 /**
  * @file layer.h
- * @brief basic layer struct and operations
+ * @brief basic layer structure and operations
  * 
  */
 #ifndef LAYER_H
@@ -57,15 +57,22 @@ typedef struct
 } LayerParameter;
 
 /**
- * @brief allocate layer
+ * @brief allocate basic layer structure
  * 
- * @return Layer* pointer to layer
+ * @param[in] layer_param layer parameter
+ * @return Layer* poiner to layer structure
  */
 Layer *layer_alloc(const LayerParameter layer_param);
 
 /**
  * @brief deallocate layer
  * 
+ */
+
+/**
+ * @brief deallocate layer structure
+ * 
+ * @param[in,out] layer layer structure to be deallocated
  */
 void layer_free(Layer **layer);
 

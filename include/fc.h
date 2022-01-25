@@ -11,7 +11,8 @@
 /**
  * @brief allocate Fully connected layer
  * 
- * @return Layer* pointer to layer
+ * @param[in] layer_param layer parameter
+ * @return Layer* poiner to layer structure
  */
 Layer *fc_alloc(const LayerParameter layer_param);
 

@@ -26,33 +26,33 @@ typedef struct
 /**
  * @brief create network
  * 
- * @param name network name
- * @param length num of layers
- * @param layers layer list
- * @return Net* pointer to network
+ * @param[in] name name of network
+ * @param[in] length num of layers
+ * @param[in] layers list of layers
+ * @return Net* pointer to network structure
  */
 Net *net_create(const char *name, const int length, Layer **layers);
 
 /**
  * @brief forward propagation of network
  * 
- * @param net forwarding network
- * @param x network input
+ * @param[in,out] net network structure
+ * @param[in] x network input
  */
 void net_forward(Net *net, float *x);
 
 /**
  * @brief backward propagation of network
  * 
- * @param net backwarding network
- * @param t training label
+ * @param[in,out] net network structure
+ * @param[in] t training label
  */
 void net_backward(Net *net, float *t);
 
 /**
  * @brief deallocate network
  * 
- * @param net network to deallocate
+ * @param[in,out] net network structure to be deallocated
  */
 void net_free(Net **net);
 

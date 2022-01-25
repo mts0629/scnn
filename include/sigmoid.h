@@ -11,7 +11,8 @@
 /**
  * @brief allocate Sigmoid layer
  * 
- * @return Layer* pointer to layer
+ * @param[in] layer_param layer parameter
+ * @return Layer* pointer to layer structure
  */
 Layer *sigmoid_alloc(const LayerParameter layer_param);
 
