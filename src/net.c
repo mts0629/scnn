@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mat.h"
+
 /**
  * @brief create network
  * 
@@ -83,7 +85,16 @@ void net_forward(Net *net, float *x)
  */
 void net_backward(Net *net, float *t)
 {
-    net->layers[net->num_layers - 1]->backward(net->layers[net->num_layers - 1], t);
+    // get diff of network output
+    int out = net->layers[net->num_layers - 1]->out;
+
+    float *dy = mat_alloc(1, out);
+    float *y = net->layers[net->num_layers - 1]->y;
+
+    mat_mul_scalar(t, t, 1, out, -1);
+    mat_add(y, t, dy, 1, out);
+
+    net->layers[net->num_layers - 1]->backward(net->layers[net->num_layers - 1], dy);
 
     for (int i = (net->num_layers - 2); ; i--)
     {
@@ -94,6 +105,8 @@ void net_backward(Net *net, float *t)
             break;
         }
     }
+
+    mat_free(&dy);
 }
 
 /**

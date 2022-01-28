@@ -130,13 +130,8 @@ TEST(net, net_backward)
     net_forward(net, x);
 
     float t[] = { 0, 1 };
-    float dy[2];
-    for (int i = 0; i < 2; i++)
-    {
-        dy[i] = net->layers[2]->y[i] - t[i];
-    }
 
-    net_backward(net, dy);
+    net_backward(net, t);
 
     TEST_ASSERT_NOT_NULL(net->layers[2]->dx);
 
