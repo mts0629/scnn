@@ -16,4 +16,14 @@
  */
 float mean_squared_error(const float *y, const float *t, const int n);
 
+/**
+ * @brief cross entropy error
+ * 
+ * @param y vector of predicted values 
+ * @param t vector of target values 
+ * @param n size of vector
+ * @return float error
+ */
+float cross_entropy_error(const float *y, const float *t, const int n);
+
 #endif // LOSS_H

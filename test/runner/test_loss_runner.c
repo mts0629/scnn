@@ -8,4 +8,6 @@
 TEST_GROUP_RUNNER(loss)
 {
     RUN_TEST_CASE(loss, mean_squared_error);
+
+    RUN_TEST_CASE(loss, cross_entropy_error);
 }
