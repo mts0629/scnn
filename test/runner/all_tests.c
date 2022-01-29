@@ -18,6 +18,8 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(softmax);
 
     RUN_TEST_GROUP(net);
+
+    RUN_TEST_GROUP(loss);
 }
 
 int main(int argc, const char *argv[])
