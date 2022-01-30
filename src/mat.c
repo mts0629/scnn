@@ -143,6 +143,31 @@ float *mat_add(const float *a, const float *b, float *c, const int m, const int 
 }
 
 /**
+ * @brief subtract MxN matrix A and B: C=A+B
+ * 
+ */
+float *mat_sub(const float *a, const float *b, float *c, const int m, const int n)
+{
+    if ((a == NULL) || (b == NULL) | (c == NULL))
+    {
+        return NULL;
+    }
+
+    if ((m < 1) || (n < 1))
+    {
+        return NULL;
+    }
+
+    const int size = m * n;
+    for (int i = 0; i < size; i++)
+    {
+        c[i] = a[i] - b[i];
+    }
+
+    return c;
+}
+
+/**
  * @brief multiply MxN matrix A and NxP matrix B: C=AB
  * 
  * @param[in] a MxN matrix A

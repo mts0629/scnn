@@ -69,6 +69,18 @@ float *mat_zeros(const int m, const int n);
 float *mat_add(const float *a, const float *b, float *c, const int m, const int n);
 
 /**
+ * @brief subtract MxN matrix A and B: C=A-B
+ * 
+ * @param[in] a MxN matrix A
+ * @param[in] b MxN matrix B
+ * @param[out] c MxN matrix C
+ * @param[in] m num of rows of matrix A/B
+ * @param[in] n num of columns of matrix A/B
+ * @return float* pointer to matrix C
+ */
+float *mat_sub(const float *a, const float *b, float *c, const int m, const int n);
+
+/**
  * @brief multiply MxN matrix A and NxP matrix B: C=AB
  * 
  * @param[in] a MxN matrix A

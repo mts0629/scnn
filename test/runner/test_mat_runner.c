@@ -25,6 +25,12 @@ TEST_GROUP_RUNNER(mat)
     RUN_TEST_CASE(mat, test_mat_add_invalid_sizes);
     RUN_TEST_CASE(mat, test_mat_add_null);
 
+    RUN_TEST_CASE(mat, test_mat_sub);
+    RUN_TEST_CASE(mat, test_mat_sub_self);
+    RUN_TEST_CASE(mat, test_mat_sub_self_inplace);
+    RUN_TEST_CASE(mat, test_mat_sub_invalid_sizes);
+    RUN_TEST_CASE(mat, test_mat_sub_null);
+
     RUN_TEST_CASE(mat, test_mat_mul);
     RUN_TEST_CASE(mat, test_mat_mul_invalid_sizes);
     RUN_TEST_CASE(mat, test_mat_mul_null);

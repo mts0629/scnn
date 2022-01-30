@@ -251,6 +251,134 @@ TEST(mat, test_mat_add_null)
     TEST_ASSERT_NULL(mat_add(a, b, NULL, 3, 2));
 }
 
+TEST(mat, test_mat_sub)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[3 * 2] = {
+        -2, -1,
+        0, 1,
+        2, 3 
+    };
+
+    float c[3 * 2] = { 0 };
+
+    float ans[3 * 2] = {
+        2, 2,
+        2, 2,
+        2, 2 
+    };
+
+    float *ptr = mat_sub(a, b, c, 3, 2);
+
+    TEST_ASSERT_EQUAL_PTR(c, ptr);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, c, (3 * 2));
+}
+
+TEST(mat, test_mat_sub_self)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[3 * 2] = {
+        -2, -1,
+        0, 1,
+        2, 3 
+    };
+
+    float ans[3 * 2] = {
+        2, 2,
+        2, 2,
+        2, 2 
+    };
+
+    float *ptr = mat_sub(a, b, b, 3, 2);
+
+    TEST_ASSERT_EQUAL_PTR(b, ptr);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, b, (3 * 2));
+}
+
+TEST(mat, test_mat_sub_self_inplace)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float ans[3 * 2] = {
+        0, 0,
+        0, 0,
+        0, 0 
+    };
+
+    float *ptr = mat_sub(a, a, a, 3, 2);
+
+    TEST_ASSERT_EQUAL_PTR(a, ptr);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(ans, a, (3 * 2));
+}
+
+TEST(mat, test_mat_sub_invalid_sizes)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[3 * 2] = {
+        -2, -1,
+        0, 1,
+        2, 3 
+    };
+
+    float c[3 * 2] = { 0 };
+
+    TEST_ASSERT_NULL(mat_sub(a, b, c, 3, 0));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+
+    TEST_ASSERT_NULL(mat_sub(a, b, c, 0, 2));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+
+    TEST_ASSERT_NULL(mat_sub(a, b, c, 3, -1));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+
+    TEST_ASSERT_NULL(mat_sub(a, b, c, -1, 2));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+}
+
+TEST(mat, test_mat_sub_null)
+{
+    float a[3 * 2] = {
+        0, 1,
+        2, 3,
+        4, 5 
+    };
+
+    float b[3 * 2] = {
+        -2, -1,
+        0, 1,
+        2, 3 
+    };
+
+    float c[3 * 2] = { 0 };
+
+    TEST_ASSERT_NULL(mat_sub(NULL, b, c, 3, 2));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+
+    TEST_ASSERT_NULL(mat_sub(a, NULL, c, 3, 2));
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, c, (3 * 2));
+
+    TEST_ASSERT_NULL(mat_sub(a, b, NULL, 3, 2));
+}
+
 TEST(mat, test_mat_mul)
 {
     float a[3 * 2] = {
