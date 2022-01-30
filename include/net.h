@@ -39,7 +39,7 @@ Net *net_create(const char *name, const int length, Layer **layers);
  * @param[in,out] net network structure
  * @param[in] x network input
  */
-void net_forward(Net *net, float *x);
+void net_forward(Net *net, const float *x);
 
 /**
  * @brief backward propagation of network
@@ -47,7 +47,7 @@ void net_forward(Net *net, float *x);
  * @param[in,out] net network structure
  * @param[in] t training label
  */
-void net_backward(Net *net, float *t);
+void net_backward(Net *net, const float *t);
 
 /**
  * @brief deallocate network

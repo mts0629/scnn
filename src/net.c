@@ -64,7 +64,7 @@ Net *net_create(const char *name, const int length, Layer **layers)
  * @brief forward propagation of network
  * 
  */
-void net_forward(Net *net, float *x)
+void net_forward(Net *net, const float *x)
 {
     net->layers[0]->x = x;
 
@@ -83,7 +83,7 @@ void net_forward(Net *net, float *x)
  * @brief backward propagation of network
  * 
  */
-void net_backward(Net *net, float *t)
+void net_backward(Net *net, const float *t)
 {
     // get diff of network output
     int out = net->layers[net->num_layers - 1]->out;
@@ -91,8 +91,7 @@ void net_backward(Net *net, float *t)
     float *dy = mat_alloc(1, out);
     float *y = net->layers[net->num_layers - 1]->y;
 
-    mat_mul_scalar(t, t, 1, out, -1);
-    mat_add(y, t, dy, 1, out);
+    mat_sub(y, t, dy, 1, out);
 
     net->layers[net->num_layers - 1]->backward(net->layers[net->num_layers - 1], dy);
 
