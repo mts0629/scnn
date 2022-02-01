@@ -10,10 +10,6 @@
 
 #include "mat.h"
 
-/**
- * @brief create network
- * 
- */
 Net *net_create(const char *name, const int length, Layer **layers)
 {
     if (length < 1)
@@ -108,10 +104,6 @@ void net_backward(Net *net, const float *t)
     mat_free(&dy);
 }
 
-/**
- * @brief deallocate network
- * 
- */
 void net_free(Net **net)
 {
     Layer *layer = (*net)->layers[0];

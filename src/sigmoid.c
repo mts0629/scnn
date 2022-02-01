@@ -41,12 +41,6 @@ static void sigmoid_backward(Layer *sigmoid, const float *dy)
     }
 }
 
-/**
- * @brief allocate Sigmoid layer
- * 
- * @param layer_param layer parameter
- * @return Layer* pointer to layer
- */
 Layer *sigmoid_alloc(const LayerParameter layer_param)
 {
     if (layer_param.in < 1)

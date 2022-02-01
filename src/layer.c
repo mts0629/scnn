@@ -11,12 +11,6 @@
 
 #include "mat.h"
 
-/**
- * @brief allocate layer
- * 
- * @param[in] name layer name
- * @return Layer* pointer to layer
- */
 Layer *layer_alloc(const LayerParameter layer_param)
 {
     Layer *layer = malloc(sizeof(Layer));
@@ -48,11 +42,6 @@ Layer *layer_alloc(const LayerParameter layer_param)
     return layer;
 }
 
-/**
- * @brief deallocate layer
- * 
- * @param[out] layer address of pointer to layer
- */
 void layer_free(Layer **layer)
 {
     mat_free(&(*layer)->y);

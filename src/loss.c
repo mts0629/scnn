@@ -7,10 +7,6 @@
 
 #include <math.h>
 
-/**
- * @brief mean squared error (MSE)
- * 
- */
 float mean_squared_error(const float *y, const float *t, const int n)
 {
     float sq_err = 0;
@@ -23,10 +19,6 @@ float mean_squared_error(const float *y, const float *t, const int n)
     return 0.5 * sq_err;
 }
 
-/**
- * @brief cross entropy error
- * 
- */
 float cross_entropy_error(const float *y, const float *t, const int n)
 {
     // small value to avoid log(0)

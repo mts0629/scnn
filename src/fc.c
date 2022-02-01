@@ -36,13 +36,6 @@ static void fc_backward(Layer *fc, const float *dy)
     mat_copy(dy, 1, fc->out, fc->db);
 }
 
-
-/**
- * @brief allocate Fully connected layer
- * 
- * @param layer_param layer parameter
- * @return Layer* pointer to layer
- */
 Layer *fc_alloc(const LayerParameter layer_param)
 {
     if ((layer_param.in < 1) || (layer_param.out < 1))

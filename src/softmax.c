@@ -48,12 +48,6 @@ static void softmax_backward(Layer *softmax, const float *dy)
     }
 }
 
-/**
- * @brief allocate Softmax layer
- * 
- * @param layer_param layer parameter
- * @return Layer* pointer to layer
- */
 Layer *softmax_alloc(const LayerParameter layer_param)
 {
     if (layer_param.in < 1)
