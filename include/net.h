@@ -15,7 +15,7 @@
  * @brief network structure
  * 
  */
-typedef struct
+typedef struct Net
 {
     char name[NET_NAME_MAX_LENGTH + 1]; //!< network name
 

@@ -13,7 +13,7 @@
  * @brief basic layer structure
  * 
  */
-typedef struct Layer_tag
+typedef struct Layer
 {
     char name[LAYER_NAME_MAX_LENGTH + 1];   //!< layer name
 
@@ -34,18 +34,18 @@ typedef struct Layer_tag
     float *dw;  //!< diff of layer weight
     float *db;  //!< diff of layer bias
 
-    struct Layer_tag *prev; //!< pointer to previous layer
-    struct Layer_tag *next; //!< pointer to next layer
+    struct Layer *prev; //!< pointer to previous layer
+    struct Layer *next; //!< pointer to next layer
 
-    void (*forward)(struct Layer_tag*, const float *x);     //!< forward propagation
-    void (*backward)(struct Layer_tag*, const float *dy);   //!< backward propagation
+    void (*forward)(struct Layer*, const float *x);     //!< forward propagation
+    void (*backward)(struct Layer*, const float *dy);   //!< backward propagation
 } Layer;
 
 /**
  * @brief layer parameter structure
  * 
  */
-typedef struct
+typedef struct LayerParameter
 {
     char name[LAYER_NAME_MAX_LENGTH];   //!< layer name
 
@@ -63,11 +63,6 @@ typedef struct
  * @return Layer* poiner to layer structure
  */
 Layer *layer_alloc(const LayerParameter layer_param);
-
-/**
- * @brief deallocate layer
- * 
- */
 
 /**
  * @brief deallocate layer structure
