@@ -20,8 +20,7 @@ static void sigmoid_forward(Layer *sigmoid, const float *x)
     sigmoid->x = x;
 
     const int size = sigmoid->out;
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         sigmoid->y[i] = 1.0f / (1 + exp(-sigmoid->x[i]));
     }
 }
@@ -35,22 +34,19 @@ static void sigmoid_forward(Layer *sigmoid, const float *x)
 static void sigmoid_backward(Layer *sigmoid, const float *dy)
 {
     const int size = sigmoid->out;
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         sigmoid->dx[i] = dy[i] * (1.0f - sigmoid->y[i]) * sigmoid->y[i];
     }
 }
 
 Layer *sigmoid_alloc(const LayerParameter layer_param)
 {
-    if (layer_param.in < 1)
-    {
+    if (layer_param.in < 1) {
         return NULL;
     }
 
     Layer *layer = layer_alloc(layer_param);
-    if (layer == NULL)
-    {
+    if (layer == NULL) {
         return NULL;
     }
 
@@ -58,14 +54,12 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
 
     layer->out = layer_param.in;
     layer->y = mat_alloc(1, layer->out);
-    if (layer->y == NULL)
-    {
+    if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
     layer->dx = mat_alloc(1, layer->in);
-    if (layer->dx == NULL)
-    {
+    if (layer->dx == NULL) {
         goto LAYER_FREE;
     }
 

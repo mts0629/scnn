@@ -38,14 +38,12 @@ static void fc_backward(Layer *fc, const float *dy)
 
 Layer *fc_alloc(const LayerParameter layer_param)
 {
-    if ((layer_param.in < 1) || (layer_param.out < 1))
-    {
+    if ((layer_param.in < 1) || (layer_param.out < 1)) {
         return NULL;
     }
 
     Layer *layer = layer_alloc(layer_param);
-    if (layer == NULL)
-    {
+    if (layer == NULL) {
         return NULL;
     }
 
@@ -53,38 +51,32 @@ Layer *fc_alloc(const LayerParameter layer_param)
 
     layer->out = layer_param.out;
     layer->y = mat_alloc(1, layer->out);
-    if (layer->y == NULL)
-    {
+    if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
     layer->w = mat_alloc(layer->in, layer->out);
-    if (layer->w == NULL)
-    {
+    if (layer->w == NULL) {
         goto LAYER_FREE;
     }
 
     layer->b = mat_alloc(1, layer->out);
-    if (layer->b == NULL)
-    {
+    if (layer->b == NULL) {
         goto LAYER_FREE;
     }
 
     layer->dx = mat_alloc(1, layer->in);
-    if (layer->dx == NULL)
-    {
+    if (layer->dx == NULL) {
         goto LAYER_FREE;
     }
 
     layer->dw = mat_alloc(layer->in, layer->out);
-    if (layer->dw == NULL)
-    {
+    if (layer->dw == NULL) {
         goto LAYER_FREE;
     }
 
     layer->db = mat_alloc(1, layer->out);
-    if (layer->db == NULL)
-    {
+    if (layer->db == NULL) {
         goto LAYER_FREE;
     }
 

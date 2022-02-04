@@ -11,8 +11,7 @@ float mean_squared_error(const float *y, const float *t, const int n)
 {
     float sq_err = 0;
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         sq_err += (t[i] - y[i]) * (t[i] - y[i]);
     }
 
@@ -26,8 +25,7 @@ float cross_entropy_error(const float *y, const float *t, const int n)
 
     float err = 0;
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         err += t[i] * log(y[i] + epsilon);
     }
 

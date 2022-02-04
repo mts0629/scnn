@@ -14,8 +14,7 @@
 Layer *layer_alloc(const LayerParameter layer_param)
 {
     Layer *layer = malloc(sizeof(Layer));
-    if (layer == NULL)
-    {
+    if (layer == NULL) {
         return NULL;
     }
 

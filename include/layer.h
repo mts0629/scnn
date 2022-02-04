@@ -13,8 +13,7 @@
  * @brief basic layer structure
  * 
  */
-typedef struct Layer
-{
+typedef struct Layer {
     char name[LAYER_NAME_MAX_LENGTH + 1];   //!< layer name
 
     const float *x;   //!< layer input matrix
@@ -45,8 +44,7 @@ typedef struct Layer
  * @brief layer parameter structure
  * 
  */
-typedef struct LayerParameter
-{
+typedef struct LayerParameter {
     char name[LAYER_NAME_MAX_LENGTH];   //!< layer name
 
     int in;     //!< num of layer input
