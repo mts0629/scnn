@@ -10,7 +10,7 @@
 
 #include "mat.h"
 
-Net *net_create(const char *name, const int length, Layer **layers)
+Net *net_create(const char *name, const int length, Layer *layers[])
 {
     if (length < 1)
     {
@@ -39,7 +39,7 @@ Net *net_create(const char *name, const int length, Layer **layers)
         return NULL;
     }
 
-    net->num_layers = length;
+    net->length = length;
 
     net->layers[0] = layers[0];
 
@@ -79,19 +79,11 @@ void net_forward(Net *net, const float *x)
  * @brief backward propagation of network
  * 
  */
-void net_backward(Net *net, const float *t)
+void net_backward(Net *net, const float *dy)
 {
-    // get diff of network output
-    int out = net->layers[net->num_layers - 1]->out;
+    net->layers[net->length - 1]->backward(net->layers[net->length - 1], dy);
 
-    float *dy = mat_alloc(1, out);
-    float *y = net->layers[net->num_layers - 1]->y;
-
-    mat_sub(y, t, dy, 1, out);
-
-    net->layers[net->num_layers - 1]->backward(net->layers[net->num_layers - 1], dy);
-
-    for (int i = (net->num_layers - 2); ; i--)
+    for (int i = (net->length - 2); ; i--)
     {
         net->layers[i]->backward(net->layers[i], net->layers[i + 1]->dx);
 
@@ -100,8 +92,6 @@ void net_backward(Net *net, const float *t)
             break;
         }
     }
-
-    mat_free(&dy);
 }
 
 void net_free(Net **net)

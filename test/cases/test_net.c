@@ -36,7 +36,7 @@ TEST(net, net_create_and_free)
     TEST_ASSERT_EQUAL_CHAR_ARRAY("net", net->name, 3);
     TEST_ASSERT_NOT_NULL(net->layers);
 
-    TEST_ASSERT_EQUAL_INT(3, net->num_layers);
+    TEST_ASSERT_EQUAL_INT(3, net->length);
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY("fc", net->layers[0]->name, 2);
     TEST_ASSERT_EQUAL_INT(2, net->layers[0]->in);
@@ -131,7 +131,12 @@ TEST(net, net_backward)
 
     float t[] = { 0, 1 };
 
-    net_backward(net, t);
+    // get diff of network output
+    float dy[2];
+    float *y = net->layers[2]->y;
+    mat_sub(y, t, dy, 1, 2);
+
+    net_backward(net, dy);
 
     TEST_ASSERT_NOT_NULL(net->layers[2]->dx);
 
