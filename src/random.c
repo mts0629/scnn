@@ -5,6 +5,11 @@
  */
 #include "random.h"
 
+#include <math.h>
+
+// pi constant
+static const float PI = 3.141592;
+
 // initial seed values for XorShift with period 2^128 - 1
 // these must be initialized to not be all zero
 static uint32_t x = 123456789;
@@ -34,4 +39,18 @@ uint32_t rand_xorshift(void)
 float rand_uniform(void)
 {
     return (rand_xorshift() + 1.0f) / (UINT32_MAX + 2.0f);
+}
+
+float rand_norm(const float mean, const float std)
+{
+    // Box-Muller's method
+    // generate random numbers with norm dist. from that of uniform dist.
+    float x = (float)rand_xorshift() / UINT32_MAX;
+    float y = (float)rand_xorshift() / UINT32_MAX;
+
+    float z1 = sqrt(-2 * log(x)) * cos(2 * PI * y);
+    // only use one of the generated two values
+    //float z2 = sqrt(-2 * log(x)) * sin(2 * PI * y);
+
+    return std * z1 + mean;
 }

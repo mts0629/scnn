@@ -73,6 +73,14 @@ TEST(random, get_rand_uniform)
 {
     for (int i = 0; i < 10000; i++) {
         float rnd = rand_uniform();
-        TEST_ASSERT_FLOAT_WITHIN(0.5, 0.5, rnd);
+        TEST_ASSERT(((0.0f <= rnd) && (1.0f >= rnd)));
     }
 }
+
+// I have no idea to validate normal distribution
+//TEST(random, get_rand_norm)
+//{
+//    for (int i = 0; i < 10000; i++) {
+//        float rnd = rand_norm(0, 1);
+//    }
+//}

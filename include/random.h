@@ -29,4 +29,13 @@ uint32_t rand_xorshift(void);
  */
 float rand_uniform(void);
 
+/**
+ * @brief 
+ * 
+ * @param mean 
+ * @param std 
+ * @return float 
+ */
+float rand_norm(const float mean, const float std);
+
 #endif // RANDOM_H
