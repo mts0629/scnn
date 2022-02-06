@@ -68,3 +68,11 @@ TEST(random, get_rand_xorshift_with_diff_seed)
     TEST_ASSERT_NOT_EQUAL_UINT32(rnd_s1[1], rnd_s0[1]);
     TEST_ASSERT_NOT_EQUAL_UINT32(rnd_s1[2], rnd_s0[2]);
 }
+
+TEST(random, get_rand_uniform)
+{
+    for (int i = 0; i < 10000; i++) {
+        float rnd = rand_uniform();
+        TEST_ASSERT_FLOAT_WITHIN(0.5, 0.5, rnd);
+    }
+}

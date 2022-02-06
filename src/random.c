@@ -30,3 +30,8 @@ uint32_t rand_xorshift(void)
     w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
     return w;
 }
+
+float rand_uniform(void)
+{
+    return (rand_xorshift() + 1.0f) / (UINT32_MAX + 2.0f);
+}

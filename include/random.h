@@ -22,4 +22,11 @@ void rand_seed(uint32_t seed);
  */
 uint32_t rand_xorshift(void);
 
+/**
+ * @brief get pseudorandom number from uniform distribution [0, 1]
+ * 
+ * @return float pseudorandom number with [0, 1]
+ */
+float rand_uniform(void);
+
 #endif // RANDOM_H

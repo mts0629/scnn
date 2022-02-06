@@ -10,4 +10,6 @@ TEST_GROUP_RUNNER(random)
     RUN_TEST_CASE(random, get_rand_xorshift);
     RUN_TEST_CASE(random, get_rand_xorshift_with_same_seed);
     RUN_TEST_CASE(random, get_rand_xorshift_with_diff_seed);
+
+    RUN_TEST_CASE(random, get_rand_uniform);
 }
