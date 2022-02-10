@@ -36,8 +36,8 @@ typedef struct Layer {
     struct Layer *prev; //!< pointer to previous layer
     struct Layer *next; //!< pointer to next layer
 
-    void (*forward)(struct Layer*, const float *x);     //!< forward propagation
-    void (*backward)(struct Layer*, const float *dy);   //!< backward propagation
+    void (*forward)(struct Layer *self, const float *x);     //!< forward propagation
+    void (*backward)(struct Layer *self, const float *dy);   //!< backward propagation
 } Layer;
 
 /**

@@ -12,30 +12,30 @@
 /**
  * @brief forward propagation of Sigmoid layer
  * 
- * @param sigmoid forwarding layer
+ * @param self target layer
  * @param x layer input
  */
-static void sigmoid_forward(Layer *sigmoid, const float *x)
+static void forward(Layer *self, const float *x)
 {
-    sigmoid->x = x;
+    self->x = x;
 
-    const int size = sigmoid->out;
+    const int size = self->out;
     for (int i = 0; i < size; i++) {
-        sigmoid->y[i] = 1.0f / (1 + exp(-sigmoid->x[i]));
+        self->y[i] = 1.0f / (1 + exp(-self->x[i]));
     }
 }
 
 /**
  * @brief backward propagation of Sigmoid layer
  * 
- * @param sigmoid backwarding layer
+ * @param self target layer
  * @param dy diff of next layer
  */
-static void sigmoid_backward(Layer *sigmoid, const float *dy)
+static void backward(Layer *self, const float *dy)
 {
-    const int size = sigmoid->out;
+    const int size = self->out;
     for (int i = 0; i < size; i++) {
-        sigmoid->dx[i] = dy[i] * (1.0f - sigmoid->y[i]) * sigmoid->y[i];
+        self->dx[i] = dy[i] * (1.0f - self->y[i]) * self->y[i];
     }
 }
 
@@ -63,9 +63,9 @@ Layer *sigmoid_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
-    layer->forward = sigmoid_forward;
+    layer->forward = forward;
 
-    layer->backward = sigmoid_backward;
+    layer->backward = backward;
 
     return layer;
 

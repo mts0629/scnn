@@ -10,30 +10,30 @@
 /**
  * @brief forward propagation of Fully connected layer
  * 
- * @param fc forwarding layer
+ * @param self target layer
  * @param x layer input
  */
-static void fc_forward(Layer *fc, const float *x)
+static void forward(Layer *self, const float *x)
 {
-    fc->x = x;
+    self->x = x;
 
-    mat_mul(fc->x, fc->w, fc->y, 1, fc->in, fc->out);
-    mat_add(fc->y, fc->b, fc->y, 1, fc->out);
+    mat_mul(self->x, self->w, self->y, 1, self->in, self->out);
+    mat_add(self->y, self->b, self->y, 1, self->out);
 }
 
 /**
  * @brief backward propagation of Fully connected layer
  * 
- * @param fc backwarding layer
+ * @param self target layer
  * @param dy diff of next layer
  */
-static void fc_backward(Layer *fc, const float *dy)
+static void backward(Layer *self, const float *dy)
 {
-    mat_mul_trans_b(dy, fc->w, fc->dx, 1, fc->out, fc->in);
+    mat_mul_trans_b(dy, self->w, self->dx, 1, self->out, self->in);
 
-    mat_mul_trans_a(fc->x, dy, fc->dw, 1, fc->in, fc->out);
+    mat_mul_trans_a(self->x, dy, self->dw, 1, self->in, self->out);
 
-    mat_copy(dy, 1, fc->out, fc->db);
+    mat_copy(dy, 1, self->out, self->db);
 }
 
 Layer *fc_alloc(const LayerParameter layer_param)
@@ -80,9 +80,9 @@ Layer *fc_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
-    layer->forward = fc_forward;
+    layer->forward = forward;
 
-    layer->backward = fc_backward;
+    layer->backward = backward;
 
     return layer;
 

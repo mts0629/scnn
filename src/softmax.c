@@ -12,36 +12,36 @@
 /**
  * @brief forward propagation of Softmax layer
  * 
- * @param sigmoid forwarding layer
+ * @param self target layer
  * @param x layer input
  */
-static void softmax_forward(Layer *softmax, const float *x)
+static void forward(Layer *self, const float *x)
 {
-    softmax->x = x;
+    self->x = x;
 
-    const int size = softmax->out;
+    const int size = self->out;
 
     float sum = 0;
     for (int i = 0; i < size; i++) {
-        sum += exp(softmax->x[i]);
+        sum += exp(self->x[i]);
     }
 
     for (int i = 0; i < size; i++) {
-        softmax->y[i] = exp(softmax->x[i]) / sum;
+        self->y[i] = exp(self->x[i]) / sum;
     }
 }
 
 /**
  * @brief backward propagation of Softmax layer
  * 
- * @param softmax backwaoftding layer
+ * @param self backwaoftding layer
  * @param dy diff of output
  */
-static void softmax_backward(Layer *softmax, const float *dy)
+static void backward(Layer *self, const float *dy)
 {
     // backward with cross entropy loss
-    for (int i = 0; i < softmax->out; i++) {
-        softmax->dx[i] = dy[i];
+    for (int i = 0; i < self->out; i++) {
+        self->dx[i] = dy[i];
     }
 }
 
@@ -69,9 +69,9 @@ Layer *softmax_alloc(const LayerParameter layer_param)
         goto LAYER_FREE;
     }
 
-    layer->forward = softmax_forward;
+    layer->forward = forward;
 
-    layer->backward = softmax_backward;
+    layer->backward = backward;
 
     return layer;
 
