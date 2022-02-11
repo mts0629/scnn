@@ -11,19 +11,19 @@
  * 
  * @param y vector of predicted values 
  * @param t vector of target values 
- * @param n size of vector
+ * @param size size of vector
  * @return float error
  */
-float mean_squared_error(const float *y, const float *t, const int n);
+float mean_squared_error(const float *y, const float *t, const int size);
 
 /**
  * @brief cross entropy error
  * 
  * @param y vector of predicted values 
  * @param t vector of target values 
- * @param n size of vector
+ * @param size size of vector
  * @return float error
  */
-float cross_entropy_error(const float *y, const float *t, const int n);
+float cross_entropy_error(const float *y, const float *t, const int size);
 
 #endif // LOSS_H
