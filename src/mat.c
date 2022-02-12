@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "random.h"
+
 float *mat_alloc(const int m, const int n)
 {
     if ((m < 1) || (n < 1)) {
@@ -50,6 +52,40 @@ float *mat_zeros(const int m, const int n)
     }
 
     return mat_fill(mat, m, n, 0);
+}
+
+float *mat_randomize_uniform(float *mat, const int size)
+{
+    if (mat == NULL) {
+        return NULL;
+    }
+
+    if (size < 1) {
+        return NULL;
+    }
+
+    for (int i = 0; i < size; i++) {
+        mat[i] = rand_uniform();
+    }
+
+    return mat;
+}
+
+float *mat_randomize_norm(float *mat, const int size, const float mean, const float std)
+{
+    if (mat == NULL) {
+        return NULL;
+    }
+
+    if (size < 1) {
+        return NULL;
+    }
+
+    for (int i = 0; i < size; i++) {
+        mat[i] = rand_norm(mean, std);
+    }
+
+    return mat;
 }
 
 float *mat_copy(const float *src, const int m, const int n, float *dest)

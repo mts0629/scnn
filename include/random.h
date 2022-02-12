@@ -30,11 +30,11 @@ uint32_t rand_xorshift(void);
 float rand_uniform(void);
 
 /**
- * @brief 
+ * @brief get pseudorandom number from normal distribution with specified mean and std. dev.
  * 
- * @param mean 
- * @param std 
- * @return float 
+ * @param[in] mean mean of normal distribution
+ * @param[in] std standard deviation of normal distribution
+ * @return float pseudorandom number with normal distribution
  */
 float rand_norm(const float mean, const float std);
 

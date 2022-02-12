@@ -51,4 +51,7 @@ TEST_GROUP_RUNNER(mat)
     RUN_TEST_CASE(mat, test_mat_mul_scalar_inplace);
     RUN_TEST_CASE(mat, test_mat_mul_scalar_invalid_sizes);
     RUN_TEST_CASE(mat, test_mat_mul_scalar_null);
+
+    RUN_TEST_CASE(mat, mat_randomize_uniform);
+    RUN_TEST_CASE(mat, mat_randomize_norm);
 }

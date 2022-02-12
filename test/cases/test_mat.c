@@ -5,6 +5,8 @@
  */
 #include "mat.h"
 
+#include "random.h"
+
 #include "unity_fixture.h"
 
 TEST_GROUP(mat);
@@ -790,4 +792,52 @@ TEST(mat, test_mat_mul_scalar_null)
 
     TEST_ASSERT_NULL(mat_mul_scalar(a, NULL, 3, 2, k));
     TEST_ASSERT_EACH_EQUAL_FLOAT(0, b, (3 * 2));
+}
+
+TEST(mat, mat_randomize_uniform)
+{
+    rand_seed(0);
+
+    float *m1 = mat_alloc(1, 100);
+    float *m2 = mat_alloc(1, 100);
+
+    mat_randomize_uniform(m1, 100);
+    mat_randomize_uniform(m2, 100);
+
+    int cnt = 0;
+    for (int i = 0; i < 100; i++) {
+        if (m1[i] == m2[i]) {
+            cnt++;
+        }
+        TEST_ASSERT((m1[i] >= 0) && (m1[i] <= 1));
+        TEST_ASSERT((m2[i] >= 0) && (m2[i] <= 1));
+    }
+
+    TEST_ASSERT(cnt < 100);
+
+    mat_free(&m1);
+    mat_free(&m2);
+}
+
+TEST(mat, mat_randomize_norm)
+{
+    rand_seed(0);
+
+    float *m1 = mat_alloc(1, 100);
+    float *m2 = mat_alloc(1, 100);
+
+    mat_randomize_norm(m1, 100, 0, 1);
+    mat_randomize_norm(m2, 100, 0, 1);
+
+    int cnt = 0;
+    for (int i = 0; i < 100; i++) {
+        if (m1[i] == m2[i]) {
+            cnt++;
+        }
+    }
+
+    TEST_ASSERT(cnt < 100);
+
+    mat_free(&m1);
+    mat_free(&m2);
 }
