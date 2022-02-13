@@ -38,6 +38,8 @@ TEST(layer, layer_alloc_and_free)
     TEST_ASSERT_NULL(layer->forward);
     TEST_ASSERT_NULL(layer->backward);
 
+    TEST_ASSERT_NOT_NULL(layer->update);
+
     const float *ptr_x = layer->x;
 
     float *ptr_y = layer->y;
