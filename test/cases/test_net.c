@@ -61,6 +61,9 @@ TEST(net, net_create_and_free)
     TEST_ASSERT_EQUAL_PTR(net->layers[1], net->layers[2]->prev);
     TEST_ASSERT_NULL(net->layers[2]->next);
 
+    TEST_ASSERT_EQUAL_PTR(net->layers[0], net->input_layer);
+    TEST_ASSERT_EQUAL_PTR(net->layers[2], net->output_layer);
+
     net_free(&net);
 
     TEST_ASSERT_NULL(net);
@@ -130,8 +133,7 @@ TEST(net, net_backward)
 
     // get diff of network output
     float dy[2];
-    float *y = net->layers[2]->y;
-    mat_sub(y, t, dy, 1, 2);
+    mat_sub(net->output_layer->y, t, dy, 1, 2);
 
     net_backward(net, dy);
 

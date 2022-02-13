@@ -14,8 +14,11 @@
  * 
  */
 typedef struct Net {
-    int length; //!< num of layers
+    int length;     //!< num of layers
     Layer **layers; //!< list of layers
+
+    Layer *input_layer;     //!< input layer
+    Layer *output_layer;    //!< output layer
 } Net;
 
 /**

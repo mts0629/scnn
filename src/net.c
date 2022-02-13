@@ -46,6 +46,9 @@ Net *net_create(const int length, Layer *layers[])
         net->layers[i]->prev = net->layers[i - 1];
     }
 
+    net->input_layer = layers[0];
+    net->output_layer = layers[length - 1];
+
     return net;
 }
 
@@ -72,11 +75,10 @@ void net_forward(Net *net, const float *x)
  */
 void net_backward(Net *net, const float *dy)
 {
-    net->layers[net->length - 1]->backward(net->layers[net->length - 1], dy);
+    net->output_layer->backward(net->output_layer, dy);
 
     for (int i = (net->length - 2); ; i--) {
         net->layers[i]->backward(net->layers[i], net->layers[i + 1]->dx);
-
         if (net->layers[i]->prev == NULL) {
             break;
         }
