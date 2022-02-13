@@ -52,10 +52,6 @@ Net *net_create(const int length, Layer *layers[])
     return net;
 }
 
-/**
- * @brief forward propagation of network
- * 
- */
 void net_forward(Net *net, const float *x)
 {
     net->layers[0]->x = x;
@@ -69,10 +65,6 @@ void net_forward(Net *net, const float *x)
     }
 }
 
-/**
- * @brief backward propagation of network
- * 
- */
 void net_backward(Net *net, const float *dy)
 {
     net->output_layer->backward(net->output_layer, dy);
