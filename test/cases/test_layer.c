@@ -54,9 +54,6 @@ TEST(layer, layer_alloc_and_free)
     Layer *ptr_prev = layer->prev;
     Layer *ptr_next = layer->next;
 
-    void (*ptr_forward)(Layer*, const float *x) = layer->forward;
-    void (*ptr_backward)(Layer*, const float *dy) = layer->backward;
-
     layer_free(&layer);
 
     TEST_ASSERT_NULL(layer);
@@ -74,7 +71,4 @@ TEST(layer, layer_alloc_and_free)
 
     TEST_ASSERT_NULL(ptr_prev);
     TEST_ASSERT_NULL(ptr_next);
-
-    TEST_ASSERT_NULL(ptr_forward);
-    TEST_ASSERT_NULL(ptr_backward);
 }

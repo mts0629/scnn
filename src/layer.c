@@ -78,9 +78,6 @@ void layer_free(Layer **layer)
     (*layer)->prev = NULL;
     (*layer)->next = NULL;
 
-    (*layer)->forward = NULL;
-    (*layer)->backward = NULL;
-
     free(*layer);
     *layer = NULL;
 }
