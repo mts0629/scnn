@@ -19,14 +19,12 @@ static void forward(Layer *self, const float *x)
 {
     self->x = x;
 
-    const int size = self->out;
-
     float sum = 0;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < self->x_size; i++) {
         sum += exp(self->x[i]);
     }
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < self->x_size; i++) {
         self->y[i] = exp(self->x[i]) / sum;
     }
 }
@@ -40,7 +38,7 @@ static void forward(Layer *self, const float *x)
 static void backward(Layer *self, const float *dy)
 {
     // backward with cross entropy loss
-    for (int i = 0; i < self->out; i++) {
+    for (int i = 0; i < self->y_size; i++) {
         self->dx[i] = dy[i];
     }
 }
@@ -56,15 +54,24 @@ Layer *softmax_alloc(const LayerParameter layer_param)
         return NULL;
     }
 
-    layer->in = layer_param.in;
+    layer->x_dim[0] = 1;
+    layer->x_dim[1] = layer_param.in;
+    layer->x_dim[2] = 1;
+    layer->x_dim[3] = 1;
+    layer->x_size = layer->x_dim[0] * layer->x_dim[1] * layer->x_dim[2] * layer->x_dim[3];
 
-    layer->out = layer_param.in;
-    layer->y = mat_alloc(1, layer->out);
+    layer->y_dim[0] = 1;
+    layer->y_dim[1] = layer_param.in;
+    layer->y_dim[2] = 1;
+    layer->y_dim[3] = 1;
+    layer->y_size = layer->y_dim[0] * layer->y_dim[1] * layer->y_dim[2] * layer->y_dim[3];
+
+    layer->y = mat_alloc(1, layer_param.in);
     if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->dx = mat_alloc(1, layer->in);
+    layer->dx = mat_alloc(1, layer_param.in);
     if (layer->dx == NULL) {
         goto LAYER_FREE;
     }

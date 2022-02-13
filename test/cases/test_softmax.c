@@ -26,14 +26,18 @@ TEST(softmax, softmax_alloc_and_free)
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, softmax->name, sizeof(param.name));
 
-    TEST_ASSERT_EQUAL_INT(param.in, softmax->in);
+    TEST_ASSERT_EQUAL_INT(param.in, softmax->x_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.in, softmax->x_size);
     TEST_ASSERT_NULL(softmax->x);
 
-    TEST_ASSERT_EQUAL_INT(param.in, softmax->out);
+    TEST_ASSERT_EQUAL_INT(param.in, softmax->y_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.in, softmax->y_size);
     TEST_ASSERT_NOT_NULL(softmax->y);
 
     TEST_ASSERT_NULL(softmax->w);
+    TEST_ASSERT_EQUAL_INT(0, softmax->w_size);
     TEST_ASSERT_NULL(softmax->b);
+    TEST_ASSERT_EQUAL_INT(0, softmax->b_size);
 
     TEST_ASSERT_NOT_NULL(softmax->dx);
     TEST_ASSERT_NULL(softmax->dw);

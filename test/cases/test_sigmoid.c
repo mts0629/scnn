@@ -26,14 +26,18 @@ TEST(sigmoid, sigmoid_alloc_and_free)
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, sigmoid->name, sizeof(param.name));
 
-    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->in);
+    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->x_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->x_size);
     TEST_ASSERT_NULL(sigmoid->x);
 
-    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->out);
+    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->y_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.in, sigmoid->y_size);
     TEST_ASSERT_NOT_NULL(sigmoid->y);
 
     TEST_ASSERT_NULL(sigmoid->w);
+    TEST_ASSERT_EQUAL_INT(0, sigmoid->w_size);
     TEST_ASSERT_NULL(sigmoid->b);
+    TEST_ASSERT_EQUAL_INT(0, sigmoid->b_size);
 
     TEST_ASSERT_NOT_NULL(sigmoid->dx);
     TEST_ASSERT_NULL(sigmoid->dw);

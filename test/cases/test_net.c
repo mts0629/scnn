@@ -39,24 +39,28 @@ TEST(net, net_create_and_free)
     TEST_ASSERT_EQUAL_INT(3, net->length);
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY("fc", net->layers[0]->name, 2);
-    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->in);
-    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->out);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->x_size);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->y_size);
+    TEST_ASSERT_EQUAL_INT((2 * 10), net->layers[0]->w_size);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->b_size);
     TEST_ASSERT_NULL(net->layers[0]->x);
     TEST_ASSERT_NOT_NULL(net->layers[0]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b);
     TEST_ASSERT_NULL(net->layers[0]->prev);
     TEST_ASSERT_EQUAL_PTR(net->layers[1], net->layers[0]->next);
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY("sigmoid", net->layers[1]->name, 7);
-    TEST_ASSERT_EQUAL_INT(10, net->layers[1]->in);
-    TEST_ASSERT_EQUAL_INT(10, net->layers[1]->out);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[1]->x_size);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[1]->y_size);
     TEST_ASSERT_EQUAL_PTR(net->layers[0]->y, net->layers[1]->x);
     TEST_ASSERT_NOT_NULL(net->layers[1]->y);
     TEST_ASSERT_EQUAL_PTR(net->layers[0], net->layers[1]->prev);
     TEST_ASSERT_EQUAL_PTR(net->layers[2], net->layers[1]->next);
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY("softmax", net->layers[2]->name, 7);
-    TEST_ASSERT_EQUAL_INT(10, net->layers[2]->in);
-    TEST_ASSERT_EQUAL_INT(10, net->layers[2]->out);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[2]->x_size);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[2]->y_size);
     TEST_ASSERT_EQUAL_PTR(net->layers[1]->y, net->layers[2]->x);
     TEST_ASSERT_NOT_NULL(net->layers[2]->y);
     TEST_ASSERT_EQUAL_PTR(net->layers[1], net->layers[2]->prev);

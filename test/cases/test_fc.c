@@ -26,14 +26,18 @@ TEST(fc, fc_alloc_and_free)
 
     TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, fc->name, sizeof(param.name));
 
-    TEST_ASSERT_EQUAL_INT(param.in, fc->in);
+    TEST_ASSERT_EQUAL_INT(param.in, fc->x_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.in, fc->x_size);
 
-    TEST_ASSERT_EQUAL_INT(param.out, fc->out);
+    TEST_ASSERT_EQUAL_INT(param.out, fc->y_dim[1]);
+    TEST_ASSERT_EQUAL_INT(param.out, fc->y_size);
     TEST_ASSERT_NOT_NULL(fc->y);
 
     TEST_ASSERT_NOT_NULL(fc->w);
+    TEST_ASSERT_EQUAL_INT((param.in * param.out), fc->w_size);
 
     TEST_ASSERT_NOT_NULL(fc->b);
+    TEST_ASSERT_EQUAL_INT(param.out, fc->b_size);
 
     TEST_ASSERT_NULL(fc->prev);
     TEST_ASSERT_NULL(fc->next);
