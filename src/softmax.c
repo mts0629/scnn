@@ -49,7 +49,7 @@ Layer *softmax_alloc(const LayerParameter layer_param)
         return NULL;
     }
 
-    Layer *layer = layer_alloc(layer_param);
+    Layer *layer = layer_alloc();
     if (layer == NULL) {
         return NULL;
     }

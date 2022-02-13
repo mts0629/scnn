@@ -19,12 +19,10 @@ TEST_TEAR_DOWN(sigmoid)
 
 TEST(sigmoid, sigmoid_alloc_and_free)
 {
-    LayerParameter param = { .name = "sigmoid", .in = 10 };
+    LayerParameter param = { .in = 10 };
     Layer *sigmoid = sigmoid_alloc(param);
 
     TEST_ASSERT_NOT_NULL(sigmoid);
-
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, sigmoid->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, sigmoid->x_dim[1]);
     TEST_ASSERT_EQUAL_INT(param.in, sigmoid->x_size);
@@ -56,7 +54,7 @@ TEST(sigmoid, sigmoid_alloc_and_free)
 
 TEST(sigmoid, sigmoid_alloc_invalid_param)
 {
-    LayerParameter param = { .name = "sigmoid", .in = 0 };
+    LayerParameter param = { .in = 0 };
     Layer *sigmoid = sigmoid_alloc(param);
 
     TEST_ASSERT_NULL(sigmoid);
@@ -64,7 +62,7 @@ TEST(sigmoid, sigmoid_alloc_invalid_param)
 
 TEST(sigmoid, sigmoid_forward)
 {
-    LayerParameter param = { .name = "sigmoid", .in = 11 };
+    LayerParameter param = { .in = 11 };
     Layer *sigmoid = sigmoid_alloc(param);
 
     float x[] = {
@@ -84,7 +82,7 @@ TEST(sigmoid, sigmoid_forward)
 
 TEST(sigmoid, sigmoid_backward)
 {
-    LayerParameter param = { .name = "sigmoid", .in = 11 };
+    LayerParameter param = { .in = 11 };
     Layer *sigmoid = sigmoid_alloc(param);
 
     float x[] = {

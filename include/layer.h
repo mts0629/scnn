@@ -6,8 +6,6 @@
 #ifndef LAYER_H
 #define LAYER_H
 
-#define LAYER_NAME_MAX_LENGTH 64    //!< max length of layer name
-
 #define N_DIM 4 //!< num of data dimensions, fixed to 4 for CNN
 
 /**
@@ -16,8 +14,6 @@
  * 
  */
 typedef struct Layer {
-    char name[LAYER_NAME_MAX_LENGTH + 1];   //!< layer name
-
     const float *x;     //!< layer input matrix
     int x_dim[N_DIM];   //!< dimension of x
     int x_size;         //!< num of elements of x
@@ -50,22 +46,16 @@ typedef struct Layer {
  * 
  */
 typedef struct LayerParameter {
-    char name[LAYER_NAME_MAX_LENGTH];   //!< layer name
-
     int in;     //!< num of layer input
-    int in_h;   //!< height of layer output
-    int in_w;   //!< width of layer input
-
     int out;    //!< num of layer output
 } LayerParameter;
 
 /**
  * @brief allocate basic layer structure
  * 
- * @param[in] layer_param layer parameter
  * @return Layer* poiner to layer structure
  */
-Layer *layer_alloc(const LayerParameter layer_param);
+Layer *layer_alloc(void);
 
 /**
  * @brief deallocate layer structure

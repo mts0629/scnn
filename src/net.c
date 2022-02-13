@@ -10,7 +10,7 @@
 
 #include "mat.h"
 
-Net *net_create(const char *name, const int length, Layer *layers[])
+Net *net_create(const int length, Layer *layers[])
 {
     if (length < 1) {
         return NULL;
@@ -24,8 +24,6 @@ Net *net_create(const char *name, const int length, Layer *layers[])
     if (net == NULL) {
         return NULL;
     }
-
-    strncpy(net->name, name, NET_NAME_MAX_LENGTH);
 
     net->layers = malloc(sizeof(Layer*) * length);
     if (net->layers == NULL) {

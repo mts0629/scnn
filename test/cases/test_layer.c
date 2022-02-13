@@ -17,12 +17,9 @@ TEST_TEAR_DOWN(layer)
 
 TEST(layer, layer_alloc_and_free)
 {
-    LayerParameter param = { .name = "layer" };
-    Layer *layer = layer_alloc(param);
+    Layer *layer = layer_alloc();
 
     TEST_ASSERT_NOT_NULL(layer);
-
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, layer->name, sizeof(param.name));
 
     TEST_ASSERT_NULL(layer->x);
 

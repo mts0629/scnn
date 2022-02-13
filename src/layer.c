@@ -11,7 +11,7 @@
 
 #include "mat.h"
 
-Layer *layer_alloc(const LayerParameter layer_param)
+Layer *layer_alloc(void)
 {
     Layer *layer = malloc(sizeof(Layer));
     if (layer == NULL) {
@@ -19,8 +19,6 @@ Layer *layer_alloc(const LayerParameter layer_param)
     }
 
     // initialize basic members
-    strncpy(layer->name, layer_param.name, LAYER_NAME_MAX_LENGTH);
-
     layer->x = NULL;
 
     layer->y = NULL;

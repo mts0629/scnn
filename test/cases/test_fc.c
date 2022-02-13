@@ -19,12 +19,10 @@ TEST_TEAR_DOWN(fc)
 
 TEST(fc, fc_alloc_and_free)
 {
-    LayerParameter param = { .name = "fc", .in = 2, .out = 10 };
+    LayerParameter param = { .in = 2, .out = 10 };
     Layer *fc = fc_alloc(param);
 
     TEST_ASSERT_NOT_NULL(fc);
-
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, fc->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, fc->x_dim[1]);
     TEST_ASSERT_EQUAL_INT(param.in, fc->x_size);
@@ -51,7 +49,7 @@ TEST(fc, fc_alloc_and_free)
 
 TEST(fc, fc_alloc_invalid_param)
 {
-    LayerParameter param = { .name = "fc", .in = 0, .out = 10 };
+    LayerParameter param = { .in = 0, .out = 10 };
     Layer *fc = fc_alloc(param);
 
     TEST_ASSERT_NULL(fc);
@@ -65,7 +63,7 @@ TEST(fc, fc_alloc_invalid_param)
 
 TEST(fc, fc_forward)
 {
-    LayerParameter param = { .name = "fc", .in = 2, .out = 3 };
+    LayerParameter param = { .in = 2, .out = 3 };
     Layer *fc = fc_alloc(param);
 
     float x[] = {
@@ -97,7 +95,7 @@ TEST(fc, fc_forward)
 
 TEST(fc, fc_backward)
 {
-    LayerParameter param = { .name = "fc", .in = 2, .out = 3 };
+    LayerParameter param = { .in = 2, .out = 3 };
     Layer *fc = fc_alloc(param);
 
     float x[] = {

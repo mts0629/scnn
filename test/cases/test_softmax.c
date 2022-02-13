@@ -19,12 +19,10 @@ TEST_TEAR_DOWN(softmax)
 
 TEST(softmax, softmax_alloc_and_free)
 {
-    LayerParameter param = { .name = "softmax", .in = 10 };
+    LayerParameter param = { .in = 10 };
     Layer *softmax = softmax_alloc(param);
 
     TEST_ASSERT_NOT_NULL(softmax);
-
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(param.name, softmax->name, sizeof(param.name));
 
     TEST_ASSERT_EQUAL_INT(param.in, softmax->x_dim[1]);
     TEST_ASSERT_EQUAL_INT(param.in, softmax->x_size);
@@ -56,7 +54,7 @@ TEST(softmax, softmax_alloc_and_free)
 
 TEST(softmax, softmax_alloc_invalid_param)
 {
-    LayerParameter param = { .name = "softmax", .in = 0 };
+    LayerParameter param = { .in = 0 };
     Layer *softmax = softmax_alloc(param);
 
     TEST_ASSERT_NULL(softmax);
@@ -65,7 +63,7 @@ TEST(softmax, softmax_alloc_invalid_param)
 
 TEST(softmax, softmax_forward)
 {
-    LayerParameter param = { .name = "softmax", .in = 4 };
+    LayerParameter param = { .in = 4 };
     Layer *softmax = softmax_alloc(param);
 
     float x[] = {
@@ -85,7 +83,7 @@ TEST(softmax, softmax_forward)
 
 TEST(softmax, softmax_backward)
 {
-    LayerParameter param = { .name = "softmax", .in = 4 };
+    LayerParameter param = { .in = 4 };
     Layer *softmax = softmax_alloc(param);
 
     float x[] = {

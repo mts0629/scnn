@@ -8,16 +8,12 @@
 
 #include "layer.h"
 
-#define NET_NAME_MAX_LENGTH 32  //!< max length of network name
-
 /**
  * @struct
  * @brief network structure
  * 
  */
 typedef struct Net {
-    char name[NET_NAME_MAX_LENGTH + 1]; //!< network name
-
     int length; //!< num of layers
     Layer **layers; //!< list of layers
 } Net;
@@ -25,12 +21,11 @@ typedef struct Net {
 /**
  * @brief create network
  * 
- * @param[in] name name of network
  * @param[in] length num of layers
  * @param[in] layers array of pointer of layer struct
  * @return Net* pointer to network structure
  */
-Net *net_create(const char *name, const int length, Layer *layers[]);
+Net *net_create(const int length, Layer *layers[]);
 
 /**
  * @brief forward propagation of network
