@@ -6,6 +6,7 @@
 #include "sigmoid.h"
 
 #include <math.h>
+#include <stddef.h>
 
 #include "mat.h"
 

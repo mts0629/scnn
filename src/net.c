@@ -6,7 +6,6 @@
 #include "net.h"
 
 #include <stdlib.h>
-#include <string.h>
 
 #include "mat.h"
 

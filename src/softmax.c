@@ -6,6 +6,7 @@
 #include "softmax.h"
 
 #include <math.h>
+#include <stddef.h>
 
 #include "mat.h"
 

@@ -6,7 +6,6 @@
 #ifndef MAT_H
 #define MAT_H
 
-#include <stdlib.h>
 #include <stdbool.h>
 
 /**

@@ -5,6 +5,8 @@
  */
 #include "fc.h"
 
+#include <stddef.h>
+
 #include "mat.h"
 
 /**
