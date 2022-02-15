@@ -4,9 +4,7 @@
  * 
  */
 #include "net.h"
-#include "fc.h"
-#include "sigmoid.h"
-#include "softmax.h"
+#include "layers.h"
 #include "mat.h"
 
 #include "unity_fixture.h"
