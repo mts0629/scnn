@@ -43,7 +43,7 @@ static void backward(Layer *self, const float *dy)
     }
 }
 
-Layer *softmax_alloc(const LayerParameter layer_param)
+Layer *softmax_layer(const LayerParameter layer_param)
 {
     if (layer_param.in < 1) {
         return NULL;

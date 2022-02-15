@@ -17,10 +17,10 @@ TEST_SETUP(fc)
 TEST_TEAR_DOWN(fc)
 {}
 
-TEST(fc, fc_alloc_and_free)
+TEST(fc, fc_layer_and_free)
 {
     LayerParameter param = { .in = 2, .out = 10 };
-    Layer *fc = fc_alloc(param);
+    Layer *fc = fc_layer(param);
 
     TEST_ASSERT_NOT_NULL(fc);
 
@@ -47,16 +47,16 @@ TEST(fc, fc_alloc_and_free)
     TEST_ASSERT_NULL(fc);
 }
 
-TEST(fc, fc_alloc_invalid_param)
+TEST(fc, fc_layer_invalid_param)
 {
     LayerParameter param = { .in = 0, .out = 10 };
-    Layer *fc = fc_alloc(param);
+    Layer *fc = fc_layer(param);
 
     TEST_ASSERT_NULL(fc);
 
     param.in = 2;
     param.out = 0;
-    fc = fc_alloc(param);
+    fc = fc_layer(param);
 
     TEST_ASSERT_NULL(fc);
 }
@@ -64,7 +64,7 @@ TEST(fc, fc_alloc_invalid_param)
 TEST(fc, fc_forward)
 {
     LayerParameter param = { .in = 2, .out = 3 };
-    Layer *fc = fc_alloc(param);
+    Layer *fc = fc_layer(param);
 
     float x[] = {
         1, 1
@@ -96,7 +96,7 @@ TEST(fc, fc_forward)
 TEST(fc, fc_backward)
 {
     LayerParameter param = { .in = 2, .out = 3 };
-    Layer *fc = fc_alloc(param);
+    Layer *fc = fc_layer(param);
 
     float x[] = {
         1, 1
@@ -143,7 +143,7 @@ TEST(fc, fc_backward)
 TEST(fc, fc_update)
 {
     LayerParameter param = { .in = 2, .out = 3 };
-    Layer *fc = fc_alloc(param);
+    Layer *fc = fc_layer(param);
 
     float x[] = {
         1, 1

@@ -38,7 +38,7 @@ static void backward(Layer *self, const float *dy)
     mat_copy(dy, 1, self->b_size, self->db);
 }
 
-Layer *fc_alloc(const LayerParameter layer_param)
+Layer *fc_layer(const LayerParameter layer_param)
 {
     if ((layer_param.in < 1) || (layer_param.out < 1)) {
         return NULL;

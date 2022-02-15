@@ -14,6 +14,6 @@
  * @param[in] layer_param layer parameter
  * @return Layer* poiner to layer structure
  */
-Layer *fc_alloc(const LayerParameter layer_param);
+Layer *fc_layer(const LayerParameter layer_param);
 
 #endif // FC_H

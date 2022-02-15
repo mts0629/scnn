@@ -17,10 +17,10 @@ TEST_SETUP(sigmoid)
 TEST_TEAR_DOWN(sigmoid)
 {}
 
-TEST(sigmoid, sigmoid_alloc_and_free)
+TEST(sigmoid, sigmoid_layer_and_free)
 {
     LayerParameter param = { .in = 10 };
-    Layer *sigmoid = sigmoid_alloc(param);
+    Layer *sigmoid = sigmoid_layer(param);
 
     TEST_ASSERT_NOT_NULL(sigmoid);
 
@@ -52,10 +52,10 @@ TEST(sigmoid, sigmoid_alloc_and_free)
     TEST_ASSERT_NULL(sigmoid);
 }
 
-TEST(sigmoid, sigmoid_alloc_invalid_param)
+TEST(sigmoid, sigmoid_layer_invalid_param)
 {
     LayerParameter param = { .in = 0 };
-    Layer *sigmoid = sigmoid_alloc(param);
+    Layer *sigmoid = sigmoid_layer(param);
 
     TEST_ASSERT_NULL(sigmoid);
 }
@@ -63,7 +63,7 @@ TEST(sigmoid, sigmoid_alloc_invalid_param)
 TEST(sigmoid, sigmoid_forward)
 {
     LayerParameter param = { .in = 11 };
-    Layer *sigmoid = sigmoid_alloc(param);
+    Layer *sigmoid = sigmoid_layer(param);
 
     float x[] = {
         -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5
@@ -83,7 +83,7 @@ TEST(sigmoid, sigmoid_forward)
 TEST(sigmoid, sigmoid_backward)
 {
     LayerParameter param = { .in = 11 };
-    Layer *sigmoid = sigmoid_alloc(param);
+    Layer *sigmoid = sigmoid_layer(param);
 
     float x[] = {
         -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5

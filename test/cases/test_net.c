@@ -24,9 +24,9 @@ TEST(net, net_create_and_free)
     Net *net = net_create(
         3,
         (Layer*[]){
-            fc_alloc((LayerParameter){ .in=2, .out=10 }),
-            sigmoid_alloc((LayerParameter){ .in=10 }),
-            softmax_alloc((LayerParameter){ .in=10 })
+            fc_layer((LayerParameter){ .in=2, .out=10 }),
+            sigmoid_layer((LayerParameter){ .in=10 }),
+            softmax_layer((LayerParameter){ .in=10 })
         }
     );
 
@@ -74,9 +74,9 @@ TEST(net, net_forward)
     Net *net = net_create(
         3,
         (Layer*[]){
-            fc_alloc((LayerParameter){ .in=2, .out=2 }),
-            sigmoid_alloc((LayerParameter){ .in=2 }),
-            softmax_alloc((LayerParameter){ .in=2 })
+            fc_layer((LayerParameter){ .in=2, .out=2 }),
+            sigmoid_layer((LayerParameter){ .in=2 }),
+            softmax_layer((LayerParameter){ .in=2 })
         }
     );
 
@@ -110,9 +110,9 @@ TEST(net, net_backward)
     Net *net = net_create(
         3,
         (Layer*[]){
-            fc_alloc((LayerParameter){ .in=2, .out=2 }),
-            sigmoid_alloc((LayerParameter){ .in=2 }),
-            softmax_alloc((LayerParameter){ .in=2 })
+            fc_layer((LayerParameter){ .in=2, .out=2 }),
+            sigmoid_layer((LayerParameter){ .in=2 }),
+            softmax_layer((LayerParameter){ .in=2 })
         }
     );
 

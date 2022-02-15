@@ -14,6 +14,6 @@
  * @param[in] layer_param layer parameter
  * @return Layer* pointer to layer structure
  */
-Layer *sigmoid_alloc(const LayerParameter layer_param);
+Layer *sigmoid_layer(const LayerParameter layer_param);
 
 #endif // SIGMOID_H

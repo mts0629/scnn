@@ -14,6 +14,6 @@
  * @param[in] layer_param layer parameter
  * @return Layer* pointer to layer structure
  */
-Layer *softmax_alloc(const LayerParameter layer_param);
+Layer *softmax_layer(const LayerParameter layer_param);
 
 #endif // SOFTMAX_H

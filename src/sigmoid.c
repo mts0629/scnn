@@ -37,7 +37,7 @@ static void backward(Layer *self, const float *dy)
     }
 }
 
-Layer *sigmoid_alloc(const LayerParameter layer_param)
+Layer *sigmoid_layer(const LayerParameter layer_param)
 {
     if (layer_param.in < 1) {
         return NULL;
