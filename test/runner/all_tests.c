@@ -22,6 +22,8 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(net);
 
     RUN_TEST_GROUP(loss);
+
+    RUN_TEST_GROUP(trainer);
 }
 
 int main(int argc, const char *argv[])
