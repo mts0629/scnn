@@ -4,9 +4,7 @@
  * 
  */
 #include "data.h"
-#if 0
 #include "util.h"
-#endif
 
 #include "unity_fixture.h"
 
@@ -31,11 +29,7 @@ TEST(data, fdata_alloc)
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(arr, f, 10);
 
-#if 0
     FREE_WITH_NULL(&f);
-#endif
-    free(f);
-    f = NULL;
 
     TEST_ASSERT_NULL(f);
 }
