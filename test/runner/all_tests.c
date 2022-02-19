@@ -7,6 +7,8 @@
 
 static void RunAllTests(void)
 {
+    RUN_TEST_GROUP(data);
+
     RUN_TEST_GROUP(random);
 
     RUN_TEST_GROUP(mat);
