@@ -17,7 +17,7 @@ TEST_SETUP(mat)
 TEST_TEAR_DOWN(mat)
 {}
 
-TEST(mat, test_mat_alloc_and_free)
+/*TEST(mat, test_mat_alloc_and_free)
 {
     float *mat = mat_alloc(2, 3);
     TEST_ASSERT_NOT_NULL(mat);
@@ -123,7 +123,7 @@ TEST(mat, test_mat_zeros)
     TEST_ASSERT_EACH_EQUAL_FLOAT(0, mat, (2 * 3));
 
     mat_free(&mat);
-}
+}*/
 
 TEST(mat, test_mat_add)
 {
@@ -798,8 +798,8 @@ TEST(mat, mat_randomize_uniform)
 {
     rand_seed(0);
 
-    float *m1 = mat_alloc(1, 100);
-    float *m2 = mat_alloc(1, 100);
+    float m1[100];
+    float m2[100];
 
     mat_randomize_uniform(m1, 100);
     mat_randomize_uniform(m2, 100);
@@ -814,17 +814,14 @@ TEST(mat, mat_randomize_uniform)
     }
 
     TEST_ASSERT(cnt < 100);
-
-    mat_free(&m1);
-    mat_free(&m2);
 }
 
 TEST(mat, mat_randomize_norm)
 {
     rand_seed(0);
 
-    float *m1 = mat_alloc(1, 100);
-    float *m2 = mat_alloc(1, 100);
+    float m1[100];
+    float m2[100];
 
     mat_randomize_norm(m1, 100, 0, 1);
     mat_randomize_norm(m2, 100, 0, 1);
@@ -837,7 +834,4 @@ TEST(mat, mat_randomize_norm)
     }
 
     TEST_ASSERT(cnt < 100);
-
-    mat_free(&m1);
-    mat_free(&m2);
 }

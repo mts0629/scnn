@@ -7,6 +7,8 @@
 
 #include <stdlib.h>
 
+#include "data.h"
+#include "util.h"
 #include "mat.h"
 
 Net *net_create(const int length, Layer *layers[])
@@ -26,9 +28,7 @@ Net *net_create(const int length, Layer *layers[])
 
     net->layers = malloc(sizeof(Layer*) * length);
     if (net->layers == NULL) {
-        free(net);
-        net = NULL;
-
+        FREE_WITH_NULL(net);
         return NULL;
     }
 
@@ -86,6 +86,5 @@ void net_free(Net **net)
         layer = next;
     }
 
-    free(*net);
-    *net = NULL;
+    FREE_WITH_NULL(net);
 }

@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 
+#include "data.h"
+#include "util.h"
 #include "mat.h"
 
 /**
@@ -65,18 +67,17 @@ Layer *layer_alloc(void)
 
 void layer_free(Layer **layer)
 {
-    mat_free(&(*layer)->y);
+    FREE_WITH_NULL(&(*layer)->y);
 
-    mat_free(&(*layer)->w);
-    mat_free(&(*layer)->b);
+    FREE_WITH_NULL(&(*layer)->w);
+    FREE_WITH_NULL(&(*layer)->b);
 
-    mat_free(&(*layer)->dx);
-    mat_free(&(*layer)->dw);
-    mat_free(&(*layer)->db);
+    FREE_WITH_NULL(&(*layer)->dx);
+    FREE_WITH_NULL(&(*layer)->dw);
+    FREE_WITH_NULL(&(*layer)->db);
 
     (*layer)->prev = NULL;
     (*layer)->next = NULL;
 
-    free(*layer);
-    *layer = NULL;
+    FREE_WITH_NULL(layer);
 }

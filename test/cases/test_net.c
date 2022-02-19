@@ -3,6 +3,7 @@
  * @brief unit test of net.c
  * 
  */
+#include "data.h"
 #include "net.h"
 #include "layers.h"
 #include "mat.h"
@@ -82,10 +83,10 @@ TEST(net, net_forward)
         1, 2,
         3, 4
     };
-    mat_copy(w, 2, 2, net->layers[0]->w);
+    fdata_copy(w, net->layers[0]->w_size, net->layers[0]->w);
 
     float b[] = { 0, 1 };
-    mat_copy(b, 1, 2, net->layers[0]->b);
+    fdata_copy(b, net->layers[0]->b_size, net->layers[0]->b);
 
     float x[] = { 0.1, 0.2 };
 
@@ -118,10 +119,10 @@ TEST(net, net_backward)
         1, 2,
         3, 4
     };
-    mat_copy(w, 2, 2, net->layers[0]->w);
+    fdata_copy(w, net->layers[0]->w_size, net->layers[0]->w);
 
     float b[] = { 0, 1 };
-    mat_copy(b, 1, 2, net->layers[0]->b);
+    fdata_copy(b, net->layers[0]->b_size, net->layers[0]->b);
 
     float x[] = { 0.1, 0.2 };
 

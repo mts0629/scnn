@@ -9,53 +9,6 @@
 #include <stdbool.h>
 
 /**
- * @brief allocate MxN matrix
- * 
- * @param[in] m num of rows
- * @param[in] n  num of columns
- * @return float* pointer to matrix
- */
-float *mat_alloc(const int m, const int n);
-
-/**
- * @brief deallocate matrix
- * 
- * @param[out] mat address of pointer to matrix
- */
-void mat_free(float **mat);
-
-/**
- * @brief copy MxN matrix data
- * 
- * @param[in] src src MxN matrix
- * @param[in] m matrix rows
- * @param[in] n matrix columns
- * @param[out] dst dest MxN matrix
- * @return float* pointer to dest matrix
- */
-float *mat_copy(const float *src, const int m, const int n, float* dest);
-
-/**
- * @brief fill MxN matrix with specified value
- * 
- * @param[out] mat target matrix
- * @param[in] m num of rows
- * @param[in] n  num of columns
- * @param[in] value filling value
- * @return float* pointer to matrix
- */
-float *mat_fill(float *mat, const int m, const int n, const float value);
-
-/**
- * @brief allocate MxN matrix filled with 0
- * 
- * @param[in] m num of rows
- * @param[in] n  num of columns
- * @return float* pointer to matrix
- */
-float *mat_zeros(const int m, const int n);
-
-/**
  * @brief randomize matrix with uniform distribution [0, 1]
  * 
  * @param[out] mat target matrix

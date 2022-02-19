@@ -5,6 +5,7 @@
  */
 #include "fc.h"
 
+#include "data.h"
 #include "mat.h"
 
 #include "unity_fixture.h"
@@ -83,8 +84,8 @@ TEST(fc, fc_forward)
         4, 6, 8
     };
 
-    mat_copy(w, 2, 3, fc->w);
-    mat_copy(b, 1, 3, fc->b);
+    fdata_copy(w, fc->w_size, fc->w);
+    fdata_copy(b, fc->b_size, fc->b);
 
     fc->forward(fc, x);
 
@@ -111,8 +112,8 @@ TEST(fc, fc_backward)
         1, 1, 1
     };
 
-    mat_copy(w, 2, 3, fc->w);
-    mat_copy(b, 1, 3, fc->b);
+    fdata_copy(w, fc->w_size, fc->w);
+    fdata_copy(b, fc->b_size, fc->b);
 
     fc->forward(fc, x);
 
@@ -135,9 +136,9 @@ TEST(fc, fc_backward)
         8, 12, 16
     };
 
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dx_ans, fc->dx, (1 * 2));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dw_ans, fc->dw, (2 * 3));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(db_ans, fc->db, (1 * 3));
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dx_ans, fc->dx, fc->x_size);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dw_ans, fc->dw, fc->w_size);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(db_ans, fc->db, fc->b_size);
 }
 
 TEST(fc, fc_update)
@@ -158,8 +159,8 @@ TEST(fc, fc_update)
         1, 1, 1
     };
 
-    mat_copy(w, 2, 3, fc->w);
-    mat_copy(b, 1, 3, fc->b);
+    fdata_copy(w, fc->w_size, fc->w);
+    fdata_copy(b, fc->b_size, fc->b);
 
     fc->forward(fc, x);
 
@@ -174,25 +175,12 @@ TEST(fc, fc_update)
     float w_updated_ans[] = {
         -0.08, 0.88, 1.84,
         2.92, 3.88, 4.84
-        //3 4 5
-        //0.08, 0.12, 0.16
     };
 
     float b_updated_ans[] = {
         0.92, 0.88, 0.84
-        //1, 1, 1
-        //0.08, 0.12, 0.16
     };
 
-    //float w[] = {
-    //    0, 1, 2,
-    //    3, 4, 5
-    //};
-
-    //float b[] = {
-    //    1, 1, 1
-    //};
-
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(w_updated_ans, fc->w, (2 * 3));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(b_updated_ans, fc->b, (1 * 3));
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(w_updated_ans, fc->w, fc->w_size);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(b_updated_ans, fc->b, fc->b_size);
 }

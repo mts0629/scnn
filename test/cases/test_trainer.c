@@ -33,11 +33,11 @@ TEST(trainer, train_sgd)
         }
     );
 
-    mat_randomize_norm(net->layers[0]->w, (net->layers[0]->x_dim[1] * net->layers[0]->y_dim[1]), 0, 1);
-    mat_randomize_norm(net->layers[0]->b, net->layers[0]->y_dim[1], 0, 1);
+    mat_randomize_norm(net->layers[0]->w, net->layers[0]->w_size, 0, 1);
+    mat_randomize_norm(net->layers[0]->b, net->layers[0]->b_size, 0, 1);
 
-    mat_randomize_norm(net->layers[2]->w, (net->layers[2]->x_dim[1] * net->layers[2]->y_dim[1]), 0, 1);
-    mat_randomize_norm(net->layers[2]->b, net->layers[2]->y_dim[1], 0, 1);
+    mat_randomize_norm(net->layers[2]->w, net->layers[2]->w_size, 0, 1);
+    mat_randomize_norm(net->layers[2]->b, net->layers[2]->b_size, 0, 1);
 
     float *x[] = {
         (float[2]){ 0, 0 },

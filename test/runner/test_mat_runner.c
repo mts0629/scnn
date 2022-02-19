@@ -7,18 +7,6 @@
 
 TEST_GROUP_RUNNER(mat)
 {
-    RUN_TEST_CASE(mat, test_mat_alloc_and_free);
-    RUN_TEST_CASE(mat, test_mat_alloc_invalid_sizes);
-    RUN_TEST_CASE(mat, test_mat_free_null);
-
-    RUN_TEST_CASE(mat, test_mat_copy);
-    RUN_TEST_CASE(mat, test_mat_copy_invalid_sizes);
-    RUN_TEST_CASE(mat, test_mat_copy_null);
-
-    RUN_TEST_CASE(mat, test_mat_fill);
-
-    RUN_TEST_CASE(mat, test_mat_zeros);
-
     RUN_TEST_CASE(mat, test_mat_add);
     RUN_TEST_CASE(mat, test_mat_add_accumulate);
     RUN_TEST_CASE(mat, test_mat_add_accumulate_inplace);

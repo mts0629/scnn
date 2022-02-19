@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "data.h"
+#include "util.h"
 #include "mat.h"
 #include "random.h"
 
@@ -52,7 +54,7 @@ void train_sgd(Net *net,
     float (*loss_func)(const float*, const float*, const int))
 {
     // allocate dy
-    float *dy = mat_alloc(1, net->output_layer->y_size);
+    float *dy = fdata_alloc(net->output_layer->y_size);
 
     // create indices of learning data
     int *indices = malloc(sizeof(int) * data_size);
@@ -86,9 +88,7 @@ void train_sgd(Net *net,
         printf("epoch [%d] loss=%f\n", i, loss);
     }
 
-    free(indices);
-    indices = NULL;
+    FREE_WITH_NULL(&indices);
 
-    free(batch_indices);
-    batch_indices = NULL;
+    FREE_WITH_NULL(&batch_indices);
 }

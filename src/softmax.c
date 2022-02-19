@@ -6,8 +6,8 @@
 #include "softmax.h"
 
 #include <math.h>
-#include <stddef.h>
 
+#include "data.h"
 #include "mat.h"
 
 /**
@@ -67,12 +67,12 @@ Layer *softmax_layer(const LayerParameter layer_param)
     layer->y_dim[3] = 1;
     layer->y_size = layer->y_dim[0] * layer->y_dim[1] * layer->y_dim[2] * layer->y_dim[3];
 
-    layer->y = mat_alloc(1, layer_param.in);
+    layer->y = fdata_alloc(layer_param.in);
     if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->dx = mat_alloc(1, layer_param.in);
+    layer->dx = fdata_alloc(layer_param.in);
     if (layer->dx == NULL) {
         goto LAYER_FREE;
     }
