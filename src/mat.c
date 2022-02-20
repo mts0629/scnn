@@ -7,42 +7,6 @@
 
 #include <stddef.h>
 
-#include "random.h"
-
-float *mat_randomize_uniform(float *mat, const int size)
-{
-    if (mat == NULL) {
-        return NULL;
-    }
-
-    if (size < 1) {
-        return NULL;
-    }
-
-    for (int i = 0; i < size; i++) {
-        mat[i] = rand_uniform();
-    }
-
-    return mat;
-}
-
-float *mat_randomize_norm(float *mat, const int size, const float mean, const float std)
-{
-    if (mat == NULL) {
-        return NULL;
-    }
-
-    if (size < 1) {
-        return NULL;
-    }
-
-    for (int i = 0; i < size; i++) {
-        mat[i] = rand_norm(mean, std);
-    }
-
-    return mat;
-}
-
 float *mat_add(const float *a, const float *b, float *c, const int m, const int n)
 {
     if ((a == NULL) || (b == NULL) | (c == NULL)) {

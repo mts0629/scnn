@@ -3,6 +3,7 @@
  * @brief unit test of trainer.c
  * 
  */
+#include "data.h"
 #include "layers.h"
 #include "mat.h"
 #include "trainer.h"
@@ -33,11 +34,11 @@ TEST(trainer, train_sgd)
         }
     );
 
-    mat_randomize_norm(net->layers[0]->w, net->layers[0]->w_size, 0, 1);
-    mat_randomize_norm(net->layers[0]->b, net->layers[0]->b_size, 0, 1);
+    fdata_rand_norm(net->layers[0]->w, net->layers[0]->w_size, 0, 1);
+    fdata_rand_norm(net->layers[0]->b, net->layers[0]->b_size, 0, 1);
 
-    mat_randomize_norm(net->layers[2]->w, net->layers[2]->w_size, 0, 1);
-    mat_randomize_norm(net->layers[2]->b, net->layers[2]->b_size, 0, 1);
+    fdata_rand_norm(net->layers[2]->w, net->layers[2]->w_size, 0, 1);
+    fdata_rand_norm(net->layers[2]->b, net->layers[2]->b_size, 0, 1);
 
     float *x[] = {
         (float[2]){ 0, 0 },

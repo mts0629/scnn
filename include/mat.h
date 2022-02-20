@@ -9,26 +9,6 @@
 #include <stdbool.h>
 
 /**
- * @brief randomize matrix with uniform distribution [0, 1]
- * 
- * @param[out] mat target matrix
- * @param[in] size size of matrix
- * @return float* pointer to matrix
- */
-float *mat_randomize_uniform(float *mat, const int size);
-
-/**
- * @brief randomize matrix with normal distribution
- * 
- * @param[out] mat target matrix
- * @param[in] size size of matrix
- * @param[in] mean mean of normal distribution
- * @param[in] std standard deviation of normal distribution
- * @return float* pointer to matrix
- */
-float *mat_randomize_norm(float *mat, const int size, const float mean, const float std);
-
-/**
  * @brief add MxN matrix A and B: C=A+B
  * 
  * @param[in] a MxN matrix A

@@ -5,8 +5,6 @@
  */
 #include "mat.h"
 
-#include "random.h"
-
 #include "unity_fixture.h"
 
 TEST_GROUP(mat);
@@ -16,114 +14,6 @@ TEST_SETUP(mat)
 
 TEST_TEAR_DOWN(mat)
 {}
-
-/*TEST(mat, test_mat_alloc_and_free)
-{
-    float *mat = mat_alloc(2, 3);
-    TEST_ASSERT_NOT_NULL(mat);
-
-    mat_free(&mat);
-    TEST_ASSERT_NULL(mat);
-}
-
-TEST(mat, test_mat_alloc_invalid_sizes)
-{
-    TEST_ASSERT_NULL(mat_alloc(0, 1));
-
-    TEST_ASSERT_NULL(mat_alloc(1, 0));
-}
-
-TEST(mat, test_mat_free_null)
-{
-    float *mat = NULL;
-
-    mat_free(&mat);
-    TEST_ASSERT_NULL(mat);
-}
-
-TEST(mat, test_mat_copy)
-{
-    float *dst = mat_alloc(2, 3);
-
-    float src[2 * 3] = {
-        0, 1, 2,
-        3, 4, 5
-    };
-
-    float *ptr = mat_copy(src, 2, 3, dst);
-
-    TEST_ASSERT_NOT_NULL(ptr);
-    TEST_ASSERT_EQUAL_PTR(dst, ptr);
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(src, dst, (2 * 3));
-
-    mat_free(&dst);
-}
-
-TEST(mat, test_mat_copy_invalid_sizes)
-{
-    float *dst = mat_alloc(2, 3);
-
-    float zeros[2 * 3] = { 0 };
-
-    mat_copy(zeros, 2, 3, dst);
-
-    float src[2 * 3] = {
-        0, 1, 2,
-        3, 4, 5
-    };
-
-    TEST_ASSERT_NULL(mat_copy(src, 0, 3, dst));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(zeros, dst, (2 * 3));
-
-    TEST_ASSERT_NULL(mat_copy(src, 2, 0, dst));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(zeros, dst, (2 * 3));
-
-    mat_free(&dst);
-}
-
-TEST(mat, test_mat_copy_null)
-{
-    float *dst = mat_alloc(2, 3);
-
-    float dst_vals[2 * 3] = {
-        0, 1, 2,
-        3, 4, 5
-    };
-
-    mat_copy(dst_vals, 2, 3, dst);
-
-    TEST_ASSERT_NULL(mat_copy(NULL, 2, 3, dst));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dst_vals, dst, (2 * 3));
-
-    float zeros[2 * 3] = { 0 };
-
-    TEST_ASSERT_NULL(mat_copy(zeros, 2, 3, NULL));
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(dst_vals, dst, (2 * 3));
-
-    mat_free(&dst);
-}
-
-TEST(mat, test_mat_fill)
-{
-    float *mat = mat_alloc(2, 3);
-
-    TEST_ASSERT_EQUAL_PTR(mat, mat_fill(mat, 2, 3, 1));
-
-    TEST_ASSERT_EACH_EQUAL_FLOAT(1, mat, (2 * 3));
-
-    mat_free(&mat);
-}
-
-TEST(mat, test_mat_zeros)
-{
-    float *mat = mat_zeros(2, 3);
-
-    TEST_ASSERT_NOT_NULL(mat);
-
-    TEST_ASSERT_EACH_EQUAL_FLOAT(0, mat, (2 * 3));
-
-    mat_free(&mat);
-}*/
 
 TEST(mat, test_mat_add)
 {
@@ -792,46 +682,4 @@ TEST(mat, test_mat_mul_scalar_null)
 
     TEST_ASSERT_NULL(mat_mul_scalar(a, NULL, 3, 2, k));
     TEST_ASSERT_EACH_EQUAL_FLOAT(0, b, (3 * 2));
-}
-
-TEST(mat, mat_randomize_uniform)
-{
-    rand_seed(0);
-
-    float m1[100];
-    float m2[100];
-
-    mat_randomize_uniform(m1, 100);
-    mat_randomize_uniform(m2, 100);
-
-    int cnt = 0;
-    for (int i = 0; i < 100; i++) {
-        if (m1[i] == m2[i]) {
-            cnt++;
-        }
-        TEST_ASSERT((m1[i] >= 0) && (m1[i] <= 1));
-        TEST_ASSERT((m2[i] >= 0) && (m2[i] <= 1));
-    }
-
-    TEST_ASSERT(cnt < 100);
-}
-
-TEST(mat, mat_randomize_norm)
-{
-    rand_seed(0);
-
-    float m1[100];
-    float m2[100];
-
-    mat_randomize_norm(m1, 100, 0, 1);
-    mat_randomize_norm(m2, 100, 0, 1);
-
-    int cnt = 0;
-    for (int i = 0; i < 100; i++) {
-        if (m1[i] == m2[i]) {
-            cnt++;
-        }
-    }
-
-    TEST_ASSERT(cnt < 100);
 }

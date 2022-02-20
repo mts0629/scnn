@@ -10,4 +10,7 @@ TEST_GROUP_RUNNER(data)
     RUN_TEST_CASE(data, fdata_alloc);
 
     RUN_TEST_CASE(data, fdata_copy);
+
+    RUN_TEST_CASE(data, fdata_rand_uniform);
+    RUN_TEST_CASE(data, fdata_rand_norm);
 }
