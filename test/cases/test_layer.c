@@ -21,6 +21,8 @@ TEST(layer, layer_alloc_and_free)
 
     TEST_ASSERT_NOT_NULL(layer);
 
+    TEST_ASSERT_EQUAL(-1, layer->id);
+
     TEST_ASSERT_NULL(layer->x);
 
     TEST_ASSERT_NULL(layer->y);
@@ -32,8 +34,8 @@ TEST(layer, layer_alloc_and_free)
     TEST_ASSERT_NULL(layer->dw);
     TEST_ASSERT_NULL(layer->db);
 
-    TEST_ASSERT_NULL(layer->prev);
-    TEST_ASSERT_NULL(layer->next);
+    TEST_ASSERT_EQUAL_INT(-1, layer->prev_id);
+    TEST_ASSERT_EQUAL_INT(-1, layer->next_id);
 
     TEST_ASSERT_NULL(layer->forward);
     TEST_ASSERT_NULL(layer->backward);
@@ -51,9 +53,6 @@ TEST(layer, layer_alloc_and_free)
     float *ptr_dw = layer->dw;
     float *ptr_db = layer->db;
 
-    Layer *ptr_prev = layer->prev;
-    Layer *ptr_next = layer->next;
-
     layer_free(&layer);
 
     TEST_ASSERT_NULL(layer);
@@ -68,7 +67,4 @@ TEST(layer, layer_alloc_and_free)
     TEST_ASSERT_NULL(ptr_dx);
     TEST_ASSERT_NULL(ptr_dw);
     TEST_ASSERT_NULL(ptr_db);
-
-    TEST_ASSERT_NULL(ptr_prev);
-    TEST_ASSERT_NULL(ptr_next);
 }

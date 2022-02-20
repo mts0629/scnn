@@ -43,6 +43,8 @@ Layer *layer_alloc(void)
     }
 
     // initialize basic members
+    layer->id = -1;
+
     layer->x = NULL;
 
     layer->y = NULL;
@@ -54,8 +56,8 @@ Layer *layer_alloc(void)
     layer->dw = NULL;
     layer->db = NULL;
 
-    layer->prev = NULL;
-    layer->next = NULL;
+    layer->prev_id = -1;
+    layer->next_id = -1;
 
     layer->forward = NULL;
     layer->backward = NULL;
@@ -75,9 +77,6 @@ void layer_free(Layer **layer)
     FREE_WITH_NULL(&(*layer)->dx);
     FREE_WITH_NULL(&(*layer)->dw);
     FREE_WITH_NULL(&(*layer)->db);
-
-    (*layer)->prev = NULL;
-    (*layer)->next = NULL;
 
     FREE_WITH_NULL(layer);
 }

@@ -41,8 +41,8 @@ TEST(sigmoid, sigmoid_layer_and_free)
     TEST_ASSERT_NULL(sigmoid->dw);
     TEST_ASSERT_NULL(sigmoid->db);
 
-    TEST_ASSERT_NULL(sigmoid->prev);
-    TEST_ASSERT_NULL(sigmoid->next);
+    TEST_ASSERT_EQUAL_INT(-1, sigmoid->prev_id);
+    TEST_ASSERT_EQUAL_INT(-1, sigmoid->next_id);
 
     TEST_ASSERT_NOT_NULL(sigmoid->forward);
     TEST_ASSERT_NOT_NULL(sigmoid->backward);

@@ -41,8 +41,8 @@ TEST(softmax, softmax_layer_and_free)
     TEST_ASSERT_NULL(softmax->dw);
     TEST_ASSERT_NULL(softmax->db);
 
-    TEST_ASSERT_NULL(softmax->prev);
-    TEST_ASSERT_NULL(softmax->next);
+    TEST_ASSERT_EQUAL_INT(-1, softmax->prev_id);
+    TEST_ASSERT_EQUAL_INT(-1, softmax->next_id);
 
     TEST_ASSERT_NOT_NULL(softmax->forward);
     TEST_ASSERT_NOT_NULL(softmax->backward);

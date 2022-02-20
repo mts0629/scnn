@@ -33,7 +33,7 @@ TEST(net, net_create_and_free)
 
     TEST_ASSERT_NOT_NULL(net->layers);
 
-    TEST_ASSERT_EQUAL_INT(3, net->length);
+    TEST_ASSERT_EQUAL_INT(3, net->size);
 
     TEST_ASSERT_EQUAL_INT(2, net->layers[0]->x_size);
     TEST_ASSERT_EQUAL_INT(10, net->layers[0]->y_size);
@@ -43,22 +43,22 @@ TEST(net, net_create_and_free)
     TEST_ASSERT_NOT_NULL(net->layers[0]->y);
     TEST_ASSERT_NOT_NULL(net->layers[0]->w);
     TEST_ASSERT_NOT_NULL(net->layers[0]->b);
-    TEST_ASSERT_NULL(net->layers[0]->prev);
-    TEST_ASSERT_EQUAL_PTR(net->layers[1], net->layers[0]->next);
+    TEST_ASSERT_EQUAL_INT(-1, net->layers[0]->prev_id);
+    TEST_ASSERT_EQUAL_INT(net->layers[1]->id, net->layers[0]->next_id);
 
     TEST_ASSERT_EQUAL_INT(10, net->layers[1]->x_size);
     TEST_ASSERT_EQUAL_INT(10, net->layers[1]->y_size);
     TEST_ASSERT_EQUAL_PTR(net->layers[0]->y, net->layers[1]->x);
     TEST_ASSERT_NOT_NULL(net->layers[1]->y);
-    TEST_ASSERT_EQUAL_PTR(net->layers[0], net->layers[1]->prev);
-    TEST_ASSERT_EQUAL_PTR(net->layers[2], net->layers[1]->next);
+    TEST_ASSERT_EQUAL_INT(net->layers[0]->id, net->layers[1]->prev_id);
+    TEST_ASSERT_EQUAL_INT(net->layers[2]->id, net->layers[1]->next_id);
 
     TEST_ASSERT_EQUAL_INT(10, net->layers[2]->x_size);
     TEST_ASSERT_EQUAL_INT(10, net->layers[2]->y_size);
     TEST_ASSERT_EQUAL_PTR(net->layers[1]->y, net->layers[2]->x);
     TEST_ASSERT_NOT_NULL(net->layers[2]->y);
-    TEST_ASSERT_EQUAL_PTR(net->layers[1], net->layers[2]->prev);
-    TEST_ASSERT_NULL(net->layers[2]->next);
+    TEST_ASSERT_EQUAL_INT(net->layers[1]->id, net->layers[2]->prev_id);
+    TEST_ASSERT_EQUAL_INT(-1, net->layers[2]->next_id);
 
     TEST_ASSERT_EQUAL_PTR(net->layers[0], net->input_layer);
     TEST_ASSERT_EQUAL_PTR(net->layers[2], net->output_layer);

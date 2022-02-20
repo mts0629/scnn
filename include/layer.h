@@ -14,6 +14,8 @@
  * 
  */
 typedef struct Layer {
+    int id;             //!< layer ID internal network
+
     const float *x;     //!< layer input matrix
     int x_dim[N_DIM];   //!< dimension of x
     int x_size;         //!< num of elements of x
@@ -34,8 +36,8 @@ typedef struct Layer {
     float *dw;  //!< differential of w
     float *db;  //!< differential of b
 
-    struct Layer *prev; //!< pointer to previous layer
-    struct Layer *next; //!< pointer to next layer
+    int prev_id;    //!< ID of previous layer
+    int next_id;    //!< ID of next layer
 
     void (*forward)(struct Layer *self, const float *x);     //!< forward propagation
     void (*backward)(struct Layer *self, const float *dy);   //!< backward propagation

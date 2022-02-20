@@ -14,7 +14,7 @@
  * 
  */
 typedef struct Net {
-    int length;     //!< num of layers
+    int size;       //!< num of layers
     Layer **layers; //!< list of layers
 
     Layer *input_layer;     //!< input layer
@@ -24,11 +24,11 @@ typedef struct Net {
 /**
  * @brief create network
  * 
- * @param[in] length num of layers
+ * @param[in] size num of layers
  * @param[in] layers array of pointer of layer struct
  * @return Net* pointer to network structure
  */
-Net *net_create(const int length, Layer *layers[]);
+Net *net_create(const int size, Layer *layers[]);
 
 /**
  * @brief forward propagation of network

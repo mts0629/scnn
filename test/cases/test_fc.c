@@ -38,8 +38,8 @@ TEST(fc, fc_layer_and_free)
     TEST_ASSERT_NOT_NULL(fc->b);
     TEST_ASSERT_EQUAL_INT(param.out, fc->b_size);
 
-    TEST_ASSERT_NULL(fc->prev);
-    TEST_ASSERT_NULL(fc->next);
+    TEST_ASSERT_EQUAL_INT(-1, fc->prev_id);
+    TEST_ASSERT_EQUAL_INT(-1, fc->next_id);
 
     TEST_ASSERT_NOT_NULL(fc->forward);
 

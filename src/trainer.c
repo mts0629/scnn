@@ -79,13 +79,13 @@ void train_sgd(Net *net,
             net_backward(net, dy);
 
             // update network parameters
-            for (int n = 0; n < net->length; n++) {
+            for (int n = 0; n < net->size; n++) {
                 Layer *layer = net->layers[n];
                 layer->update(layer, learning_rate);
             }
         }
 
-        printf("epoch [%d] loss=%f\n", i, loss);
+        //printf("epoch [%d] loss=%f\n", i, loss);
     }
 
     FREE_WITH_NULL(&indices);
