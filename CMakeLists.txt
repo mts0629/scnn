@@ -13,4 +13,7 @@ set(TARGET_GROUP test)
 if(TARGET_GROUP STREQUAL release)
 elseif(TARGET_GROUP STREQUAL test)
     add_subdirectory(test)
+elseif(TARGET_GROUP STREQUAL example)
+    add_subdirectory(example)
 endif()
+
