@@ -88,6 +88,8 @@ void train_sgd(Net *net,
         //printf("epoch [%d] loss=%f\n", i, loss);
     }
 
+    FREE_WITH_NULL(&dy);
+
     FREE_WITH_NULL(&indices);
 
     FREE_WITH_NULL(&batch_indices);
