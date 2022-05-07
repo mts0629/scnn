@@ -57,6 +57,13 @@ Net *net_create(const int size, Layer *layers[])
     return net;
 }
 
+void net_init_layer_params(Net *net)
+{
+    for (int i = 0; i < net->size; i++) {
+        net->layers[i]->init_params(net->layers[i]);
+    }
+}
+
 void net_forward(Net *net, const float *x)
 {
     Layer *layer = net->layers[0];

@@ -7,6 +7,8 @@
 #include "net.h"
 #include "layers.h"
 #include "mat.h"
+#include "random.h"
+#include "util.h"
 
 #include "unity_fixture.h"
 
@@ -66,6 +68,44 @@ TEST(net, net_create_and_free)
     net_free(&net);
 
     TEST_ASSERT_NULL(net);
+}
+
+TEST(net, net_init_layer_params)
+{
+#define IN_SIZE 2
+#define MID_SIZE 3
+
+    Net *net = net_create(
+        3,
+        (Layer*[]){
+            fc_layer((LayerParameter){ .in=IN_SIZE, .out=MID_SIZE }),
+            sigmoid_layer((LayerParameter){ .in=MID_SIZE }),
+            softmax_layer((LayerParameter){ .in=MID_SIZE })
+        }
+    );
+
+    Layer *fc = net->layers[0];
+
+    rand_seed(0);
+
+    float rand_vals[IN_SIZE * MID_SIZE];
+    float scale = 1.0f / sqrt(1.0f / fc->x_size);
+    for (int i = 0; i < fc->w_size; i++) {
+        rand_vals[i] = rand_norm(0, 1) * scale;
+    }
+
+    rand_seed(0);
+
+    net_init_layer_params(net);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(rand_vals, fc->w, fc->w_size);
+
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, fc->b, fc->b_size);
+
+    net_free(&net);
+
+#undef IN_SIZE
+#undef MID_SIZE
 }
 
 TEST(net, net_forward)

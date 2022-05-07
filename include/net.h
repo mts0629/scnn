@@ -31,6 +31,13 @@ typedef struct Net {
 Net *net_create(const int size, Layer *layers[]);
 
 /**
+ * @brief initialize layer parameters in network
+ * 
+ * @param[in,out] net target network
+ */
+void net_init_layer_params(Net *net);
+
+/**
  * @brief forward propagation of network
  * 
  * @param[in,out] net network structure

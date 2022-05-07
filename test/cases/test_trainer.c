@@ -34,9 +34,7 @@ TEST(trainer, train_sgd)
         }
     );
 
-    for (int i = 0; i < net->size; i++) {
-        net->layers[i]->init_params(net->layers[i]);
-    }
+    net_init_layer_params(net);
 
     float *x[] = {
         (float[2]){ 0, 0 },
