@@ -4,6 +4,10 @@ add_executable(${TARGET_EXAMPLE_NAME}
     ./mnist_sample.c
 )
 
+add_custom_target(mnist
+    DEPENDS ${TARGET_EXAMPLE_NAME}
+)
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 

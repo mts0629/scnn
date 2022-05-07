@@ -11,6 +11,11 @@ add_executable(${TARGET_TEST_RUNNER_NAME}
     ${UNITY_ROOT}/extras/memory/src/unity_memory.c
 )
 
+add_custom_target(test
+    COMMAND ./${TARGET_TEST_RUNNER_NAME}
+    DEPENDS ${TARGET_TEST_RUNNER_NAME}
+)
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
@@ -31,5 +36,3 @@ target_link_directories(${TARGET_TEST_RUNNER_NAME}
 target_link_libraries(${TARGET_TEST_RUNNER_NAME}
     ${TARGET_LIB_NAME}
 )
-
-add_test(test_runner ${TARGET_TEST_RUNNER_NAME})
