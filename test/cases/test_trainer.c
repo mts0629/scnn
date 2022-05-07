@@ -52,7 +52,7 @@ TEST(trainer, train_sgd)
 
     printf("\n");
 
-    train_sgd(net, x, t, 0.3, 100, 4, 4, mean_squared_error);
+    train_sgd(net, x, t, 0.1, 200, 4, mean_squared_error);
 
     for (int i = 0; i < 4; i++) {
         net_forward(net, x[i]);
