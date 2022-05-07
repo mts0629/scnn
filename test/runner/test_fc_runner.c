@@ -15,5 +15,7 @@ TEST_GROUP_RUNNER(fc)
 
     RUN_TEST_CASE(fc, fc_backward);
 
+    RUN_TEST_CASE(fc, fc_init);
+
     RUN_TEST_CASE(fc, fc_update);
 }

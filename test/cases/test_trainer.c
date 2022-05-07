@@ -34,11 +34,9 @@ TEST(trainer, train_sgd)
         }
     );
 
-    fdata_rand_norm(net->layers[0]->w, net->layers[0]->w_size, 0, 1);
-    fdata_rand_norm(net->layers[0]->b, net->layers[0]->b_size, 0, 1);
-
-    fdata_rand_norm(net->layers[2]->w, net->layers[2]->w_size, 0, 1);
-    fdata_rand_norm(net->layers[2]->b, net->layers[2]->b_size, 0, 1);
+    for (int i = 0; i < net->size; i++) {
+        net->layers[i]->init_params(net->layers[i]);
+    }
 
     float *x[] = {
         (float[2]){ 0, 0 },
@@ -56,7 +54,7 @@ TEST(trainer, train_sgd)
 
     printf("\n");
 
-    train_sgd(net, x, t, 0.3, 1000, 4, 4, mean_squared_error);
+    train_sgd(net, x, t, 0.3, 100, 4, 4, mean_squared_error);
 
     for (int i = 0; i < 4; i++) {
         net_forward(net, x[i]);

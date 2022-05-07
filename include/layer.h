@@ -42,6 +42,7 @@ typedef struct Layer {
     void (*forward)(struct Layer *self, const float *x);     //!< forward propagation
     void (*backward)(struct Layer *self, const float *dy);   //!< backward propagation
 
+    void (*init_params)(struct Layer *self);                        //!< parameter initialization
     void (*update)(struct Layer *self, const float learning_rate);  //!< parameter updating
 } Layer;
 

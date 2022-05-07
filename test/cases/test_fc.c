@@ -7,6 +7,7 @@
 
 #include "data.h"
 #include "mat.h"
+#include "random.h"
 
 #include "unity_fixture.h"
 
@@ -139,6 +140,33 @@ TEST(fc, fc_backward)
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(dx_ans, fc->dx, fc->x_size);
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(dw_ans, fc->dw, fc->w_size);
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(db_ans, fc->db, fc->b_size);
+
+    layer_free(&fc);
+}
+
+TEST(fc, fc_init)
+{
+    LayerParameter param = { .in = 2, .out = 3 };
+
+    Layer *fc = fc_layer(param);
+
+    rand_seed(0);
+
+    float rand_vals[2 * 3];
+    float scale = 1.0f / sqrt(1.0f / 2);
+    for (int i = 0; i < 6; i++) {
+        rand_vals[i] = rand_norm(0, 1) * scale;
+    }
+
+    rand_seed(0);
+
+    fc->init_params(fc);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(rand_vals, fc->w, fc->w_size);
+
+    TEST_ASSERT_EACH_EQUAL_FLOAT(0, fc->b, fc->b_size);
+
+    layer_free(&fc);
 }
 
 TEST(fc, fc_update)
@@ -183,4 +211,6 @@ TEST(fc, fc_update)
 
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(w_updated_ans, fc->w, fc->w_size);
     TEST_ASSERT_EQUAL_FLOAT_ARRAY(b_updated_ans, fc->b, fc->b_size);
+
+    layer_free(&fc);
 }
