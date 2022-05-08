@@ -1,7 +1,7 @@
-set(TARGET_EXAMPLE_NAME mnist_sample)
+set(TARGET_EXAMPLE_NAME mnist_example)
 
 add_executable(${TARGET_EXAMPLE_NAME}
-    ./mnist_sample.c
+    ./mnist_example.c
 )
 
 add_custom_target(mnist
