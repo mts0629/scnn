@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "data.h"
 #include "util.h"
 #include "mat.h"
 #include "random.h"
@@ -23,11 +22,6 @@
  */
 static void shuffle_indices(int *indices, const int data_size)
 {
-    // initialize indices
-    for (int i = 0; i < data_size; i++) {
-        indices[i] = i;
-    }
-
     // swap randomly specified indices
     // iterate with data size
     for (int i = 0; i < data_size; i++) {
@@ -40,17 +34,6 @@ static void shuffle_indices(int *indices, const int data_size)
     }
 }
 
-#if 0
-static void get_batch_indices(int *indices, int *batch_indices, const int data_size, const int batch_size)
-{
-    // get shuffled indices
-    for (int i = 0; i < batch_size; i++) {
-        // naive implementation: get specified size of indices from head
-        batch_indices[i] = indices[i];
-    }
-}
-#endif
-
 void train_sgd(
     Net *net,
     float **x,
@@ -60,17 +43,20 @@ void train_sgd(
     const int data_size,
     float (*loss_func)(const float*, const float*, const int))
 {
-    // allocate dy
-    float *dy = fdata_alloc(net->output_layer->y_size);
+    // output diff with traing label
+    float *dy = malloc(sizeof(float) * net->output_layer->y_size);
 
-    // create indices of learning data
+    // indices of learning data
     int *indices = malloc(sizeof(int) * data_size);
+    for (int i = 0; i < data_size; i++) {
+        indices[i] = i;
+    }
 
+    // epoch
     for (int i = 0; i < epoch; i++) {
-        float loss = 0;
-
         shuffle_indices(indices, data_size);
 
+        // training iteration
         for (int j = 0; j < data_size; j++) {
             int index = indices[j];
 
@@ -85,16 +71,17 @@ void train_sgd(
                 Layer *layer = net->layers[n];
                 layer->update(layer, learning_rate);
             }
-
-            net_forward(net, x[index]);
-
-            loss += loss_func(net->output_layer->y, t[index], net->output_layer->y_size);
         }
 
-        // averaging with data size
+        // calculate training loss
+        float loss = 0;
+        for (int j = 0; j < data_size; j++) {
+            net_forward(net, x[j]);
+            loss += loss_func(net->output_layer->y, t[j], net->output_layer->y_size);
+        }
         loss /= data_size;
 
-        //printf("epoch [%d] loss=%f\n", i, loss);
+        printf("epoch %d: training loss=%f\n", (i + 1), loss);
     }
 
     FREE_WITH_NULL(&dy);
