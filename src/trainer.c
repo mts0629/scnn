@@ -43,9 +43,6 @@ void train_sgd(
     const int data_size,
     float (*loss_func)(const float*, const float*, const int))
 {
-    // output diff with traing label
-    float *dy = malloc(sizeof(float) * net->output_layer->y_size);
-
     // indices of learning data
     int *indices = malloc(sizeof(int) * data_size);
     for (int i = 0; i < data_size; i++) {
@@ -62,9 +59,7 @@ void train_sgd(
 
             net_forward(net, x[index]);
 
-            mat_sub(net->output_layer->y, t[index], dy, 1, net->output_layer->y_size);
-
-            net_backward(net, dy);
+            net_backward(net, t[index]);
 
             // update network parameters
             for (int n = 0; n < net->size; n++) {
@@ -83,8 +78,6 @@ void train_sgd(
 
         printf("epoch %d: training loss=%f\n", (i + 1), loss);
     }
-
-    FREE_WITH_NULL(&dy);
 
     FREE_WITH_NULL(&indices);
 }

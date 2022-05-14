@@ -170,11 +170,7 @@ TEST(net, net_backward)
 
     float t[] = { 0, 1 };
 
-    // get diff of network output
-    float dy[2];
-    mat_sub(net->output_layer->y, t, dy, 1, 2);
-
-    net_backward(net, dy);
+    net_backward(net, t);
 
     TEST_ASSERT_NOT_NULL(net->layers[2]->dx);
 

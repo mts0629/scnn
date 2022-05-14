@@ -49,9 +49,9 @@ void net_forward(Net *net, const float *x);
  * @brief backward propagation of network
  * 
  * @param[in,out] net network structure
- * @param[in] dy diff of network output
+ * @param[in] t training label
  */
-void net_backward(Net *net, const float *dy);
+void net_backward(Net *net, const float *t);
 
 /**
  * @brief deallocate network

@@ -10,6 +10,7 @@
 
 #include "data.h"
 #include "util.h"
+#include "mat.h"
 
 Net *net_create(const int size, Layer *layers[])
 {
@@ -80,13 +81,19 @@ void net_forward(Net *net, const float *x)
     }
 }
 
-void net_backward(Net *net, const float *dy)
+void net_backward(Net *net, const float *t)
 {
+    // calculate diff at the last layer
+    float *dy = malloc(sizeof(float) * net->output_layer->y_size);
+
+    mat_sub(net->output_layer->y, t, dy, 1, net->output_layer->y_size);
+
     net->output_layer->backward(net->output_layer, dy);
 
     Layer *next_layer = net->output_layer;
     Layer *layer = net->layers[next_layer->prev_id];
 
+    // backwarding
     while (true) {
         layer->backward(layer, next_layer->dx);
         int prev_id = layer->prev_id;
@@ -96,6 +103,8 @@ void net_backward(Net *net, const float *dy)
         next_layer = layer;
         layer = net->layers[prev_id];
     }
+
+    FREE_WITH_NULL(&dy);
 }
 
 void net_free(Net **net)
