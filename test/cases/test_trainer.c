@@ -62,9 +62,8 @@ TEST(trainer, train_sgd)
     }
 
     float prev_acc = (float)correct / 4;
-    printf("accuracy=%f\n", prev_acc);
 
-    train_sgd(net, x, t, 0.1, 200, 4, mean_squared_error);
+    train_sgd(net, x, t, NULL, NULL, 0.1, 200, 4, 0, mean_squared_error);
 
     correct = 0;
     for (int i = 0; i < 4; i++) {
@@ -76,7 +75,8 @@ TEST(trainer, train_sgd)
     }
 
     float acc = (float)correct / 4;
-    printf("accuracy=%f\n", acc);
+
+    printf("accuracy: prev=%f, now=%f\n", prev_acc, acc);
 
     TEST_ASSERT((acc >= prev_acc));
 
