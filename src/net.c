@@ -12,13 +12,33 @@
 #include "util.h"
 #include "mat.h"
 
+Net *net_alloc(void)
+{
+    Net *net = malloc(sizeof(Net));
+    if (net == NULL) {
+        return NULL;
+    }
+
+    // initialize member
+    net->size = 0;
+
+    for (int i = 0; i < NET_LAYER_MAX_SIZE; i++) {
+        net->layers[i] = NULL;
+    }
+
+    net->input_layer  = NULL;
+    net->output_layer = NULL;
+
+    return net;
+}
+
 Net *net_create(const int size, Layer *layers[])
 {
     if ((size < 1) || (size > NET_LAYER_MAX_SIZE) || (layers == NULL)) {
         return NULL;
     }
 
-    Net *net = malloc(sizeof(Net));
+    Net *net = net_alloc();
     if (net == NULL) {
         return NULL;
     }
@@ -124,7 +144,14 @@ void net_backward(Net *net, const float *t)
 
 void net_free(Net **net)
 {
+    if (*net == NULL) {
+        return;
+    }
+
     Layer *layer = (*net)->layers[0];
+    if (layer == NULL) {
+        goto NET_FREE;
+    }
 
     while (true) {
         int next_id = layer->next_id;
@@ -135,5 +162,6 @@ void net_free(Net **net)
         layer = (*net)->layers[next_id];
     }
 
+NET_FREE:
     FREE_WITH_NULL(net);
 }

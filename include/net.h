@@ -23,6 +23,13 @@ typedef struct Net {
 } Net;
 
 /**
+ * @brief allocate network
+ * 
+ * @return Net* pointer to network structute
+ */
+Net *net_alloc(void);
+
+/**
  * @brief create network
  * 
  * @param[in] size num of layers
