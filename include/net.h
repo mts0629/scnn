@@ -8,15 +8,16 @@
 
 #include "layer.h"
 
+#define NET_LAYER_MAX_SIZE 256  //!< max size of layers
+
 /**
  * @struct
  * @brief network structure
  * 
  */
 typedef struct Net {
-    int size;       //!< num of layers
-    Layer **layers; //!< list of layers
-
+    int   size;                        //!< num of layers
+    Layer *layers[NET_LAYER_MAX_SIZE]; //!< list of layers
     Layer *input_layer;     //!< input layer
     Layer *output_layer;    //!< output layer
 } Net;

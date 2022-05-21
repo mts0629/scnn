@@ -14,18 +14,12 @@
 
 Net *net_create(const int size, Layer *layers[])
 {
-    if ((size < 1) || (layers == NULL)) {
+    if ((size < 1) || (size > NET_LAYER_MAX_SIZE) || (layers == NULL)) {
         return NULL;
     }
 
     Net *net = malloc(sizeof(Net));
     if (net == NULL) {
-        return NULL;
-    }
-
-    net->layers = malloc(sizeof(Layer*) * size);
-    if (net->layers == NULL) {
-        FREE_WITH_NULL(net);
         return NULL;
     }
 

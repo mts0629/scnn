@@ -70,6 +70,20 @@ TEST(net, net_create_and_free)
     TEST_ASSERT_NULL(net);
 }
 
+TEST(net, net_create_over_size)
+{
+    Net *net = net_create(
+        257,
+        (Layer*[]){
+            fc_layer((LayerParameter){ .in=2, .out=10 }),
+            sigmoid_layer((LayerParameter){ .in=10 }),
+            softmax_layer((LayerParameter){ .in=10 })
+        }
+    );
+
+    TEST_ASSERT_NULL(net);
+}
+
 TEST(net, net_init_layer_params)
 {
 #define IN_SIZE 2
