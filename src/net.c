@@ -23,31 +23,52 @@ Net *net_create(const int size, Layer *layers[])
         return NULL;
     }
 
-    net->size = size;
-
-    int id = 0;
-    Layer *prev_layer = NULL;
+    net->size = 0;
 
     for (int i = 0; i < size; i++) {
-        net->layers[i] = layers[i];
-
-        net->layers[i]->id = id;
-
-        if (prev_layer != NULL) {
-            net->layers[i]->x = prev_layer->y;
-            net->layers[i]->prev_id = prev_layer->id;
-            net->layers[i]->next_id = -1;
-
-            prev_layer->next_id = id;
+        if (net_append(net, layers[i]) == NULL) {
+            goto NET_FREE;
         }
-
-        prev_layer = net->layers[i];
-
-        id++;
     }
 
-    net->input_layer = net->layers[0];
-    net->output_layer = net->layers[size - 1];
+    return net;
+
+NET_FREE:
+    net_free(&net);
+
+    return NULL;
+}
+
+Net *net_append(Net *net, Layer *layer)
+{
+    if ((net == NULL) || (layer == NULL)) {
+        return NULL;
+    }
+
+    int id = net->size;
+
+    layer->id      = id;
+    layer->next_id = -1;
+
+    // append layer to tail of the network layers
+    if (id == 0) {
+        // first layer
+        layer->x       = NULL;
+        layer->prev_id = -1;
+    } else {
+        Layer *prev_layer = net->layers[id - 1];
+
+        layer->x       = prev_layer->y;
+        layer->prev_id = prev_layer->id;
+
+        prev_layer->next_id = id;
+    }
+    net->layers[id] = layer;
+
+    net->input_layer  = net->layers[0];
+    net->output_layer = net->layers[id];
+
+    net->size++;
 
     return net;
 }

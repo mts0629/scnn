@@ -84,6 +84,39 @@ TEST(net, net_create_over_size)
     TEST_ASSERT_NULL(net);
 }
 
+TEST(net, net_append)
+{
+    Net net;
+    net.size = 0;
+
+    Layer *fc1 = fc_layer((LayerParameter){ .in=2, .out=10 });
+    Layer *fc2 = fc_layer((LayerParameter){ .in=10, .out=2 });
+
+    TEST_ASSERT_EQUAL(&net, net_append(&net, fc1));
+    TEST_ASSERT_EQUAL(&net, net_append(&net, fc2));
+
+    TEST_ASSERT_EQUAL(2, net.size);
+
+    TEST_ASSERT_EQUAL_PTR(fc1, net.layers[0]);
+    TEST_ASSERT_EQUAL_PTR(fc2, net.layers[1]);
+
+    TEST_ASSERT_EQUAL_PTR(fc1, net.input_layer);
+    TEST_ASSERT_EQUAL_PTR(fc2, net.output_layer);
+
+    layer_free(&fc1);
+    layer_free(&fc2);
+}
+
+TEST(net, net_append_null)
+{
+    Net net;
+    net.size = 0;
+
+    TEST_ASSERT_NULL(net_append(&net, NULL));
+
+    TEST_ASSERT_EQUAL(0, net.size);
+}
+
 TEST(net, net_init_layer_params)
 {
 #define IN_SIZE 2

@@ -32,6 +32,15 @@ typedef struct Net {
 Net *net_create(const int size, Layer *layers[]);
 
 /**
+ * @brief append layer to network
+ * 
+ * @param[in,out] net target network
+ * @param[in] layer layer to be appended
+ * @return Net* pointer to the network structure
+ */
+Net *net_append(Net *net, Layer *layer);
+
+/**
  * @brief initialize layer parameters in network
  * 
  * @param[in,out] net target network
