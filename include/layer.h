@@ -56,6 +56,12 @@ typedef struct LayerParameter {
 } LayerParameter;
 
 /**
+ * @brief macro to set LayerParameter
+ * 
+ */
+#define SET_PARAM(...) (LayerParameter){ __VA_ARGS__ }
+
+/**
  * @brief allocate basic layer structure
  * 
  * @return Layer* poiner to layer structure
