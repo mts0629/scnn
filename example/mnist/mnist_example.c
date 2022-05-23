@@ -234,11 +234,11 @@ int main(int argc, char *argv[])
     Net *net = net_create(
         5,
         (Layer*[]){
-            fc_layer((LayerParameter){ .in=28*28, .out=100 }),
-            sigmoid_layer((LayerParameter){ .in=100 }),
-            fc_layer((LayerParameter){ .in=100, .out=10 }),
-            sigmoid_layer((LayerParameter){ .in=10 }),
-            softmax_layer((LayerParameter){ .in=10 })
+            fc_layer(SET_PARAM( .in=28*28, .out=100 )),
+            sigmoid_layer(SET_PARAM( .in=100 )),
+            fc_layer(SET_PARAM( .in=100, .out=10 )),
+            sigmoid_layer(SET_PARAM( .in=10 )),
+            softmax_layer(SET_PARAM( .in=10 ))
         }
     );
 
