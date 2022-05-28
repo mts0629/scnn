@@ -51,62 +51,53 @@ Layer *fc_layer(const LayerParameter layer_param)
         return NULL;
     }
 
-    layer->x_dim[0] = 1;
-    layer->x_dim[1] = layer_param.in;
-    layer->x_dim[2] = 1;
-    layer->x_dim[3] = 1;
-    layer->x_size = layer->x_dim[0] * layer->x_dim[1] * layer->x_dim[2] * layer->x_dim[3];
+    int x_size = 1 * layer_param.in * 1 * 1;
+    SET_DIM(layer->x_dim, 1, layer_param.in, 1, 1);
+    layer->x_size = x_size;
 
-    layer->y_dim[0] = 1;
-    layer->y_dim[1] = layer_param.out;
-    layer->y_dim[2] = 1;
-    layer->y_dim[3] = 1;
-    layer->y_size = layer->y_dim[0] * layer->y_dim[1] * layer->y_dim[2] * layer->y_dim[3];
+    int y_size = 1 * layer_param.out * 1 * 1;
+    SET_DIM(layer->y_dim, 1, layer_param.out, 1, 1);
+    layer->y_size = y_size;
 
-    layer->y = fdata_alloc(layer_param.out);
+    int w_size = layer_param.out * layer_param.in * 1 * 1;
+    SET_DIM(layer->w_dim, layer_param.out, layer_param.in, 1, 1);
+    layer->w_size = w_size;
+
+    int b_size = y_size;
+    SET_DIM(layer->b_dim, 1, layer_param.out, 1, 1);
+    layer->b_size = b_size;
+
+    layer->y = fdata_alloc(y_size);
     if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->w_dim[0] = layer_param.out;
-    layer->w_dim[1] = layer_param.in;
-    layer->w_dim[2] = 1;
-    layer->w_dim[3] = 1;
-    layer->w_size = layer->w_dim[0] * layer->w_dim[1] * layer->w_dim[2] * layer->w_dim[3];
-
-    layer->w = fdata_alloc(layer_param.in * layer_param.out);
+    layer->w = fdata_alloc(w_size);
     if (layer->w == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->b_dim[0] = 1;
-    layer->b_dim[1] = layer_param.out;
-    layer->b_dim[2] = 1;
-    layer->b_dim[3] = 1;
-    layer->b_size = layer->b_dim[0] * layer->b_dim[1] * layer->b_dim[2] * layer->b_dim[3];
-
-    layer->b = fdata_alloc(layer_param.out);
+    layer->b = fdata_alloc(b_size);
     if (layer->b == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->dx = fdata_alloc(layer_param.in);
+    layer->dx = fdata_alloc(x_size);
     if (layer->dx == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->dw = fdata_alloc(layer_param.in * layer_param.out);
+    layer->dw = fdata_alloc(w_size);
     if (layer->dw == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->db = fdata_alloc(layer_param.out);
+    layer->db = fdata_alloc(b_size);
     if (layer->db == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->forward = forward;
-
+    layer->forward  = forward;
     layer->backward = backward;
 
     return layer;

@@ -55,30 +55,25 @@ Layer *softmax_layer(const LayerParameter layer_param)
         return NULL;
     }
 
-    layer->x_dim[0] = 1;
-    layer->x_dim[1] = layer_param.in;
-    layer->x_dim[2] = 1;
-    layer->x_dim[3] = 1;
-    layer->x_size = layer->x_dim[0] * layer->x_dim[1] * layer->x_dim[2] * layer->x_dim[3];
+    int x_size = 1 * layer_param.in * 1 * 1;
+    SET_DIM(layer->x_dim, 1, layer_param.in, 1, 1);
+    layer->x_size = x_size;
 
-    layer->y_dim[0] = 1;
-    layer->y_dim[1] = layer_param.in;
-    layer->y_dim[2] = 1;
-    layer->y_dim[3] = 1;
-    layer->y_size = layer->y_dim[0] * layer->y_dim[1] * layer->y_dim[2] * layer->y_dim[3];
+    int y_size = 1 * layer_param.in * 1 * 1;
+    SET_DIM(layer->y_dim, 1, layer_param.in, 1, 1);
+    layer->y_size = y_size;
 
-    layer->y = fdata_alloc(layer_param.in);
+    layer->y = fdata_alloc(y_size);
     if (layer->y == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->dx = fdata_alloc(layer_param.in);
+    layer->dx = fdata_alloc(x_size);
     if (layer->dx == NULL) {
         goto LAYER_FREE;
     }
 
-    layer->forward = forward;
-
+    layer->forward  = forward;
     layer->backward = backward;
 
     return layer;

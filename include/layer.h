@@ -9,6 +9,17 @@
 #define N_DIM 4 //!< num of data dimensions, fixed to 4 for CNN
 
 /**
+ * @brief set dimension of matrix array
+ * 
+ */
+#define SET_DIM(x, n, c, h, w) {\
+    (x)[0] = n;\
+    (x)[1] = c;\
+    (x)[2] = h;\
+    (x)[3] = w;\
+}
+
+/**
  * @struct 
  * @brief basic layer structure
  * 
