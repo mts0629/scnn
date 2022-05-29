@@ -83,8 +83,8 @@ void train_sgd(
 
         printf("training loss=%f", train_loss);
 
-        if (test_x != NULL && test_t != NULL) {
-            // calculate test loss
+        // calculate test loss
+        if ((test_x != NULL) && (test_t != NULL)) {
             float test_loss = 0;
             for (int j = 0; j < test_data_size; j++) {
                 net_forward(net, test_x[j]);
