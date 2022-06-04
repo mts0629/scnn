@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
         20,
         TRAIN_DATA_NUM,
         TEST_DATA_NUM,
-        cross_entropy_error
+        cross_entropy_loss
     );
 
     printf("finished\n");

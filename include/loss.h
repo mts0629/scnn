@@ -7,23 +7,23 @@
 #define LOSS_H
 
 /**
- * @brief mean squared error (MSE)
+ * @brief mean squared loss (MSE)
  * 
  * @param y vector of predicted values 
  * @param t vector of target values 
  * @param size size of vector
- * @return float error
+ * @return float loss value
  */
-float mean_squared_error(const float *y, const float *t, const int size);
+float mean_squared_loss(const float *y, const float *t, const int size);
 
 /**
- * @brief cross entropy error
+ * @brief cross entropy loss
  * 
  * @param y vector of predicted values 
  * @param t vector of target values 
  * @param size size of vector
- * @return float error
+ * @return float loss value
  */
-float cross_entropy_error(const float *y, const float *t, const int size);
+float cross_entropy_loss(const float *y, const float *t, const int size);
 
 #endif // LOSS_H

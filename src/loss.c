@@ -7,7 +7,7 @@
 
 #include <math.h>
 
-float mean_squared_error(const float *y, const float *t, const int size)
+float mean_squared_loss(const float *y, const float *t, const int size)
 {
     float sq_err = 0;
 
@@ -18,7 +18,7 @@ float mean_squared_error(const float *y, const float *t, const int size)
     return 0.5 * sq_err;
 }
 
-float cross_entropy_error(const float *y, const float *t, const int size)
+float cross_entropy_loss(const float *y, const float *t, const int size)
 {
     // small value to avoid log(0)
     const float epsilon = 1e-7;

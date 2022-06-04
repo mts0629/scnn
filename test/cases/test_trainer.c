@@ -63,7 +63,7 @@ TEST(trainer, train_sgd)
 
     float prev_acc = (float)correct / 4;
 
-    train_sgd(net, x, t, NULL, NULL, 0.1, 200, 4, 0, mean_squared_error);
+    train_sgd(net, x, t, NULL, NULL, 0.1, 200, 4, 0, mean_squared_loss);
 
     correct = 0;
     for (int i = 0; i < 4; i++) {
