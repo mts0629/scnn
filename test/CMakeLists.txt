@@ -8,7 +8,6 @@ add_executable(${TARGET_TEST_RUNNER_NAME}
     ${SOURCES}
     ${UNITY_ROOT}/src/unity.c
     ${UNITY_ROOT}/extras/fixture/src/unity_fixture.c
-    #${UNITY_ROOT}/extras/memory/src/unity_memory.c
 )
 
 add_custom_target(test
@@ -26,7 +25,6 @@ target_compile_options(${TARGET_TEST_RUNNER_NAME}
 target_include_directories(${TARGET_TEST_RUNNER_NAME}
     PUBLIC ${UNITY_ROOT}/src
     PUBLIC ${UNITY_ROOT}/extras/fixture/src
-    #PUBLIC ${UNITY_ROOT}/extras/memory/src
 )
 
 target_link_directories(${TARGET_TEST_RUNNER_NAME}

@@ -3,6 +3,8 @@
  * @brief unit tests of util.h
  * 
  */
+#include <stdlib.h>
+
 #include "util.h"
 
 #include "unity_fixture.h"
@@ -17,10 +19,6 @@ TEST_TEAR_DOWN(util)
 
 TEST(util, free_with_null)
 {
-// undef to avoid using unity_malloc/unity_free
-#undef malloc
-#undef free
-
     int *a = malloc(sizeof(int) * 10);
 
     TEST_ASSERT_NOT_NULL(a);
