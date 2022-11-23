@@ -16,7 +16,6 @@ scnn_net *scnn_net_alloc(void)
         return NULL;
     }
 
-    // initialize member
     net->size = 0;
 
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
@@ -29,7 +28,7 @@ scnn_net *scnn_net_alloc(void)
     return net;
 }
 
-scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
+/*scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
 {
     if ((net == NULL) || (layer == NULL)) {
         return NULL;
@@ -109,7 +108,7 @@ void scnn_net_backward(scnn_net *net, const scnn_mat *t)
         layer->backward(layer, out);
         out = layer->dx;
     }
-}
+}*/
 
 void scnn_net_free(scnn_net **net)
 {
@@ -117,16 +116,10 @@ void scnn_net_free(scnn_net **net)
         return;
     }
 
-    scnn_layer *layer = (*net)->layers[0];
-    if (layer == NULL) {
-        goto NET_FREE;
-    }
-
     for (int i = 0; i < (*net)->size; i++) {
         scnn_layer_free(&((*net)->layers[i]));
     }
 
-NET_FREE:
     free(*net);
     *net = NULL;
 }

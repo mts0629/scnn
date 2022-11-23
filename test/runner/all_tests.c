@@ -19,7 +19,7 @@ static void RunAllTests(void)
 
     RUN_TEST_GROUP(scnn_softmax);
 
-    //RUN_TEST_GROUP(scnn_net);
+    RUN_TEST_GROUP(scnn_net);
 
     //RUN_TEST_GROUP(scnn_loss);
 }

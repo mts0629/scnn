@@ -10,15 +10,23 @@
 
 TEST_GROUP(scnn_net);
 
+scnn_net *net;
+
 TEST_SETUP(scnn_net)
-{}
+{
+    net = NULL;
+}
 
 TEST_TEAR_DOWN(scnn_net)
-{}
-
-TEST(scnn_net, alloc_and_free)
 {
-    scnn_net *net = scnn_net_alloc();
+    scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
+}
+
+TEST(scnn_net, allocate)
+{
+    net = scnn_net_alloc();
 
     TEST_ASSERT_NOT_NULL(net);
 
@@ -30,32 +38,33 @@ TEST(scnn_net, alloc_and_free)
 
     TEST_ASSERT_NULL(net->input);
     TEST_ASSERT_NULL(net->output);
-
-    scnn_net_free(&net);
-
-    TEST_ASSERT_NULL(net);
 }
 
-TEST(scnn_net, append)
+TEST(scnn_net, free_with_NULL)
 {
-    scnn_net *net = scnn_net_alloc();
-
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in=2, .out=10 });
-    fc->set_size(fc, 1, 2, 1, 1);
-
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
-
-    TEST_ASSERT_EQUAL(1, net->size);
-
-    TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
-
-    TEST_ASSERT_EQUAL_PTR(fc, net->input);
-    TEST_ASSERT_EQUAL_PTR(fc, net->output);
-
-    scnn_net_free(&net);
+    // free in TEST_TEAR_DOWN
 }
 
-TEST(scnn_net, append_2layers)
+/*TEST(scnn_net, append_layer)
+{
+    //scnn_net *net = scnn_net_alloc();
+
+    //scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in=2, .out=10 });
+    //fc->set_size(fc, 1, 2, 1, 1);
+
+    //TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
+
+    //TEST_ASSERT_EQUAL(1, net->size);
+
+    //TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
+
+    //TEST_ASSERT_EQUAL_PTR(fc, net->input);
+    //TEST_ASSERT_EQUAL_PTR(fc, net->output);
+
+    //scnn_net_free(&net);
+}*/
+
+/*TEST(scnn_net, append_2layers)
 {
     scnn_net *net = scnn_net_alloc();
 
@@ -300,4 +309,4 @@ TEST(scnn_net, backward_t_is_null)
     TEST_ASSERT_EACH_EQUAL_FLOAT(0, net->input->dx->data, net->input->dx->size);
 
     scnn_net_free(&net);
-}
+}*/
