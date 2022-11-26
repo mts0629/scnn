@@ -28,7 +28,7 @@ scnn_net *scnn_net_alloc(void)
     return net;
 }
 
-/*scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
+scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
 {
     if ((net == NULL) || (layer == NULL)) {
         return NULL;
@@ -36,16 +36,6 @@ scnn_net *scnn_net_alloc(void)
 
     if (net->size >= SCNN_NET_MAX_SIZE) {
         return NULL;
-    }
-
-    // check the matrix size
-    if (net->output) {
-        if ((net->output->y->shape.d[0] != layer->y->shape.d[0]) ||
-            (net->output->y->shape.d[1] != layer->y->shape.d[1]) ||
-            (net->output->y->shape.d[2] != layer->y->shape.d[2]) ||
-            (net->output->y->shape.d[3] != layer->y->shape.d[3])) {
-            return NULL;
-        }
     }
 
     layer->id      = net->size;
@@ -75,7 +65,7 @@ scnn_net *scnn_net_alloc(void)
     return net;
 }
 
-void scnn_net_forward(scnn_net *net, const scnn_mat *x)
+/*void scnn_net_forward(scnn_net *net, const scnn_mat *x)
 {
     if ((net == NULL) || (x == NULL)) {
         return;
