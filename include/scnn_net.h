@@ -35,7 +35,7 @@ scnn_net *scnn_net_alloc(void);
  * @param[in]       layer   Layer to be appended
  * @return                  Pointer to network, NULL if failed
  */
-//scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer);
+scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer);
 
 /**
  * @brief Forward propagation of network
