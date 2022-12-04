@@ -19,7 +19,9 @@ TEST_GROUP_RUNNER(scnn_net)
     RUN_TEST_CASE(scnn_net, cannot_append_if_layer_is_NULL);
     RUN_TEST_CASE(scnn_net, cannot_append_if_over_max_size);
 
-    //RUN_TEST_CASE(scnn_net, init);
+    RUN_TEST_CASE(scnn_net, init_layer);
+    RUN_TEST_CASE(scnn_net, init_2layers);
+    RUN_TEST_CASE(scnn_net, init_3layers);
 
     //RUN_TEST_CASE(scnn_net, forward);
     //RUN_TEST_CASE(scnn_net, forward_net_is_NULL);

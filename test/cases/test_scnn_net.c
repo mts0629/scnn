@@ -133,6 +133,221 @@ TEST(scnn_net, cannot_append_if_over_max_size)
     scnn_layer_free(&fc);
 }
 
+TEST(scnn_net, init_layer)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+
+    scnn_net_append(net, fc);
+
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_init(net));
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[0]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[2]);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->x->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->y->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w->data);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->w->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->w->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->b->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->x->shape, net->layers[0]->dx->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->w->shape, net->layers[0]->dw->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->b->shape, net->layers[0]->db->shape, 4);
+}
+
+TEST(scnn_net, init_2layers)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+
+    scnn_net_append(net, fc);
+    scnn_net_append(net, sigmoid);
+
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_init(net));
+
+    // fc layer
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[0]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[2]);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->x->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->y->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w->data);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->w->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->w->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->b->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->x->shape, net->layers[0]->dx->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->w->shape, net->layers[0]->dw->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->b->shape, net->layers[0]->db->shape, 4);
+
+    // sigmoid layer
+    TEST_ASSERT_NOT_NULL(net->layers[1]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->x->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->y->shape, net->layers[1]->x->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[1]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->y->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[1]->x->shape, net->layers[1]->y->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[1]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[1]->x->shape, net->layers[1]->dx->shape, 4);
+
+    TEST_ASSERT_NULL(net->layers[1]->w);
+    TEST_ASSERT_NULL(net->layers[1]->b);
+    TEST_ASSERT_NULL(net->layers[1]->dw);
+    TEST_ASSERT_NULL(net->layers[1]->db);
+}
+
+TEST(scnn_net, init_3layers)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+    scnn_layer *softmax = scnn_softmax_layer((scnn_layer_params){ 0 });
+
+    scnn_net_append(net, fc);
+    scnn_net_append(net, sigmoid);
+    scnn_net_append(net, softmax);
+
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_init(net));
+
+    // fc layer
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->x->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[0]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->x->shape[2]);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->x->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->y->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->y->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->y->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->w->data);
+    TEST_ASSERT_EQUAL_INT(2, net->layers[0]->w->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->w->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->w->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->b->data);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[0]);
+    TEST_ASSERT_EQUAL_INT(10, net->layers[0]->b->shape[1]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[2]);
+    TEST_ASSERT_EQUAL_INT(1, net->layers[0]->b->shape[3]);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->x->shape, net->layers[0]->dx->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->dw->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->w->shape, net->layers[0]->dw->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db);
+    TEST_ASSERT_NOT_NULL(net->layers[0]->db->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->b->shape, net->layers[0]->db->shape, 4);
+
+    // sigmoid layer
+    TEST_ASSERT_NOT_NULL(net->layers[1]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->x->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[0]->y->shape, net->layers[1]->x->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[1]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->y->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[1]->x->shape, net->layers[1]->y->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[1]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[1]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[1]->x->shape, net->layers[1]->dx->shape, 4);
+
+    TEST_ASSERT_NULL(net->layers[1]->w);
+    TEST_ASSERT_NULL(net->layers[1]->b);
+    TEST_ASSERT_NULL(net->layers[1]->dw);
+    TEST_ASSERT_NULL(net->layers[1]->db);
+
+    // softmax layer
+    TEST_ASSERT_NOT_NULL(net->layers[2]->x);
+    TEST_ASSERT_NOT_NULL(net->layers[2]->x->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[1]->y->shape, net->layers[2]->x->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[2]->y);
+    TEST_ASSERT_NOT_NULL(net->layers[2]->y->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[2]->x->shape, net->layers[2]->y->shape, 4);
+
+    TEST_ASSERT_NOT_NULL(net->layers[2]->dx);
+    TEST_ASSERT_NOT_NULL(net->layers[2]->dx->data);
+    TEST_ASSERT_EQUAL_INT_ARRAY(net->layers[2]->x->shape, net->layers[2]->dx->shape, 4);
+
+    TEST_ASSERT_NULL(net->layers[2]->w);
+    TEST_ASSERT_NULL(net->layers[2]->b);
+    TEST_ASSERT_NULL(net->layers[2]->dw);
+    TEST_ASSERT_NULL(net->layers[2]->db);
+}
+
 /*TEST(scnn_net, forward)
 {
     scnn_net *net = scnn_net_alloc();
