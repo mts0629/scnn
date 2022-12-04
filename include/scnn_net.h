@@ -38,6 +38,14 @@ scnn_net *scnn_net_alloc(void);
 scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer);
 
 /**
+ * @brief Initialize network
+ * 
+ * @param[in,out] net   Network
+ * @return              Pointer to network, NULL if failed
+ */
+scnn_net *scnn_net_init(scnn_net *net);
+
+/**
  * @brief Forward propagation of network
  * 
  * @param[in,out]   net Network

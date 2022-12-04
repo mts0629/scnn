@@ -65,6 +65,25 @@ scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
     return net;
 }
 
+scnn_net *scnn_net_init(scnn_net *net)
+{
+    // initilaize the first layer
+    net->layers[0]->init(net->layers[0]);
+
+    // initialize precedding layers
+    for (int i = 1; i < net->size; i++) {
+        // set an output shape of the previous layer as that of the next input
+        net->layers[i]->params.in_shape[0] = net->layers[i - 1]->y->shape[0];
+        net->layers[i]->params.in_shape[1] = net->layers[i - 1]->y->shape[1];
+        net->layers[i]->params.in_shape[2] = net->layers[i - 1]->y->shape[2];
+        net->layers[i]->params.in_shape[3] = net->layers[i - 1]->y->shape[3];
+
+        net->layers[i]->init(net->layers[i]);
+    }
+
+    return net;
+}
+
 /*void scnn_net_forward(scnn_net *net, const scnn_mat *x)
 {
     if ((net == NULL) || (x == NULL)) {
