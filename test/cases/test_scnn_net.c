@@ -348,6 +348,48 @@ TEST(scnn_net, init_3layers)
     TEST_ASSERT_NULL(net->layers[2]->db);
 }
 
+TEST(scnn_net, cannot_init_if_net_is_NULL)
+{
+    TEST_ASSERT_NULL(scnn_net_init(NULL));
+}
+
+TEST(scnn_net, cannot_init_if_size_is_0)
+{
+    net = scnn_net_alloc();
+
+    TEST_ASSERT_NULL(scnn_net_init(net));
+}
+
+TEST(scnn_net, cannot_init_if_in_shape_is_invalid)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .out=10 });
+    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+    scnn_layer *softmax = scnn_softmax_layer((scnn_layer_params){ 0 });
+
+    scnn_net_append(net, fc);
+    scnn_net_append(net, sigmoid);
+    scnn_net_append(net, softmax);
+
+    TEST_ASSERT_NULL(scnn_net_init(net));
+}
+
+TEST(scnn_net, cannot_init_if_contains_invalid_layer)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+    scnn_layer *fc2 = scnn_fc_layer((scnn_layer_params){ 0 });
+    scnn_layer *sigmoid = scnn_softmax_layer((scnn_layer_params){ 0 });
+
+    scnn_net_append(net, fc);
+    scnn_net_append(net, fc2);
+    scnn_net_append(net, sigmoid);
+
+    TEST_ASSERT_NULL(scnn_net_init(net));
+}
+
 /*TEST(scnn_net, forward)
 {
     scnn_net *net = scnn_net_alloc();
