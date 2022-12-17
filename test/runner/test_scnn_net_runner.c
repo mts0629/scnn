@@ -28,9 +28,12 @@ TEST_GROUP_RUNNER(scnn_net)
     RUN_TEST_CASE(scnn_net, cannot_init_if_in_shape_is_invalid);
     RUN_TEST_CASE(scnn_net, cannot_init_if_contains_invalid_layer);
 
-    //RUN_TEST_CASE(scnn_net, forward);
-    //RUN_TEST_CASE(scnn_net, forward_net_is_NULL);
-    //RUN_TEST_CASE(scnn_net, forward_x_is_NULL);
+    RUN_TEST_CASE(scnn_net, forward_layer);
+    RUN_TEST_CASE(scnn_net, forward_2layers);
+    RUN_TEST_CASE(scnn_net, forward_3layers);
+    RUN_TEST_CASE(scnn_net, forward_failed_when_net_is_NULL);
+    RUN_TEST_CASE(scnn_net, forward_failed_when_x_is_NULL);
+
     //RUN_TEST_CASE(scnn_net, backward);
     //RUN_TEST_CASE(scnn_net, backward_net_is_NULL);
     //RUN_TEST_CASE(scnn_net, backward_t_is_NULL);

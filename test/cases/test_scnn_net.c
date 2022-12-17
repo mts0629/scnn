@@ -5,6 +5,7 @@
  */
 #include "scnn_net.h"
 #include "scnn_layers.h"
+#include "scnn_blas.h"
 
 #include "unity_fixture.h"
 
@@ -390,77 +391,174 @@ TEST(scnn_net, cannot_init_if_contains_invalid_layer)
     TEST_ASSERT_NULL(scnn_net_init(net));
 }
 
-/*TEST(scnn_net, forward)
+TEST(scnn_net, forward_layer)
 {
-    scnn_net *net = scnn_net_alloc();
+    net = scnn_net_alloc();
 
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in=2, .out=2 });
-    fc->set_size(fc, 1, 2, 1, 1);
-    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ .in=2 });
-    sigmoid->set_size(sigmoid, 1, 2, 1, 1);
-    scnn_layer *softmax = scnn_softmax_layer((scnn_layer_params){ .in=2 });
-    softmax->set_size(softmax, 1, 2, 1, 1);
-
-    scnn_mat_copy_from_array(fc->w, (float[]){ 1, 2, 3, 4 }, fc->w->size);
-    scnn_mat_copy_from_array(fc->b, (float[]){ 0, 1 }, fc->w->size);
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 1, 2, 1, 1 }, .out=2 });
 
     scnn_net_append(net, fc);
-    scnn_net_append(net, sigmoid);
-    scnn_net_append(net, softmax);
 
-    scnn_mat *x = scnn_mat_alloc((scnn_shape){ .d = { 1, 1, 1, 2 } });
-    scnn_mat_copy_from_array(x, (float[]){ 0.1, 0.2 }, x->size);
+    scnn_net_init(net);
 
+    scnn_dtype w[] = {
+        1, 2,
+        3, 4
+    };
+    scnn_scopy(fc->w->size, w, 1, fc->w->data, 1);
+
+    scnn_dtype b[] = {
+        0, 1
+    };
+    scnn_scopy(fc->b->size, b, 1, fc->b->data, 1);
+
+    scnn_dtype x[] = {
+        0.1, 0.2
+    };
     scnn_net_forward(net, x);
 
-    float y_fc[] = { 0.7, 2 };
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y_fc, net->layers[0]->y->data, net->layers[0]->y->size);
-
-    float y_sigmoid[] = { 0.66818777, 0.88079708 };
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y_sigmoid, net->layers[1]->y->data, net->layers[1]->y->size);
-
-    float y_softmax[] = { 0.44704699, 0.55295301 };
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y_softmax, net->layers[2]->y->data, net->layers[2]->y->size);
-
-    scnn_net_free(&net);
+    scnn_dtype y[] = {
+        0.7, 2
+    };
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, net->output->y->data, 2);
 }
 
-TEST(scnn_net, forward_net_is_null)
+TEST(scnn_net, forward_2layers)
 {
-    scnn_mat *x = scnn_mat_alloc((scnn_shape){ .d = { 1, 1, 1, 2 } });
-    scnn_mat_copy_from_array(x, (float[]){ 0.1, 0.2 }, x->size);
+    net = scnn_net_alloc();
 
-    scnn_net_forward(NULL, x);
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 1, 2, 1, 1 }, .out=2 });
+    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+
+    scnn_net_append(net, fc);
+    scnn_net_append(net, sigmoid);
+
+    scnn_net_init(net);
+
+    scnn_dtype w[] = {
+        1, 2,
+        3, 4
+    };
+    scnn_scopy(fc->w->size, w, 1, fc->w->data, 1);
+
+    scnn_dtype b[] = {
+        0, 1
+    };
+    scnn_scopy(fc->b->size, b, 1, fc->b->data, 1);
+
+    scnn_dtype x[] = {
+        0.1, 0.2
+    };
+    scnn_net_forward(net, x);
+
+    scnn_dtype y[] = {
+        0.668188, 0.880797
+    };
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, net->output->y->data, 2);
 }
 
-TEST(scnn_net, forward_x_is_null)
+TEST(scnn_net, forward_3layers)
 {
-    scnn_net *net = scnn_net_alloc();
+    net = scnn_net_alloc();
 
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in=2, .out=2 });
-    fc->set_size(fc, 1, 2, 1, 1);
-    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ .in=2 });
-    sigmoid->set_size(sigmoid, 1, 2, 1, 1);
-    scnn_layer *softmax = scnn_softmax_layer((scnn_layer_params){ .in=2 });
-    softmax->set_size(softmax, 1, 2, 1, 1);
-
-    scnn_mat_copy_from_array(fc->w, (float[]){ 1, 2, 3, 4 }, fc->w->size);
-    scnn_mat_copy_from_array(fc->b, (float[]){ 0, 1 }, fc->w->size);
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 1, 2, 1, 1 }, .out=2 });
+    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+    scnn_layer *softmax = scnn_softmax_layer((scnn_layer_params){ 0 });
 
     scnn_net_append(net, fc);
     scnn_net_append(net, sigmoid);
     scnn_net_append(net, softmax);
 
-    scnn_mat_fill(net->output->y, 0);
+    scnn_net_init(net);
+
+    scnn_dtype w[] = {
+        1, 2,
+        3, 4
+    };
+    scnn_scopy(fc->w->size, w, 1, fc->w->data, 1);
+
+    scnn_dtype b[] = {
+        0, 1
+    };
+    scnn_scopy(fc->b->size, b, 1, fc->b->data, 1);
+
+    scnn_dtype x[] = {
+        0.1, 0.2
+    };
+    scnn_net_forward(net, x);
+
+    scnn_dtype y[] = {
+        0.44704707, 0.55295293
+    };
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, net->output->y->data, 2);
+}
+
+TEST(scnn_net, forward_failed_when_net_is_NULL)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 1, 2, 1, 1 }, .out=2 });
+
+    scnn_net_append(net, fc);
+
+    scnn_net_init(net);
+
+    scnn_dtype w[] = {
+        1, 2,
+        3, 4
+    };
+    scnn_scopy(fc->w->size, w, 1, fc->w->data, 1);
+
+    scnn_dtype b[] = {
+        0, 1
+    };
+    scnn_scopy(fc->b->size, b, 1, fc->b->data, 1);
+
+    scnn_dtype y[] = {
+        -1, -1
+    };
+    scnn_scopy(net->output->y->size, y, 1, net->output->y->data, 1);
+
+    scnn_dtype x[] = {
+        0.1, 0.2
+    };
+    scnn_net_forward(NULL, x);
+
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, net->output->y->data, 2);
+}
+
+TEST(scnn_net, forward_failed_when_x_is_NULL)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 1, 2, 1, 1 }, .out=2 });
+
+    scnn_net_append(net, fc);
+
+    scnn_net_init(net);
+
+    scnn_dtype w[] = {
+        1, 2,
+        3, 4
+    };
+    scnn_scopy(fc->w->size, w, 1, fc->w->data, 1);
+
+    scnn_dtype b[] = {
+        0, 1
+    };
+    scnn_scopy(fc->b->size, b, 1, fc->b->data, 1);
+
+    scnn_dtype y[] = {
+        -1, -1
+    };
+    scnn_scopy(net->output->y->size, y, 1, net->output->y->data, 1);
 
     scnn_net_forward(net, NULL);
 
-    TEST_ASSERT_EACH_EQUAL_FLOAT(0, net->output->y->data, net->output->y->size);
-
-    scnn_net_free(&net);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(y, net->output->y->data, 2);
 }
 
-TEST(scnn_net, backward)
+/*TEST(scnn_net, backward)
 {
     scnn_net *net = scnn_net_alloc();
 

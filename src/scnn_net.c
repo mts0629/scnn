@@ -96,22 +96,20 @@ scnn_net *scnn_net_init(scnn_net *net)
     return net;
 }
 
-/*void scnn_net_forward(scnn_net *net, const scnn_mat *x)
+void scnn_net_forward(scnn_net *net, scnn_dtype *x)
 {
     if ((net == NULL) || (x == NULL)) {
         return;
     }
 
-    scnn_mat    *in = (scnn_mat*)x;
-    scnn_layer  *layer;
+    scnn_dtype  *in = x;
     for (int i = 0; i < net->size; i++) {
-        layer = net->layers[i];
-        layer->forward(layer, in);
-        in = layer->y;
+        net->layers[i]->forward(net->layers[i], in);
+        in = net->layers[i]->y->data;
     }
 }
 
-void scnn_net_backward(scnn_net *net, const scnn_mat *t)
+/*void scnn_net_backward(scnn_net *net, const scnn_mat *t)
 {
     if ((net == NULL) || (t == NULL)) {
         return;
