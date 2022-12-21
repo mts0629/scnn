@@ -109,25 +109,18 @@ void scnn_net_forward(scnn_net *net, scnn_dtype *x)
     }
 }
 
-/*void scnn_net_backward(scnn_net *net, const scnn_mat *t)
+void scnn_net_backward(scnn_net *net, scnn_dtype *dy)
 {
-    if ((net == NULL) || (t == NULL)) {
+    if ((net == NULL) || (dy == NULL)) {
         return;
     }
 
-    scnn_mat *dy = scnn_mat_alloc(t->shape);
-
-    scnn_scopy(net->output->y->size, net->output->y->data, 1, dy->data, 1);
-    scnn_saxpy(t->size, -1, t->data, 1, dy->data, 1);
-
-    scnn_mat    *out = dy;
-    scnn_layer  *layer;
+    scnn_dtype *out = dy;
     for (int i = (net->size - 1); i >= 0; i--) {
-        layer = net->layers[i];
-        layer->backward(layer, out);
-        out = layer->dx;
+        net->layers[i]->backward(net->layers[i], out);
+        out = net->layers[i]->dx->data;
     }
-}*/
+}
 
 void scnn_net_free(scnn_net **net)
 {

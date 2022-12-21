@@ -57,9 +57,9 @@ void scnn_net_forward(scnn_net *net, scnn_dtype *x);
  * @brief Backward propagation of network
  * 
  * @param[in,out]   net Network
- * @param[in]       t   Training label
+ * @param[in]       dy  Differential of network output
  */
-//void scnn_net_backward(scnn_net *net, const scnn_mat *t);
+void scnn_net_backward(scnn_net *net, scnn_dtype *dy);
 
 /**
  * @brief Free network

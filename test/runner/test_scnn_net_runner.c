@@ -34,7 +34,7 @@ TEST_GROUP_RUNNER(scnn_net)
     RUN_TEST_CASE(scnn_net, forward_failed_when_net_is_NULL);
     RUN_TEST_CASE(scnn_net, forward_failed_when_x_is_NULL);
 
-    //RUN_TEST_CASE(scnn_net, backward);
-    //RUN_TEST_CASE(scnn_net, backward_net_is_NULL);
-    //RUN_TEST_CASE(scnn_net, backward_t_is_NULL);
+    RUN_TEST_CASE(scnn_net, backward_3layers);
+    RUN_TEST_CASE(scnn_net, backward_failed_when_net_is_NULL);
+    RUN_TEST_CASE(scnn_net, backward_failed_when_dy_is_NULL);
 }
