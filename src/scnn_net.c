@@ -7,7 +7,6 @@
 #include <stdbool.h>
 
 #include "scnn_net.h"
-#include "scnn_blas.h"
 
 scnn_net *scnn_net_alloc(void)
 {
