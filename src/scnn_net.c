@@ -17,6 +17,8 @@ scnn_net *scnn_net_alloc(void)
 
     net->size = 0;
 
+    net->batch_size = 1;
+
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
         net->layers[i] = NULL;
     }

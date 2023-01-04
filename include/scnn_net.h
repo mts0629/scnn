@@ -16,6 +16,7 @@
  */
 typedef struct scnn_net {
     int         size;                       //!< The number of layers
+    int         batch_size;                 //!< Batch size
     scnn_layer  *layers[SCNN_NET_MAX_SIZE]; //!< Layers
     scnn_layer  *input;                     //!< Input layer off the network
     scnn_layer  *output;                    //!< Output layer off the network

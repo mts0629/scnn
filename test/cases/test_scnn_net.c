@@ -33,6 +33,8 @@ TEST(scnn_net, allocate)
 
     TEST_ASSERT_EQUAL(0, net->size);
 
+    TEST_ASSERT_EQUAL(1, net->batch_size);
+
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
         TEST_ASSERT_NULL(net->layers[i]);
     }
