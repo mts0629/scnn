@@ -84,10 +84,9 @@ scnn_net *scnn_net_init(scnn_net *net)
     // initialize precedding layers
     for (int i = 1; i < net->size; i++) {
         // set an output shape of the previous layer as that of the next input
-        net->layers[i]->params.in_shape[0] = net->layers[i - 1]->y->shape[0];
-        net->layers[i]->params.in_shape[1] = net->layers[i - 1]->y->shape[1];
-        net->layers[i]->params.in_shape[2] = net->layers[i - 1]->y->shape[2];
-        net->layers[i]->params.in_shape[3] = net->layers[i - 1]->y->shape[3];
+        for (int j = 0; j < SCNN_MAT_DIM; j++) {
+            net->layers[i]->params.in_shape[j] = net->layers[i - 1]->y->shape[j];
+        }
 
         if (net->layers[i]->init(net->layers[i]) == NULL) {
             return NULL;
