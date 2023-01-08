@@ -25,7 +25,7 @@ TEST_TEAR_DOWN(scnn_sigmoid)
     TEST_ASSERT_NULL(sigmoid);
 }
 
-TEST(scnn_sigmoid, allocate_sigmoid_layer)
+TEST(scnn_sigmoid, initialize)
 {
     scnn_layer_params params = { .in_shape={ 1, 10, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
@@ -39,18 +39,8 @@ TEST(scnn_sigmoid, allocate_sigmoid_layer)
     TEST_ASSERT_EQUAL_INT(1, sigmoid->params.in_shape[2]);
     TEST_ASSERT_EQUAL_INT(1, sigmoid->params.in_shape[3]);
 
-    TEST_ASSERT_NOT_NULL(sigmoid->init);
-
     TEST_ASSERT_NOT_NULL(sigmoid->forward);
     TEST_ASSERT_NOT_NULL(sigmoid->backward);
-}
-
-TEST(scnn_sigmoid, initialize)
-{
-    scnn_layer_params params = { .in_shape={ 1, 10, 1, 1 } };
-    sigmoid = scnn_sigmoid_layer(params);
-
-    TEST_ASSERT_NOT_NULL(sigmoid->init(sigmoid));
 
     TEST_ASSERT_NOT_NULL(sigmoid->x);
     TEST_ASSERT_NOT_NULL(sigmoid->x->data);
@@ -83,43 +73,16 @@ TEST(scnn_sigmoid, initialize)
     TEST_ASSERT_NULL(sigmoid->db);
 }
 
-TEST(scnn_sigmoid, cannot_initialize_with_NULL)
-{
-    scnn_layer_params params = { .in_shape={ 1, 10, 1, 1 } };
-    sigmoid = scnn_sigmoid_layer(params);
-
-    TEST_ASSERT_NULL(sigmoid->init(NULL));
-
-    TEST_ASSERT_NULL(sigmoid->x);
-    TEST_ASSERT_NULL(sigmoid->y);
-    TEST_ASSERT_NULL(sigmoid->w);
-    TEST_ASSERT_NULL(sigmoid->b);
-    TEST_ASSERT_NULL(sigmoid->dx);
-    TEST_ASSERT_NULL(sigmoid->dw);
-    TEST_ASSERT_NULL(sigmoid->db);
-}
-
 TEST(scnn_sigmoid, cannot_initialize_with_invalid_in_shape)
 {
     scnn_layer_params params = { .in_shape={ -1, 10, 1, 1 } };
-    sigmoid = scnn_sigmoid_layer(params);
-
-    TEST_ASSERT_NULL(sigmoid->init(sigmoid));
-
-    TEST_ASSERT_NULL(sigmoid->x);
-    TEST_ASSERT_NULL(sigmoid->y);
-    TEST_ASSERT_NULL(sigmoid->w);
-    TEST_ASSERT_NULL(sigmoid->b);
-    TEST_ASSERT_NULL(sigmoid->dx);
-    TEST_ASSERT_NULL(sigmoid->dw);
-    TEST_ASSERT_NULL(sigmoid->db);
+    TEST_ASSERT_NULL(scnn_sigmoid_layer(params));
 }
 
 TEST(scnn_sigmoid, forward)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -1, 0, 1
@@ -138,7 +101,6 @@ TEST(scnn_sigmoid, forward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape={ 2, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -2, -1, 0,
@@ -159,7 +121,6 @@ TEST(scnn_sigmoid, forward_fails_when_x_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype y[] = {
         0, 1, 2
@@ -175,7 +136,6 @@ TEST(scnn_sigmoid, forward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype y[] = {
         0, 1, 2
@@ -195,7 +155,6 @@ TEST(scnn_sigmoid, backward)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -1, 0, 1
@@ -220,7 +179,6 @@ TEST(scnn_sigmoid, backward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape={ 2, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -2, -1, 0,
@@ -248,7 +206,6 @@ TEST(scnn_sigmoid, backward_fails_when_dy_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -1, 0, 1
@@ -271,7 +228,6 @@ TEST(scnn_sigmoid, backward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     sigmoid = scnn_sigmoid_layer(params);
-    sigmoid->init(sigmoid);
 
     scnn_dtype x[] = {
         -1, 0, 1

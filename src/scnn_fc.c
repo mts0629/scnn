@@ -150,10 +150,13 @@ scnn_layer *scnn_fc_layer(const scnn_layer_params params)
 
     layer->params.type = SCNN_LAYER_FC;
 
-    layer->init = init;
-
     layer->forward  = forward;
     layer->backward = backward;
+
+    if (init(layer) == NULL) {
+        scnn_layer_free(&layer);
+        return NULL;
+    }
 
     return layer;
 }

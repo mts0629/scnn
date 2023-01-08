@@ -25,7 +25,7 @@ TEST_TEAR_DOWN(scnn_fc)
     TEST_ASSERT_NULL(fc);
 }
 
-TEST(scnn_fc, allocate_fc_layer)
+TEST(scnn_fc, initialize)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 28, 28 }, .out=10 };
     fc = scnn_fc_layer(params);
@@ -39,18 +39,8 @@ TEST(scnn_fc, allocate_fc_layer)
     TEST_ASSERT_EQUAL_INT(28, fc->params.in_shape[3]);
     TEST_ASSERT_EQUAL_INT(10, fc->params.out);
 
-    TEST_ASSERT_NOT_NULL(fc->init);
-
     TEST_ASSERT_NOT_NULL(fc->forward);
     TEST_ASSERT_NOT_NULL(fc->backward);
-}
-
-TEST(scnn_fc, initialize)
-{
-    scnn_layer_params params = { .in_shape={ 1, 2, 28, 28 }, .out=10 };
-    fc = scnn_fc_layer(params);
-
-    TEST_ASSERT_NOT_NULL(fc->init(fc));
 
     TEST_ASSERT_NOT_NULL(fc->x);
     TEST_ASSERT_NOT_NULL(fc->x->data);
@@ -109,59 +99,22 @@ TEST(scnn_fc, initialize)
     TEST_ASSERT_EQUAL_INT(fc->b->size, fc->db->size);
 }
 
-TEST(scnn_fc, cannot_initialize_with_NULL)
-{
-    scnn_layer_params params = { .in_shape={ 1, 2, 28, 28 }, .out=10 };
-    fc = scnn_fc_layer(params);
-
-    TEST_ASSERT_NULL(fc->init(NULL));
-
-    TEST_ASSERT_NULL(fc->x);
-    TEST_ASSERT_NULL(fc->y);
-    TEST_ASSERT_NULL(fc->w);
-    TEST_ASSERT_NULL(fc->b);
-    TEST_ASSERT_NULL(fc->dx);
-    TEST_ASSERT_NULL(fc->dw);
-    TEST_ASSERT_NULL(fc->db);
-}
-
 TEST(scnn_fc, cannot_initialize_with_invalid_in_shape)
 {
     scnn_layer_params params = { .in_shape={ -1, 2, 28, 28 }, .out=10 };
-    fc = scnn_fc_layer(params);
-
-    TEST_ASSERT_NULL(fc->init(fc));
-
-    TEST_ASSERT_NULL(fc->x);
-    TEST_ASSERT_NULL(fc->y);
-    TEST_ASSERT_NULL(fc->w);
-    TEST_ASSERT_NULL(fc->b);
-    TEST_ASSERT_NULL(fc->dx);
-    TEST_ASSERT_NULL(fc->dw);
-    TEST_ASSERT_NULL(fc->db);
+    TEST_ASSERT_NULL(scnn_fc_layer(params));
 }
 
 TEST(scnn_fc, cannot_initialize_with_invalid_out)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 28, 28 }, .out=0 };
-    fc = scnn_fc_layer(params);
-
-    TEST_ASSERT_NULL(fc->init(fc));
-
-    TEST_ASSERT_NULL(fc->x);
-    TEST_ASSERT_NULL(fc->y);
-    TEST_ASSERT_NULL(fc->w);
-    TEST_ASSERT_NULL(fc->b);
-    TEST_ASSERT_NULL(fc->dx);
-    TEST_ASSERT_NULL(fc->dw);
-    TEST_ASSERT_NULL(fc->db);
+    TEST_ASSERT_NULL(scnn_fc_layer(params));
 }
 
 TEST(scnn_fc, forward)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -191,7 +144,6 @@ TEST(scnn_fc, forward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape={ 3, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -225,7 +177,6 @@ TEST(scnn_fc, forward_fails_when_x_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -252,7 +203,6 @@ TEST(scnn_fc, forward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -283,7 +233,6 @@ TEST(scnn_fc, backward)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -325,7 +274,6 @@ TEST(scnn_fc, backward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape={ 3, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -373,7 +321,6 @@ TEST(scnn_fc, backward_fails_when_dy_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,
@@ -418,7 +365,6 @@ TEST(scnn_fc, backward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 2, 1, 1 }, .out=3 };
     fc = scnn_fc_layer(params);
-    fc->init(fc);
 
     scnn_dtype w[] = {
         0, 1, 2,

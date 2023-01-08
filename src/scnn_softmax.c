@@ -110,12 +110,15 @@ scnn_layer *scnn_softmax_layer(const scnn_layer_params params)
         return NULL;
     }
 
-    layer->params.type = SCNN_LAYER_SIGMOID;
-
-    layer->init = init;
+    layer->params.type = SCNN_LAYER_SOFTMAX;
 
     layer->forward  = forward;
     layer->backward = backward;
+
+    if (init(layer) == NULL) {
+        scnn_layer_free(&layer);
+        return NULL;
+    }
 
     return layer;
 }

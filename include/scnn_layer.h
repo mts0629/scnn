@@ -48,8 +48,6 @@ typedef struct scnn_layer {
     scnn_mat* dw;    //!< Difference of weight matrix
     scnn_mat* db;    //!< Difference of bias matrix
 
-    struct scnn_layer* (*init)(struct scnn_layer *self);  //!< Initialize layer
-
     void (*forward)(struct scnn_layer *self, scnn_dtype* x);     //!< Forward propagation
     void (*backward)(struct scnn_layer *self, scnn_dtype* dy);   //!< Backward propagation
 } scnn_layer;
