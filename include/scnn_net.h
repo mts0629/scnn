@@ -33,10 +33,10 @@ scnn_net *scnn_net_alloc(void);
  * @brief Append layer to network
  * 
  * @param[in,out]   net     Network
- * @param[in]       layer   Layer to be appended
+ * @param[in]       params  Parameters of the layer to be appended
  * @return                  Pointer to network, NULL if failed
  */
-scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer);
+scnn_net *scnn_net_append(scnn_net *net, scnn_layer_params params);
 
 /**
  * @brief Initialize network
