@@ -7,7 +7,10 @@
 
 TEST_GROUP_RUNNER(scnn_fc)
 {
+    RUN_TEST_CASE(scnn_fc, allocate_fc_layer);
+
     RUN_TEST_CASE(scnn_fc, initialize);
+    RUN_TEST_CASE(scnn_fc, cannot_initialize_with_NULL);
     RUN_TEST_CASE(scnn_fc, cannot_initialize_with_invalid_in_shape);
     RUN_TEST_CASE(scnn_fc, cannot_initialize_with_invalid_out);
 

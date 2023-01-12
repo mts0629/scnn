@@ -30,6 +30,8 @@ scnn_layer *scnn_layer_alloc(const scnn_layer_params params)
     layer->dw = NULL;
     layer->db = NULL;
 
+    layer->init = NULL;
+
     layer->forward  = NULL;
     layer->backward = NULL;
 

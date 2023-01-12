@@ -89,13 +89,10 @@ scnn_layer *scnn_sigmoid_layer(const scnn_layer_params params)
 
     layer->params.type = SCNN_LAYER_SIGMOID;
 
+    layer->init = init;
+
     layer->forward  = forward;
     layer->backward = backward;
-
-    if (init(layer) == NULL) {
-        scnn_layer_free(&layer);
-        return NULL;
-    }
 
     return layer;
 }

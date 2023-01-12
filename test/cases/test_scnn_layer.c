@@ -45,6 +45,8 @@ TEST(scnn_layer, allocate_layer)
     TEST_ASSERT_NULL(layer->dw);
     TEST_ASSERT_NULL(layer->db);
 
+    TEST_ASSERT_EQUAL(NULL, layer->init);
+
     TEST_ASSERT_EQUAL(NULL, layer->forward);
     TEST_ASSERT_EQUAL(NULL, layer->backward);
 }

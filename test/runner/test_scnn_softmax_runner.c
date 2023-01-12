@@ -7,7 +7,10 @@
 
 TEST_GROUP_RUNNER(scnn_softmax)
 {
+    RUN_TEST_CASE(scnn_softmax, allocate_softmax_layer);
+
     RUN_TEST_CASE(scnn_softmax, initialize);
+    RUN_TEST_CASE(scnn_softmax, cannot_initialize_with_NULL);
     RUN_TEST_CASE(scnn_softmax, cannot_initialize_with_invalid_in_shape);
 
     RUN_TEST_CASE(scnn_softmax, forward);

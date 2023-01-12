@@ -25,22 +25,30 @@ TEST_TEAR_DOWN(scnn_softmax)
     TEST_ASSERT_NULL(softmax);
 }
 
-TEST(scnn_softmax, initialize)
+TEST(scnn_softmax, allocate_softmax_layer)
 {
     scnn_layer_params params = {.in_shape = {1, 3, 1, 1}};
     softmax = scnn_softmax_layer(params);
 
     TEST_ASSERT_NOT_NULL(softmax);
 
-    TEST_ASSERT_EQUAL(SCNN_LAYER_SOFTMAX, softmax->params.type);
-
     TEST_ASSERT_EQUAL_INT(1, softmax->params.in_shape[0]);
     TEST_ASSERT_EQUAL_INT(3, softmax->params.in_shape[1]);
     TEST_ASSERT_EQUAL_INT(1, softmax->params.in_shape[2]);
     TEST_ASSERT_EQUAL_INT(1, softmax->params.in_shape[3]);
 
+    TEST_ASSERT_NOT_NULL(softmax->init);
+
     TEST_ASSERT_NOT_NULL(softmax->forward);
     TEST_ASSERT_NOT_NULL(softmax->backward);
+}
+
+TEST(scnn_softmax, initialize)
+{
+    scnn_layer_params params = {.in_shape = {1, 3, 1, 1}};
+    softmax = scnn_softmax_layer(params);
+
+    TEST_ASSERT_NOT_NULL(softmax->init(softmax));
 
     TEST_ASSERT_NOT_NULL(softmax->x);
     TEST_ASSERT_NOT_NULL(softmax->x->data);
@@ -73,16 +81,43 @@ TEST(scnn_softmax, initialize)
     TEST_ASSERT_NULL(softmax->db);
 }
 
+TEST(scnn_softmax, cannot_initialize_with_NULL)
+{
+    scnn_layer_params params = {.in_shape = {1, 3, 1, 1}};
+    softmax = scnn_softmax_layer(params);
+
+    TEST_ASSERT_NULL(softmax->init(NULL));
+
+    TEST_ASSERT_NULL(softmax->x);
+    TEST_ASSERT_NULL(softmax->y);
+    TEST_ASSERT_NULL(softmax->w);
+    TEST_ASSERT_NULL(softmax->b);
+    TEST_ASSERT_NULL(softmax->dx);
+    TEST_ASSERT_NULL(softmax->dw);
+    TEST_ASSERT_NULL(softmax->db);
+}
+
 TEST(scnn_softmax, cannot_initialize_with_invalid_in_shape)
 {
     scnn_layer_params params = {.in_shape = {-1, 3, 1, 1}};
-    TEST_ASSERT_NULL(scnn_softmax_layer(params));
+    softmax = scnn_softmax_layer(params);
+
+    TEST_ASSERT_NULL(softmax->init(softmax));
+
+    TEST_ASSERT_NULL(softmax->x);
+    TEST_ASSERT_NULL(softmax->y);
+    TEST_ASSERT_NULL(softmax->w);
+    TEST_ASSERT_NULL(softmax->b);
+    TEST_ASSERT_NULL(softmax->dx);
+    TEST_ASSERT_NULL(softmax->dw);
+    TEST_ASSERT_NULL(softmax->db);
 }
 
 TEST(scnn_softmax, forward)
 {
     scnn_layer_params params = {.in_shape = {1, 3, 1, 1}};
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 1, 4};
@@ -99,6 +134,7 @@ TEST(scnn_softmax, forward_with_xy_dim)
 {
     scnn_layer_params params = {.in_shape = {1, 3, 2, 2}};
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 0,
@@ -127,6 +163,7 @@ TEST(scnn_softmax, forward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape = { 2, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 1, 4,
@@ -147,6 +184,7 @@ TEST(scnn_softmax, forward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape = { 1, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype y[] = {
         0, 1, 2
@@ -166,6 +204,7 @@ TEST(scnn_softmax, forward_fails_when_x_is_NULL)
 {
     scnn_layer_params params = { .in_shape = { 1, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype y[] = {
         0, 1, 2
@@ -181,6 +220,7 @@ TEST(scnn_softmax, backward)
 {
     scnn_layer_params params = { .in_shape = { 1, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 1, 4
@@ -212,6 +252,7 @@ TEST(scnn_softmax, backward_with_xy_dim)
 {
     scnn_layer_params params = { .in_shape = { 1, 3, 2, 2 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 0,
@@ -264,6 +305,7 @@ TEST(scnn_softmax, backward_with_batch_dim)
 {
     scnn_layer_params params = { .in_shape = { 2, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 1, 4,
@@ -300,6 +342,7 @@ TEST(scnn_softmax, backward_fails_when_dy_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 0, 1
@@ -322,6 +365,7 @@ TEST(scnn_softmax, backward_fails_when_layer_is_NULL)
 {
     scnn_layer_params params = { .in_shape={ 1, 3, 1, 1 } };
     softmax = scnn_softmax_layer(params);
+    softmax->init(softmax);
 
     scnn_dtype x[] = {
         -1, 0, 1
