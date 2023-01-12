@@ -29,17 +29,15 @@ scnn_net *scnn_net_alloc(void)
     return net;
 }
 
-scnn_net *scnn_net_append(scnn_net *net, const scnn_layer_params params)
+scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
 {
-    if ((net == NULL)) {
+    if ((net == NULL) || (layer == NULL)) {
         return NULL;
     }
 
     if (net->size >= SCNN_NET_MAX_SIZE) {
         return NULL;
     }
-
-    scnn_layer* layer = scnn_layer_alloc(params);
 
     // Set a layer ID with an index
     layer->params.id      = net->size;
@@ -70,7 +68,6 @@ scnn_net *scnn_net_append(scnn_net *net, const scnn_layer_params params)
     return net;
 }
 
-/*
 scnn_net *scnn_net_init(scnn_net *net)
 {
     if (net == NULL) {
@@ -100,7 +97,6 @@ scnn_net *scnn_net_init(scnn_net *net)
 
     return net;
 }
-*/
 
 void scnn_net_forward(scnn_net *net, scnn_dtype *x)
 {
