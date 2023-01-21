@@ -31,7 +31,7 @@ TEST(scnn_net, allocate)
 
     TEST_ASSERT_NOT_NULL(net);
 
-    TEST_ASSERT_EQUAL(0, net->size);
+    TEST_ASSERT_EQUAL(0, scnn_net_size(net));
 
     TEST_ASSERT_EQUAL(1, net->batch_size);
 
@@ -39,8 +39,8 @@ TEST(scnn_net, allocate)
         TEST_ASSERT_NULL(net->layers[i]);
     }
 
-    TEST_ASSERT_NULL(net->input);
-    TEST_ASSERT_NULL(net->output);
+    TEST_ASSERT_NULL(scnn_net_input(net));
+    TEST_ASSERT_NULL(scnn_net_output(net));
 }
 
 TEST(scnn_net, free_with_NULL)
@@ -56,12 +56,12 @@ TEST(scnn_net, append_layer)
 
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
 
-    TEST_ASSERT_EQUAL(1, net->size);
+    TEST_ASSERT_EQUAL(1, scnn_net_size(net));
 
     TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
 
-    TEST_ASSERT_EQUAL_PTR(fc, net->input);
-    TEST_ASSERT_EQUAL_PTR(fc, net->output);
+    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_output(net));
 }
 
 TEST(scnn_net, append_2layers)
@@ -74,13 +74,13 @@ TEST(scnn_net, append_2layers)
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, sigmoid));
 
-    TEST_ASSERT_EQUAL(2, net->size);
+    TEST_ASSERT_EQUAL(2, scnn_net_size(net));
 
     TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
     TEST_ASSERT_EQUAL_PTR(sigmoid, net->layers[1]);
 
-    TEST_ASSERT_EQUAL_PTR(fc, net->input);
-    TEST_ASSERT_EQUAL_PTR(sigmoid, net->output);
+    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(sigmoid, scnn_net_output(net));
 }
 
 TEST(scnn_net, append_3layers)
@@ -95,14 +95,14 @@ TEST(scnn_net, append_3layers)
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc2));
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, sigmoid));
 
-    TEST_ASSERT_EQUAL(3, net->size);
+    TEST_ASSERT_EQUAL(3, scnn_net_size(net));
 
     TEST_ASSERT_EQUAL_PTR(fc1, net->layers[0]);
     TEST_ASSERT_EQUAL_PTR(fc2, net->layers[1]);
     TEST_ASSERT_EQUAL_PTR(sigmoid, net->layers[2]);
 
-    TEST_ASSERT_EQUAL_PTR(fc1, net->input);
-    TEST_ASSERT_EQUAL_PTR(sigmoid, net->output);
+    TEST_ASSERT_EQUAL_PTR(fc1, scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(sigmoid, scnn_net_output(net));
 }
 
 TEST(scnn_net, cannot_append_if_net_is_NULL)
@@ -396,7 +396,7 @@ static void copy_data_to_mat(const scnn_dtype *src, const scnn_mat *dst)
  */
 static void check_net_output(const scnn_dtype *expect, const scnn_net *net)
 {
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expect, net->output->y->data, net->output->y->size);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expect, scnn_net_output(net)->y->data, net->output->y->size);
 }
 
 TEST(scnn_net, forward_layer)
@@ -472,7 +472,7 @@ TEST(scnn_net, forward_failed_when_net_is_NULL)
     copy_data_to_mat(MAT_DATA(1, 2, 3, 4), fc->w);
     copy_data_to_mat(MAT_DATA(0, 1), fc->b);
 
-    copy_data_to_mat(MAT_DATA(-1, -1), net->output->y);
+    copy_data_to_mat(MAT_DATA(-1, -1), scnn_net_output(net)->y);
 
     scnn_net_forward(NULL, MAT_DATA(0.1, 0.2));
 
@@ -492,7 +492,7 @@ TEST(scnn_net, forward_failed_when_x_is_NULL)
     copy_data_to_mat(MAT_DATA(1, 2, 3, 4), fc->w);
     copy_data_to_mat(MAT_DATA(0, 1), fc->b);
 
-    copy_data_to_mat(MAT_DATA(-1, -1), net->output->y);
+    copy_data_to_mat(MAT_DATA(-1, -1), scnn_net_output(net)->y);
 
     scnn_net_forward(net, NULL);
 
@@ -518,10 +518,10 @@ TEST(scnn_net, backward_3layers)
 
     scnn_net_forward(net, MAT_DATA(0.1, 0.2));
 
-    const int size = net->output->y->size;
+    const int size = scnn_net_output(net)->y->size;
 
     scnn_dtype dy[2];
-    scnn_scopy(size, net->output->y->data, 1, dy, 1);
+    scnn_scopy(size, scnn_net_output(net)->y->data, 1, dy, 1);
     scnn_saxpy(size, -1, MAT_DATA(0, 1), 1, dy, 1);
 
     scnn_net_backward(net, dy);
@@ -566,10 +566,10 @@ TEST(scnn_net, backward_failed_when_net_is_NULL)
 
     scnn_net_forward(net, MAT_DATA(0.1, 0.2));
 
-    const int size = net->output->y->size;
+    const int size = scnn_net_output(net)->y->size;
 
     scnn_dtype dy[2];
-    scnn_scopy(size, net->output->y->data, 1, dy, 1);
+    scnn_scopy(size, scnn_net_output(net)->y->data, 1, dy, 1);
     scnn_saxpy(size, -1, MAT_DATA(0, 1), 1, dy, 1);
 
     scnn_net_backward(NULL, dy);

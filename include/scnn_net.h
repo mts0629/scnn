@@ -23,6 +23,29 @@ typedef struct scnn_net {
 } scnn_net;
 
 /**
+ * @brief Get size of the network
+ * 
+ * @param[in,out]   net     Network
+ * @return                  Size of the network
+*/
+int scnn_net_size(const scnn_net *net);
+
+/**
+ * @brief Get an input layer of the network
+ *
+ * @param[in,out]   net     Network
+ * @return                  Pointer to the input layer of network
+*/
+scnn_layer *scnn_net_input(const scnn_net *net);
+ 
+/**
+ * @brief Get an output of the network
+ * @param[in,out]   net     Network
+ * @return                  Pointer to the output layer of network
+*/
+scnn_layer *scnn_net_output(const scnn_net *net);
+
+/**
  * @brief Allocate network
  * 
  * @return  Pointer to network, NULL if failed

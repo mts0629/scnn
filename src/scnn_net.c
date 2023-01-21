@@ -8,6 +8,21 @@
 
 #include "scnn_net.h"
 
+int scnn_net_size(const scnn_net *net)
+{
+    return net->size;
+}
+
+scnn_layer* scnn_net_input(const scnn_net *net)
+{
+    return net->layers[0];
+}
+
+scnn_layer* scnn_net_output(const scnn_net *net)
+{
+    return net->layers[((net->size == 0) ? 0 : (net->size - 1))];
+}
+
 scnn_net *scnn_net_alloc(void)
 {
     scnn_net *net = malloc(sizeof(scnn_net));
