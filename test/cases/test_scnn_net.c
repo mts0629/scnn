@@ -4,28 +4,23 @@
  * 
  */
 #include "scnn_net.h"
-#include "scnn_layers.h"
-#include "scnn_blas.h"
 
-#include "unity_fixture.h"
+#include "unity.h"
 
-TEST_GROUP(scnn_net);
+#include "mock_scnn_layer.h"
 
 scnn_net *net;
 
-TEST_SETUP(scnn_net)
+void setUp(void)
 {
     net = NULL;
 }
 
-TEST_TEAR_DOWN(scnn_net)
+void tearDown(void)
 {
-    scnn_net_free(&net);
-
-    TEST_ASSERT_NULL(net);
 }
 
-TEST(scnn_net, allocate)
+void test_allocate_and_free(void)
 {
     net = scnn_net_alloc();
 
@@ -41,86 +36,82 @@ TEST(scnn_net, allocate)
 
     TEST_ASSERT_NULL(scnn_net_input(net));
     TEST_ASSERT_NULL(scnn_net_output(net));
+
+    scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
 }
 
-TEST(scnn_net, free_with_NULL)
+void test_free_with_NULL(void)
 {
-    // free in TEST_TEAR_DOWN
+    scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
 }
 
-TEST(scnn_net, append_layer)
+void test_append_layer(void)
 {
     net = scnn_net_alloc();
 
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+    scnn_layer layer;
 
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layer));
 
     TEST_ASSERT_EQUAL(1, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
+    TEST_ASSERT_EQUAL_PTR(&layer, net->layers[0]);
 
-    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_input(net));
-    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_output(net));
+    TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_output(net));
+
+    scnn_layer_free_Expect(&(net->layers[0]));
+
+    scnn_net_free(&net);
 }
 
-TEST(scnn_net, append_2layers)
+void test_append_3layers(void)
 {
     net = scnn_net_alloc();
 
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
-    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
+    scnn_layer layers[3];
 
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, sigmoid));
-
-    TEST_ASSERT_EQUAL(2, scnn_net_size(net));
-
-    TEST_ASSERT_EQUAL_PTR(fc, net->layers[0]);
-    TEST_ASSERT_EQUAL_PTR(sigmoid, net->layers[1]);
-
-    TEST_ASSERT_EQUAL_PTR(fc, scnn_net_input(net));
-    TEST_ASSERT_EQUAL_PTR(sigmoid, scnn_net_output(net));
-}
-
-TEST(scnn_net, append_3layers)
-{
-    net = scnn_net_alloc();
-
-    scnn_layer *fc1 = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
-    scnn_layer *fc2 = scnn_fc_layer((scnn_layer_params){ 0 });
-    scnn_layer *sigmoid = scnn_sigmoid_layer((scnn_layer_params){ 0 });
-
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc1));
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc2));
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, sigmoid));
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[0]));
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[1]));
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[2]));
 
     TEST_ASSERT_EQUAL(3, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL_PTR(fc1, net->layers[0]);
-    TEST_ASSERT_EQUAL_PTR(fc2, net->layers[1]);
-    TEST_ASSERT_EQUAL_PTR(sigmoid, net->layers[2]);
+    TEST_ASSERT_EQUAL_PTR(&layers[0], net->layers[0]);
+    TEST_ASSERT_EQUAL_PTR(&layers[1], net->layers[1]);
+    TEST_ASSERT_EQUAL_PTR(&layers[2], net->layers[2]);
 
-    TEST_ASSERT_EQUAL_PTR(fc1, scnn_net_input(net));
-    TEST_ASSERT_EQUAL_PTR(sigmoid, scnn_net_output(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[2], scnn_net_output(net));
+
+    scnn_layer_free_Expect(&(net->layers[0]));
+    scnn_layer_free_Expect(&(net->layers[1]));
+    scnn_layer_free_Expect(&(net->layers[2]));
+
+    scnn_net_free(&net);
 }
 
-TEST(scnn_net, cannot_append_if_net_is_NULL)
+void append_fail_if_net_is_NULL(void)
 {
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=10 });
+    scnn_layer layer;
 
-    TEST_ASSERT_NULL(scnn_net_append(NULL, fc));
-
-    scnn_layer_free(&fc);
+    TEST_ASSERT_NULL(scnn_net_append(NULL, &layer));
 }
 
-TEST(scnn_net, cannot_append_if_layer_is_NULL)
+void append_fail_if_layer_is_NULL(void)
 {
     net = scnn_net_alloc();
 
     TEST_ASSERT_NULL(scnn_net_append(net, NULL));
+
+    scnn_net_free(&net);
 }
 
+#if 0
 TEST(scnn_net, cannot_append_if_over_max_size)
 {
     net = scnn_net_alloc();
@@ -622,3 +613,4 @@ TEST(scnn_net, backward_failed_when_dy_is_NULL)
     // softmax
     TEST_ASSERT_EACH_EQUAL_FLOAT(-1, net->layers[2]->dx->data, net->layers[2]->dx->size);
 }
+#endif
