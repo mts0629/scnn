@@ -3,24 +3,46 @@
  * @brief Network structure
  * 
  */
+#include "scnn_net.h"
+
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "scnn_net.h"
+/**
+ * @brief Network structure
+ * 
+ */
+struct scnn_net {
+    int         size;                       //!< The number of layers
+    int         batch_size;                 //!< Batch size
+    scnn_layer  *layers[SCNN_NET_MAX_SIZE]; //!< Layers
+    scnn_layer  *input;                     //!< Input layer off the network
+    scnn_layer  *output;                    //!< Output layer off the network
+};
 
 int scnn_net_size(const scnn_net *net)
 {
     return net->size;
 }
 
+int scnn_net_batch_size(const scnn_net *net)
+{
+    return net->batch_size;
+}
+
+scnn_layer **scnn_net_layers(scnn_net *net)
+{
+    return net->layers;
+}
+
 scnn_layer* scnn_net_input(const scnn_net *net)
 {
-    return net->layers[0];
+    return net->input;
 }
 
 scnn_layer* scnn_net_output(const scnn_net *net)
 {
-    return net->layers[((net->size == 0) ? 0 : (net->size - 1))];
+    return net->output;
 }
 
 scnn_net *scnn_net_alloc(void)

@@ -26,12 +26,12 @@ void test_allocate_and_free(void)
 
     TEST_ASSERT_NOT_NULL(net);
 
-    TEST_ASSERT_EQUAL(0, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_INT(0, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL(1, net->batch_size);
+    TEST_ASSERT_EQUAL_INT(1, scnn_net_batch_size(net));
 
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
-        TEST_ASSERT_NULL(net->layers[i]);
+        TEST_ASSERT_NULL(scnn_net_layers(net)[i]);
     }
 
     TEST_ASSERT_NULL(scnn_net_input(net));
@@ -44,9 +44,7 @@ void test_allocate_and_free(void)
 
 void test_free_with_NULL(void)
 {
-    scnn_net_free(&net);
-
-    TEST_ASSERT_NULL(net);
+    scnn_net_free(NULL);
 }
 
 void test_append_layer(void)
@@ -57,16 +55,18 @@ void test_append_layer(void)
 
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layer));
 
-    TEST_ASSERT_EQUAL(1, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_INT(1, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL_PTR(&layer, net->layers[0]);
+    TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_layers(net)[0]);
 
     TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_input(net));
     TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_output(net));
 
-    scnn_layer_free_Expect(&(net->layers[0]));
+    scnn_layer_free_Expect(&(scnn_net_layers(net)[0]));
 
     scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
 }
 
 void test_append_3layers(void)
@@ -79,54 +79,75 @@ void test_append_3layers(void)
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[1]));
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[2]));
 
-    TEST_ASSERT_EQUAL(3, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_INT(3, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL_PTR(&layers[0], net->layers[0]);
-    TEST_ASSERT_EQUAL_PTR(&layers[1], net->layers[1]);
-    TEST_ASSERT_EQUAL_PTR(&layers[2], net->layers[2]);
+    TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_layers(net)[0]);
+    TEST_ASSERT_EQUAL_PTR(&layers[1], scnn_net_layers(net)[1]);
+    TEST_ASSERT_EQUAL_PTR(&layers[2], scnn_net_layers(net)[2]);
 
     TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_input(net));
     TEST_ASSERT_EQUAL_PTR(&layers[2], scnn_net_output(net));
 
-    scnn_layer_free_Expect(&(net->layers[0]));
-    scnn_layer_free_Expect(&(net->layers[1]));
-    scnn_layer_free_Expect(&(net->layers[2]));
+    scnn_layer_free_Expect(&(scnn_net_layers(net)[0]));
+    scnn_layer_free_Expect(&(scnn_net_layers(net)[1]));
+    scnn_layer_free_Expect(&(scnn_net_layers(net)[2]));
 
     scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
 }
 
-void append_fail_if_net_is_NULL(void)
+void test_append_fail_if_net_is_NULL(void)
 {
     scnn_layer layer;
 
     TEST_ASSERT_NULL(scnn_net_append(NULL, &layer));
 }
 
-void append_fail_if_layer_is_NULL(void)
+void test_append_fail_if_layer_is_NULL(void)
 {
     net = scnn_net_alloc();
 
     TEST_ASSERT_NULL(scnn_net_append(net, NULL));
 
+    TEST_ASSERT_EQUAL_INT(0, scnn_net_size(net));
+
+    TEST_ASSERT_EQUAL_PTR(NULL, scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(NULL, scnn_net_output(net));
+
     scnn_net_free(&net);
 }
 
-#if 0
-TEST(scnn_net, cannot_append_if_over_max_size)
+void test_append_fail_if_exeeeds_max_size(void)
 {
     net = scnn_net_alloc();
 
+    scnn_layer layers[SCNN_NET_MAX_SIZE];
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
-        scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=2 });
-        TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, fc));
+        TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[i]));
     }
 
-    scnn_layer *fc = scnn_fc_layer((scnn_layer_params){ .in_shape={ 2 }, .out=2 });
-    TEST_ASSERT_NULL(scnn_net_append(net, fc));
+    TEST_ASSERT_EQUAL_INT(SCNN_NET_MAX_SIZE, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[SCNN_NET_MAX_SIZE - 1], scnn_net_output(net));
 
-    scnn_layer_free(&fc);
+    scnn_layer extra_layer;
+    TEST_ASSERT_NULL(scnn_net_append(net, &extra_layer));
+
+    TEST_ASSERT_EQUAL_INT(SCNN_NET_MAX_SIZE, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_input(net));
+    TEST_ASSERT_EQUAL_PTR(&layers[SCNN_NET_MAX_SIZE - 1], scnn_net_output(net));
+
+    for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
+        scnn_layer_free_Expect(&(scnn_net_layers(net)[i]));
+    }
+
+    scnn_net_free(&net);
+
+    TEST_ASSERT_NULL(net);
 }
 
+#if 0
 /**
  * @brief Check matrix shape
  * 
