@@ -163,6 +163,10 @@ void scnn_net_backward(scnn_net *net, scnn_dtype *dy)
 
 void scnn_net_free(scnn_net **net)
 {
+    if (net == NULL) {
+        return;
+    }
+
     if (*net == NULL) {
         return;
     }

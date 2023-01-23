@@ -42,7 +42,12 @@ void test_allocate_and_free(void)
     TEST_ASSERT_NULL(net);
 }
 
-void test_free_with_NULL(void)
+void test_free_pointer_to_NULL(void)
+{
+    scnn_net_free(&net);
+}
+
+void test_free_NULL(void)
 {
     scnn_net_free(NULL);
 }
