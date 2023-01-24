@@ -55,11 +55,20 @@ typedef struct scnn_layer {
 } scnn_layer;
 
 /**
- * @brief Allocate layer
+ * @brief Allocate a layer
  * 
- * @return Pointer to layer, NULL if failed
+ * @param[in]   params  Parameters for a layer
+ * @return              Pointer to layer, NULL if failed
  */
 scnn_layer *scnn_layer_alloc(const scnn_layer_params params);
+
+/**
+ * @brief Initialze a layer
+ * 
+ * @param[in,out]   layer   Layer
+ * @return                  Pointer the the layer, NULL if failed
+ */
+scnn_layer *scnn_layer_init(scnn_layer* layer);
 
 /**
  * @brief Free layer

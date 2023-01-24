@@ -115,19 +115,13 @@ scnn_net *scnn_net_init(scnn_net *net)
         return NULL;
     }
 
-    // initilaize the first layer
-    if (net->layers[0]->init(net->layers[0]) == NULL) {
-        return NULL;
-    }
-
-    // initialize precedding layers
-    for (int i = 1; i < net->size; i++) {
-        // set an output shape of the previous layer as that of the next input
-        for (int j = 0; j < SCNN_MAT_DIM; j++) {
-            net->layers[i]->params.in_shape[j] = net->layers[i - 1]->y->shape[j];
-        }
-
-        if (net->layers[i]->init(net->layers[i]) == NULL) {
+    for (int i = 0; i < net->size; i++) {
+        // Set an output shape of the previous layer as that of the next input
+        // -> It should be applied a time of layer connection
+        //for (int j = 0; j < SCNN_MAT_DIM; j++) {
+        //    net->layers[i]->params.in_shape[j] = net->layers[i - 1]->y->shape[j];
+        //}
+        if (scnn_layer_init(net->layers[i]) == NULL) {
             return NULL;
         }
     }
