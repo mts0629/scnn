@@ -38,7 +38,6 @@ void test_allocate_and_free(void)
     TEST_ASSERT_NULL(scnn_net_output(net));
 
     scnn_net_free(&net);
-
     TEST_ASSERT_NULL(net);
 }
 
@@ -57,7 +56,7 @@ void test_append_layer(void)
     net = scnn_net_alloc();
 
     scnn_layer layer;
-
+    scnn_layer_connect_Expect(NULL, &layer);
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layer));
 
     TEST_ASSERT_EQUAL_INT(1, scnn_net_size(net));
@@ -68,9 +67,7 @@ void test_append_layer(void)
     TEST_ASSERT_EQUAL_PTR(&layer, scnn_net_output(net));
 
     scnn_layer_free_Expect(&(scnn_net_layers(net)[0]));
-
     scnn_net_free(&net);
-
     TEST_ASSERT_NULL(net);
 }
 
@@ -79,33 +76,32 @@ void test_append_3layers(void)
     net = scnn_net_alloc();
 
     scnn_layer layers[3];
-
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[0]));
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[1]));
-    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[2]));
+    scnn_layer_connect_Expect(NULL, &layers[0]);
+    scnn_layer_connect_Expect(&layers[0], &layers[1]);
+    scnn_layer_connect_Expect(&layers[1], &layers[2]);
+    for (int i = 0; i < 3; i++) {
+        TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[i]));
+    }
 
     TEST_ASSERT_EQUAL_INT(3, scnn_net_size(net));
 
-    TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_layers(net)[0]);
-    TEST_ASSERT_EQUAL_PTR(&layers[1], scnn_net_layers(net)[1]);
-    TEST_ASSERT_EQUAL_PTR(&layers[2], scnn_net_layers(net)[2]);
+    for (int i = 0; i < 3; i++) {
+        TEST_ASSERT_EQUAL_PTR(&layers[i], scnn_net_layers(net)[i]);
+    }
 
     TEST_ASSERT_EQUAL_PTR(&layers[0], scnn_net_input(net));
     TEST_ASSERT_EQUAL_PTR(&layers[2], scnn_net_output(net));
 
-    scnn_layer_free_Expect(&(scnn_net_layers(net)[0]));
-    scnn_layer_free_Expect(&(scnn_net_layers(net)[1]));
-    scnn_layer_free_Expect(&(scnn_net_layers(net)[2]));
-
+    for (int i = 0; i < 3; i++) {
+        scnn_layer_free_Expect(&(scnn_net_layers(net)[i]));
+    }
     scnn_net_free(&net);
-
     TEST_ASSERT_NULL(net);
 }
 
 void test_append_fail_if_net_is_NULL(void)
 {
     scnn_layer layer;
-
     TEST_ASSERT_NULL(scnn_net_append(NULL, &layer));
 }
 
@@ -128,6 +124,10 @@ void test_append_fail_if_exeeeds_max_size(void)
     net = scnn_net_alloc();
 
     scnn_layer layers[SCNN_NET_MAX_SIZE];
+    scnn_layer_connect_Expect(NULL, &layers[0]);
+    for (int i = 1; i < SCNN_NET_MAX_SIZE; i++) {
+        scnn_layer_connect_Expect(&layers[i - 1], &layers[i]);
+    }
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
         TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &layers[i]));
     }
@@ -146,7 +146,6 @@ void test_append_fail_if_exeeeds_max_size(void)
     for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
         scnn_layer_free_Expect(&(scnn_net_layers(net)[i]));
     }
-
     scnn_net_free(&net);
 
     TEST_ASSERT_NULL(net);
@@ -157,10 +156,10 @@ void test_init(void)
     net = scnn_net_alloc();
 
     scnn_layer layer;
+    scnn_layer_connect_Ignore();
     scnn_net_append(net, &layer);
 
     scnn_layer_init_ExpectAndReturn(&layer, &layer);
-
     TEST_ASSERT_EQUAL_PTR(net, scnn_net_init(net));
 
     scnn_layer_free_Ignore();
@@ -172,6 +171,7 @@ void test_init_3layers(void)
     net = scnn_net_alloc();
 
     scnn_layer layers[3];
+    scnn_layer_connect_Ignore();
     for (int i = 0; i < 3; i++) {
         scnn_net_append(net, &layers[i]);
     }
@@ -205,6 +205,7 @@ void test_init_fail_if_layer_init_fail(void)
     net = scnn_net_alloc();
 
     scnn_layer layers[3];
+    scnn_layer_connect_Ignore();
     for (int i = 0; i < 3; i++) {
         scnn_net_append(net, &layers[i]);
     }

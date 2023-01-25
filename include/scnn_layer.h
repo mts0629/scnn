@@ -71,6 +71,14 @@ scnn_layer *scnn_layer_alloc(const scnn_layer_params params);
 scnn_layer *scnn_layer_init(scnn_layer* layer);
 
 /**
+ * @brief Connect 2 layers
+ * 
+ * @param[in,out]   prev    Previous layer, being connected from the next
+ * @param[in,out]   next    Next layer, connect to the previous
+ */
+void scnn_layer_connect(scnn_layer* prev, scnn_layer* next);
+
+/**
  * @brief Free layer
  * 
  * @param[in,out] layer Pointer to pointer of layer

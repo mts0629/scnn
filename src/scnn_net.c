@@ -76,19 +76,7 @@ scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
         return NULL;
     }
 
-    // Set a layer ID with an index
-    layer->params.id      = net->size;
-
-    layer->params.prev_id = -1;
-    layer->params.next_id = -1;
-
-    scnn_layer *last_layer = net->output;
-
-    // Set layer ID of the current network output as a previous layer
-    if (last_layer != NULL) {
-        last_layer->params.next_id = layer->params.id;
-        layer->params.prev_id      = last_layer->params.id;
-    }
+    scnn_layer_connect(net->output, layer);
 
     // Append the current layer to tail of the network layers
     net->layers[net->size] = layer;
