@@ -200,6 +200,23 @@ void test_init_fail_if_net_size_is_0(void)
     scnn_net_free(&net);
 }
 
+void test_init_fail_if_layer_init_fail(void)
+{
+    net = scnn_net_alloc();
+
+    scnn_layer layers[3];
+    for (int i = 0; i < 3; i++) {
+        scnn_net_append(net, &layers[i]);
+    }
+
+    scnn_layer_init_ExpectAndReturn(&layers[0], &layers[0]);
+    scnn_layer_init_ExpectAndReturn(&layers[1], NULL);
+    TEST_ASSERT_NULL(scnn_net_init(net));
+
+    scnn_layer_free_Ignore();
+    scnn_net_free(&net);
+}
+
 #if 0
 /**
  * @brief Check matrix shape
