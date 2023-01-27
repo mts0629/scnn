@@ -80,8 +80,9 @@ scnn_net *scnn_net_init(scnn_net *net);
  * 
  * @param[in,out]   net Network
  * @param[in]       x   Network input
+ * @return              Pointer to the network output, NULL if failed
  */
-void scnn_net_forward(scnn_net *net, scnn_dtype *x);
+scnn_dtype *scnn_net_forward(scnn_net *net, const scnn_dtype *x);
 
 /**
  * @brief Backward propagation of network

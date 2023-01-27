@@ -117,17 +117,20 @@ scnn_net *scnn_net_init(scnn_net *net)
     return net;
 }
 
-void scnn_net_forward(scnn_net *net, scnn_dtype *x)
+scnn_dtype *scnn_net_forward(scnn_net *net, const scnn_dtype *x)
 {
     if ((net == NULL) || (x == NULL)) {
-        return;
+        return NULL;
     }
 
-    scnn_dtype  *in = x;
+    scnn_dtype *in = (scnn_dtype*)x;
+    scnn_dtype *out;
     for (int i = 0; i < net->size; i++) {
-        net->layers[i]->forward(net->layers[i], in);
-        in = net->layers[i]->y->data;
+        out = scnn_layer_forward(net->layers[i], in);
+        in = out;
     }
+
+    return out;
 }
 
 void scnn_net_backward(scnn_net *net, scnn_dtype *dy)

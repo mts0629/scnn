@@ -87,6 +87,14 @@ scnn_layer *scnn_layer_init(scnn_layer* layer);
 void scnn_layer_connect(scnn_layer* prev, scnn_layer* next);
 
 /**
+ * @brief Forward propagation of a layer
+ * 
+ * @param[in,out]   layer   Layer
+ * @param[in]       x       An input of the layer
+*/
+scnn_dtype *scnn_layer_forward(scnn_layer *layer, const scnn_dtype *x);
+
+/**
  * @brief Free layer
  * 
  * @param[in,out] layer Pointer to pointer of layer
