@@ -55,6 +55,14 @@ typedef struct scnn_layer {
 } scnn_layer;
 
 /**
+ * @brief Get an output of a layer
+ * 
+ * @param[in]   layer   Layer
+ * @return              Pointer to an output of the layer
+*/
+scnn_dtype *scnn_layer_y(const scnn_layer *layer);
+
+/**
  * @brief Allocate a layer
  * 
  * @param[in]   params  Parameters for a layer
