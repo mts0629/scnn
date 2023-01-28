@@ -91,8 +91,18 @@ void scnn_layer_connect(scnn_layer* prev, scnn_layer* next);
  * 
  * @param[in,out]   layer   Layer
  * @param[in]       x       An input of the layer
+ * @return                  Pointer to the layer output
 */
 scnn_dtype *scnn_layer_forward(scnn_layer *layer, const scnn_dtype *x);
+
+/**
+ * @brief Backward propagation of a layer
+ * 
+ * @param[in,out]   layer   Layer
+ * @param[in]       dy      A differential of previous layer
+ * @return                  Pointer to differential of an input of the layer
+*/
+scnn_dtype *scnn_layer_backward(scnn_layer *layer, const scnn_dtype *dy);
 
 /**
  * @brief Free layer

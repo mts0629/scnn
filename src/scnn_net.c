@@ -133,17 +133,20 @@ scnn_dtype *scnn_net_forward(scnn_net *net, const scnn_dtype *x)
     return out;
 }
 
-void scnn_net_backward(scnn_net *net, scnn_dtype *dy)
+scnn_dtype *scnn_net_backward(scnn_net *net, const scnn_dtype *dy)
 {
     if ((net == NULL) || (dy == NULL)) {
-        return;
+        return NULL;
     }
 
-    scnn_dtype *out = dy;
+    scnn_dtype *din = (scnn_dtype*)dy;
+    scnn_dtype *dout;
     for (int i = (net->size - 1); i >= 0; i--) {
-        net->layers[i]->backward(net->layers[i], out);
-        out = net->layers[i]->dx->data;
+        dout = scnn_layer_backward(net->layers[i], din);
+        din = dout;
     }
+
+    return dout;
 }
 
 void scnn_net_free(scnn_net **net)

@@ -89,8 +89,9 @@ scnn_dtype *scnn_net_forward(scnn_net *net, const scnn_dtype *x);
  * 
  * @param[in,out]   net Network
  * @param[in]       dy  Differential of network output
+ * @return              Pointer to differential of an input of the network, NULL if failed
  */
-void scnn_net_backward(scnn_net *net, scnn_dtype *dy);
+scnn_dtype *scnn_net_backward(scnn_net *net, const scnn_dtype *dy);
 
 /**
  * @brief Free network
