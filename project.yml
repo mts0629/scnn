@@ -45,7 +45,6 @@
   :test:
     - -:test/cases/test_scnn_blas.c
     - -:test/cases/test_scnn_fc.c
-    - -:test/cases/test_scnn_layer.c
     - -:test/cases/test_scnn_loss.c
     - -:test/cases/test_scnn_mat.c
     - -:test/cases/test_scnn_sigmoid.c

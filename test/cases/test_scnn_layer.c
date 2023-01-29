@@ -5,27 +5,26 @@
  */
 #include "scnn_layer.h"
 
-#include "unity_fixture.h"
+// Private header, include to verify private members
+#include "impl/scnn_layer_impl.h"
 
-TEST_GROUP(scnn_layer);
+#include "unity.h"
+
+#include "mock_scnn_mat.h"
 
 scnn_layer *layer;
 
-TEST_SETUP(scnn_layer)
+void setUp(void)
 {
     layer = NULL;
 }
 
-TEST_TEAR_DOWN(scnn_layer)
-{
-    scnn_layer_free(&layer);
+void tearDown(void)
+{}
 
-    TEST_ASSERT_NULL(layer);
-}
-
-TEST(scnn_layer, allocate_layer)
+void test_allocate_and_free(void)
 {
-    scnn_layer_params params = { .in_shape = { 1, 3, 28, 28 } };
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     TEST_ASSERT_NOT_NULL(layer);
@@ -46,22 +45,26 @@ TEST(scnn_layer, allocate_layer)
     TEST_ASSERT_NULL(layer->db);
 
     TEST_ASSERT_EQUAL(NULL, layer->init);
-
     TEST_ASSERT_EQUAL(NULL, layer->forward);
     TEST_ASSERT_EQUAL(NULL, layer->backward);
+
+    scnn_mat_free_Expect(&layer->x);
+    scnn_mat_free_Expect(&layer->y);
+    scnn_mat_free_Expect(&layer->w);
+    scnn_mat_free_Expect(&layer->b);
+    scnn_mat_free_Expect(&layer->dx);
+    scnn_mat_free_Expect(&layer->dw);
+    scnn_mat_free_Expect(&layer->db);
+    scnn_layer_free(&layer);
+    TEST_ASSERT_NULL(layer);
 }
 
-TEST(scnn_layer, free_NULL)
+void test_free_pointer_to_NULL(void)
+{
+    scnn_layer_free(&layer);
+}
+
+void test_free_NULL(void)
 {
     scnn_layer_free(NULL);
-}
-
-TEST(scnn_layer, free_twice)
-{
-    scnn_layer_params params = { .in_shape = { 1, 3, 28, 28 } };
-    scnn_layer *layer = scnn_layer_alloc(params);
-
-    scnn_layer_free(&layer);
-
-    // 2nd freeing is done in TEST_TEAR_DOWN
 }

@@ -3,10 +3,18 @@
  * @brief Layer structure
  * 
  */
+#include "scnn_layer.h"
+
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "scnn_layer.h"
+#include "impl/scnn_layer_impl.h"
+
+scnn_dtype *scnn_layer_y(const scnn_layer *layer)
+{
+    // TODO: Implement
+    return NULL;
+}
 
 scnn_layer *scnn_layer_alloc(const scnn_layer_params params)
 {
@@ -36,6 +44,30 @@ scnn_layer *scnn_layer_alloc(const scnn_layer_params params)
     layer->backward = NULL;
 
     return layer;
+}
+
+scnn_layer *scnn_layer_init(scnn_layer* layer)
+{
+    // TODO: Implement
+    return NULL;
+}
+
+void scnn_layer_connect(scnn_layer* prev, scnn_layer* next)
+{
+    // TODO: Implement
+    return;
+}
+
+scnn_dtype *scnn_layer_forward(scnn_layer *layer, const scnn_dtype *x)
+{
+    // TODO: Implement
+    return NULL;
+}
+
+scnn_dtype *scnn_layer_backward(scnn_layer *layer, const scnn_dtype *dy)
+{
+    // TODO: Implement
+    return NULL;
 }
 
 void scnn_layer_free(scnn_layer **layer)
