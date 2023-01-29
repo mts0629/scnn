@@ -32,27 +32,7 @@ typedef struct scnn_layer_params {
     int next_id;                //!< ID of the next layer
 } scnn_layer_params;
 
-/**
- * @brief Layer structure
- * 
- */
-typedef struct scnn_layer {
-    scnn_layer_params params;   //!< Layer parameters
-
-    scnn_mat* x;     //!< Input matrix
-    scnn_mat* y;     //!< Output matrix
-    scnn_mat* w;     //!< Weight matrix
-    scnn_mat* b;     //!< Bias matrix
-
-    scnn_mat* dx;    //!< Difference of input matrix
-    scnn_mat* dw;    //!< Difference of weight matrix
-    scnn_mat* db;    //!< Difference of bias matrix
-
-    struct scnn_layer* (*init)(struct scnn_layer *self);  //!< Initialize layer
-
-    void (*forward)(struct scnn_layer *self, scnn_dtype* x);     //!< Forward propagation
-    void (*backward)(struct scnn_layer *self, scnn_dtype* dy);   //!< Backward propagation
-} scnn_layer;
+typedef struct scnn_layer scnn_layer;
 
 /**
  * @brief Get an output of a layer
