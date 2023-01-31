@@ -68,3 +68,37 @@ void test_free_NULL(void)
 {
     scnn_layer_free(NULL);
 }
+
+scnn_dtype dummy_y;
+scnn_dtype *dummy_forward(scnn_layer *layer, const scnn_dtype *x)
+{
+    return &dummy_y;
+}
+
+void test_forward(void)
+{
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
+    layer = scnn_layer_alloc(params);
+
+    layer->forward = dummy_forward;
+
+    scnn_dtype x;
+    TEST_ASSERT_EQUAL_PTR(&dummy_y, scnn_layer_forward(layer, &x));
+}
+
+scnn_dtype dummy_dx;
+scnn_dtype *dummy_backward(scnn_layer *layer, const scnn_dtype *dy)
+{
+    return &dummy_dx;
+}
+
+void test_backward(void)
+{
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
+    layer = scnn_layer_alloc(params);
+
+    layer->backward = dummy_backward;
+
+    scnn_dtype dy;
+    TEST_ASSERT_EQUAL_PTR(&dummy_dx, scnn_layer_backward(layer, &dy));
+}

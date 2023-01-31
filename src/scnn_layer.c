@@ -60,14 +60,12 @@ void scnn_layer_connect(scnn_layer* prev, scnn_layer* next)
 
 scnn_dtype *scnn_layer_forward(scnn_layer *layer, const scnn_dtype *x)
 {
-    // TODO: Implement
-    return NULL;
+    return layer->forward(layer, x);
 }
 
 scnn_dtype *scnn_layer_backward(scnn_layer *layer, const scnn_dtype *dy)
 {
-    // TODO: Implement
-    return NULL;
+    return layer->backward(layer, dy);
 }
 
 void scnn_layer_free(scnn_layer **layer)
