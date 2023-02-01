@@ -60,11 +60,17 @@ void scnn_layer_connect(scnn_layer* prev, scnn_layer* next)
 
 scnn_dtype *scnn_layer_forward(scnn_layer *layer, const scnn_dtype *x)
 {
+    if ((layer == NULL) || (x == NULL) || (layer->forward == NULL)) {
+        return NULL;
+    }
     return layer->forward(layer, x);
 }
 
 scnn_dtype *scnn_layer_backward(scnn_layer *layer, const scnn_dtype *dy)
 {
+    if ((layer == NULL) || (dy == NULL) || (layer->backward == NULL)) {
+        return NULL;
+    }
     return layer->backward(layer, dy);
 }
 
