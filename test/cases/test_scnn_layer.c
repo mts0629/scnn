@@ -69,6 +69,48 @@ void test_free_NULL(void)
     scnn_layer_free(NULL);
 }
 
+static scnn_layer *dummy_init(scnn_layer *layer)
+{
+    return layer;
+}
+
+void test_init(void)
+{
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
+    layer = scnn_layer_alloc(params);
+
+    layer->init = dummy_init;
+
+    TEST_ASSERT_EQUAL_PTR(layer, scnn_layer_init(layer));
+
+    scnn_mat_free_Ignore();
+    scnn_layer_free(&layer);
+}
+
+void test_init_fail_if_layer_is_NULL(void)
+{
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
+    layer = scnn_layer_alloc(params);
+
+    layer->init = dummy_init;
+
+    TEST_ASSERT_NULL(scnn_layer_init(NULL));
+
+    scnn_mat_free_Ignore();
+    scnn_layer_free(&layer);
+}
+
+void test_init_fail_if_init_is_NULL(void)
+{
+    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
+    layer = scnn_layer_alloc(params);
+
+    TEST_ASSERT_NULL(scnn_layer_init(layer));
+
+    scnn_mat_free_Ignore();
+    scnn_layer_free(&layer);
+}
+
 static scnn_dtype dummy_y;
 static scnn_dtype *dummy_forward_plus1(scnn_layer *layer, const scnn_dtype *x)
 {

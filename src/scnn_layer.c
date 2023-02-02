@@ -48,8 +48,10 @@ scnn_layer *scnn_layer_alloc(const scnn_layer_params params)
 
 scnn_layer *scnn_layer_init(scnn_layer* layer)
 {
-    // TODO: Implement
-    return NULL;
+    if ((layer == NULL) || (layer->init == NULL)) {
+        return NULL;
+    }
+    return layer->init(layer);
 }
 
 void scnn_layer_connect(scnn_layer* prev, scnn_layer* next)
