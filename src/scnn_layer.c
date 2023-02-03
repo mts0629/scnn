@@ -56,7 +56,10 @@ scnn_layer *scnn_layer_init(scnn_layer* layer)
 
 void scnn_layer_connect(scnn_layer* prev, scnn_layer* next)
 {
-    // TODO: Implement
+    prev->params.next_id = next->params.id;
+
+    next->params.prev_id = prev->params.id;
+
     return;
 }
 
