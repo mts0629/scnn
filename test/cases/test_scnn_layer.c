@@ -135,29 +135,6 @@ void test_connect(void)
     scnn_layer_free(&layer2);
 }
 
-void test_connect(void)
-{
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
-    layer = scnn_layer_alloc(params);
-    layer->params.id = 1;
-    layer2 = scnn_layer_alloc(params);
-    layer2->params.id = 2;
-
-    scnn_layer_connect(layer, layer2);
-
-    TEST_ASSERT_EQUAL_INT(1, layer->params.id);
-    TEST_ASSERT_EQUAL_INT(0, layer->params.prev_id);
-    TEST_ASSERT_EQUAL_INT(2, layer->params.next_id);
-
-    TEST_ASSERT_EQUAL_INT(2, layer2->params.id);
-    TEST_ASSERT_EQUAL_INT(1, layer2->params.prev_id);
-    TEST_ASSERT_EQUAL_INT(0, layer2->params.next_id);
-
-    scnn_mat_free_Ignore();
-    scnn_layer_free(&layer);
-    scnn_layer_free(&layer2);
-}
-
 static scnn_dtype dummy_y;
 static scnn_dtype *dummy_forward_plus1(scnn_layer *layer, const scnn_dtype *x)
 {
