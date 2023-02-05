@@ -10,10 +10,12 @@
 #include "mock_scnn_layer.h"
 #include "scnn_layer_impl.h"
 
+#define INIT_LAYER_SIZE 128
+
 scnn_net *net;
 
 scnn_layer dummy_layer;
-scnn_layer dummy_layers[SCNN_NET_MAX_SIZE];
+scnn_layer dummy_layers[INIT_LAYER_SIZE];
 
 void setUp(void)
 {
@@ -33,7 +35,7 @@ void test_allocate_and_free(void)
 
     TEST_ASSERT_EQUAL_INT(1, scnn_net_batch_size(net));
 
-    for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
+    for (int i = 0; i < INIT_LAYER_SIZE; i++) {
         TEST_ASSERT_NULL(scnn_net_layers(net)[i]);
     }
 
@@ -119,30 +121,31 @@ void test_append_fail_if_layer_is_NULL(void)
     scnn_net_free(&net);
 }
 
-void test_append_fail_if_exeeeds_max_size(void)
+void test_append_extend_layer_size(void)
 {
     net = scnn_net_alloc();
 
     scnn_layer_connect_Expect(NULL, &dummy_layers[0]);
-    for (int i = 1; i < SCNN_NET_MAX_SIZE; i++) {
+    for (int i = 1; i < INIT_LAYER_SIZE; i++) {
         scnn_layer_connect_Expect(&dummy_layers[i - 1], &dummy_layers[i]);
     }
-    for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
+    for (int i = 0; i < INIT_LAYER_SIZE; i++) {
         TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &dummy_layers[i]));
     }
 
-    TEST_ASSERT_EQUAL_INT(SCNN_NET_MAX_SIZE, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_INT(INIT_LAYER_SIZE, scnn_net_size(net));
     TEST_ASSERT_EQUAL_PTR(&dummy_layers[0], scnn_net_input(net));
-    TEST_ASSERT_EQUAL_PTR(&dummy_layers[SCNN_NET_MAX_SIZE - 1], scnn_net_output(net));
+    TEST_ASSERT_EQUAL_PTR(&dummy_layers[INIT_LAYER_SIZE - 1], scnn_net_output(net));
 
     scnn_layer extra_dummy_layer;
-    TEST_ASSERT_NULL(scnn_net_append(net, &extra_dummy_layer));
+    scnn_layer_connect_Expect(&dummy_layers[INIT_LAYER_SIZE - 1], &extra_dummy_layer);
+    TEST_ASSERT_EQUAL_PTR(net, scnn_net_append(net, &extra_dummy_layer));
 
-    TEST_ASSERT_EQUAL_INT(SCNN_NET_MAX_SIZE, scnn_net_size(net));
+    TEST_ASSERT_EQUAL_INT((INIT_LAYER_SIZE + 1), scnn_net_size(net));
     TEST_ASSERT_EQUAL_PTR(&dummy_layers[0], scnn_net_input(net));
-    TEST_ASSERT_EQUAL_PTR(&dummy_layers[SCNN_NET_MAX_SIZE - 1], scnn_net_output(net));
+    TEST_ASSERT_EQUAL_PTR(&extra_dummy_layer, scnn_net_output(net));
 
-    for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
+    for (int i = 0; i < (INIT_LAYER_SIZE + 1); i++) {
         scnn_layer_free_Expect(&(scnn_net_layers(net)[i]));
     }
     scnn_net_free(&net);

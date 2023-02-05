@@ -8,8 +8,6 @@
 
 #include "scnn_layer.h"
 
-#define SCNN_NET_MAX_SIZE 256  //!< The max number of layers in network
-
 typedef struct scnn_net scnn_net;
 
 /**

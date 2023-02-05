@@ -8,16 +8,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define INIT_LAYER_SIZE 128 //!< The number of layers in network when initialization
+
 /**
  * @brief Network structure
  * 
  */
 struct scnn_net {
-    int         size;                       //!< The number of layers
-    int         batch_size;                 //!< Batch size
-    scnn_layer  *layers[SCNN_NET_MAX_SIZE]; //!< Layers
-    scnn_layer  *input;                     //!< Input layer off the network
-    scnn_layer  *output;                    //!< Output layer off the network
+    int         size;       //!< The number of layers
+    int         alloc_size; //!< Allocated size
+    int         batch_size; //!< Batch size
+    scnn_layer  **layers;    //!< Layers
+    scnn_layer  *input;     //!< Input layer off the network
+    scnn_layer  *output;    //!< Output layer off the network
 };
 
 int scnn_net_size(const scnn_net *net)
@@ -52,11 +55,17 @@ scnn_net *scnn_net_alloc(void)
         return NULL;
     }
 
+    net->layers = malloc(sizeof(scnn_net*) * INIT_LAYER_SIZE);
+    if (net->layers == NULL) {
+        return NULL;
+    }
+
     net->size = 0;
+    net->alloc_size = INIT_LAYER_SIZE;
 
     net->batch_size = 1;
 
-    for (int i = 0; i < SCNN_NET_MAX_SIZE; i++) {
+    for (int i = 0; i < INIT_LAYER_SIZE; i++) {
         net->layers[i] = NULL;
     }
 
@@ -72,8 +81,17 @@ scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
         return NULL;
     }
 
-    if (net->size >= SCNN_NET_MAX_SIZE) {
-        return NULL;
+    // Realloc layers when the number of layers exceed current allocated size
+    if (net->size == net->alloc_size) {
+        int realloc_size = net->size + INIT_LAYER_SIZE;
+
+        scnn_layer **realloc_layers = realloc(net->layers, sizeof(scnn_layer*) * realloc_size);
+        if (realloc_layers == NULL) {
+            scnn_net_free(&net);
+            return NULL;
+        }
+
+        net->layers = realloc_layers;
     }
 
     scnn_layer_connect(net->output, layer);
