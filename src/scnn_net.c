@@ -113,20 +113,11 @@ scnn_net *scnn_net_append(scnn_net *net, scnn_layer *layer)
 
 scnn_net *scnn_net_init(scnn_net *net)
 {
-    if (net == NULL) {
-        return NULL;
-    }
-
-    if (net->size == 0) {
+    if ((net == NULL) || (net->size == 0)) {
         return NULL;
     }
 
     for (int i = 0; i < net->size; i++) {
-        // Set an output shape of the previous layer as that of the next input
-        // -> It should be applied a time of layer connection
-        //for (int j = 0; j < SCNN_MAT_DIM; j++) {
-        //    net->layers[i]->params.in_shape[j] = net->layers[i - 1]->y->shape[j];
-        //}
         if (scnn_layer_init(net->layers[i]) == NULL) {
             return NULL;
         }
@@ -169,11 +160,7 @@ scnn_dtype *scnn_net_backward(scnn_net *net, const scnn_dtype *dy)
 
 void scnn_net_free(scnn_net **net)
 {
-    if (net == NULL) {
-        return;
-    }
-
-    if (*net == NULL) {
+    if ((net == NULL) || (*net == NULL)) {
         return;
     }
 
