@@ -15,9 +15,14 @@
 static scnn_layer *layer;
 static scnn_layer *layer2;
 
+static scnn_layer_params params = {
+    .in_shape = { 1, 3, 28, 28 }
+};
+
 void setUp(void)
 {
     layer = NULL;
+    layer2 = NULL;
 }
 
 void tearDown(void)
@@ -25,7 +30,6 @@ void tearDown(void)
 
 void test_allocate_and_free(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     TEST_ASSERT_NOT_NULL(layer);
@@ -77,7 +81,6 @@ static scnn_layer *dummy_init(scnn_layer *layer)
 
 void test_init(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->init = dummy_init;
@@ -90,7 +93,6 @@ void test_init(void)
 
 void test_init_fail_if_layer_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->init = dummy_init;
@@ -103,7 +105,6 @@ void test_init_fail_if_layer_is_NULL(void)
 
 void test_init_fail_if_init_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     TEST_ASSERT_NULL(scnn_layer_init(layer));
@@ -114,7 +115,6 @@ void test_init_fail_if_init_is_NULL(void)
 
 void test_connect(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
     layer->params.id = 1;
     layer2 = scnn_layer_alloc(params);
@@ -144,7 +144,6 @@ static scnn_dtype *dummy_forward_plus1(scnn_layer *layer, const scnn_dtype *x)
 
 void test_forward(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->forward = dummy_forward_plus1;
@@ -159,7 +158,6 @@ void test_forward(void)
 
 void test_forward_fail_if_layer_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->forward = dummy_forward_plus1;
@@ -173,7 +171,6 @@ void test_forward_fail_if_layer_is_NULL(void)
 
 void test_forward_fail_if_x_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->forward = dummy_forward_plus1;
@@ -186,7 +183,6 @@ void test_forward_fail_if_x_is_NULL(void)
 
 void test_forward_fail_if_forward_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     scnn_dtype x = 1;
@@ -205,7 +201,6 @@ static scnn_dtype *dummy_backward_minus2(scnn_layer *layer, const scnn_dtype *dy
 
 void test_backward(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->backward = dummy_backward_minus2;
@@ -220,7 +215,6 @@ void test_backward(void)
 
 void test_backward_fail_if_layer_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->backward = dummy_backward_minus2;
@@ -234,7 +228,6 @@ void test_backward_fail_if_layer_is_NULL(void)
 
 void test_backward_fail_if_dy_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     layer->backward = dummy_backward_minus2;
@@ -247,7 +240,6 @@ void test_backward_fail_if_dy_is_NULL(void)
 
 void test_backward_fail_if_backward_is_NULL(void)
 {
-    scnn_layer_params params = { .in_shape={ 1, 3, 28, 28 } };
     layer = scnn_layer_alloc(params);
 
     scnn_dtype dy = 1;
