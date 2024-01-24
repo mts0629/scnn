@@ -9,8 +9,7 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
     make \
     ruby \
     valgrind \
-    git \
-    vim
+    && rm -rf /var/lib/apt/lists/*
 
 RUN gem install ceedling
 
