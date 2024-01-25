@@ -168,6 +168,9 @@ void scnn_net_free(scnn_net **net)
         scnn_layer_free(&((*net)->layers[i]));
     }
 
+    free((*net)->layers);
+    (*net)->layers = NULL;
+
     free(*net);
     *net = NULL;
 }
