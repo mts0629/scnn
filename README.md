@@ -1,3 +1,5 @@
-# scnn
+# nn-with-c
 
-Neural network with C
+Simple neural network with C language
+
+- w/o third party library
